@@ -6,9 +6,11 @@ class Api::ReachoutsController < ApplicationController
 
   def create
     @reachout = Reachout.new(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      phone_number: params[:phone_number],
+      start_date: params[:start_date],
+      last_reachout_sent: params[:last_reachout_sent],
+      frequency: params[:frequency],
+      contact_id: params[:contact_id],
+      datetime: params[:datetime],
     )
     @reachout.save
     render "show.json.jb"
@@ -21,9 +23,11 @@ class Api::ReachoutsController < ApplicationController
 
   def update
     @reachout = Reachout.find_by(id: params[:id])
-    @reachout.name = params[:name] || @reachout.name
-    @reachout.width = params[:width] || @reachout.width
-    @reachout.height = params[:height] || @reachout.height
+    @reachout.start_date = params[:start_date] || @reachout.start_date
+    @reachout.last_reachout_sent = params[:last_reachout_sent] || @reachout.last_reachout_sent
+    @reachout.frequency = params[:frequency] || @reachout.frequency
+    @reachout.contact_id = params[:contact_id] || @reachout.contact_id
+    @reachout.datetime = params[:datetime] || @reachout.datetime
     @reachout.save
     render "show.json.jb"
   end
