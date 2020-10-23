@@ -1,12 +1,18 @@
 class Api::ContactsController < ApplicationController
   def index
-    # @message = "hello!"
-    # render json: { message: @message }
     @contacts = Contact.all
     render "index.json.jb"
   end
 
   def create
+    @contact = Contact.new(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      phone_number: params[:phone_number],
+      user_id: params[:user_id],
+    )
+    @contact.save
+    render "show.json.jb"
   end
 
   def show
