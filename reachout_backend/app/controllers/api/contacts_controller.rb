@@ -9,7 +9,7 @@ class Api::ContactsController < ApplicationController
       first_name: params[:first_name],
       last_name: params[:last_name],
       phone_number: params[:phone_number],
-      user_id: params[:user_id],
+      # user_id: params[:user_id],
     )
     @contact.save
     render "show.json.jb"
