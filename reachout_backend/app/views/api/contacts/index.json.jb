@@ -1,0 +1,7 @@
+@contacts.map do |contact|
+  {
+    phone_number: contact.phone_number,
+    first_name: contact.first_name,
+    last_name: contact.last_name,
+  }
+end
