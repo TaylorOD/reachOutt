@@ -1,7 +1,7 @@
 {
-  start_date: reachout.start_date,
-  last_reachout_sent: reachout.last_reachout_sent,
-  frequency: reachout.frequency,
-  contact_id: reachout.contact_id,
-  datetime: reachout.datetime,
+  start_date: @reachout.start_date,
+  last_reachout_sent: @reachout.last_reachout_sent,
+  frequency: @reachout.frequency,
+  contact_id: @reachout.contact_id,
+  datetime: @reachout.datetime,
 }
