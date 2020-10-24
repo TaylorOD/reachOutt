@@ -10,38 +10,28 @@
 
 ### Technology stack:
 
-- Indicate the technological nature of the software, including primary programming language(s) and whether the software is intended as standalone or as a module in a framework or other ecosystem.
+- Built using Ruby on Rails, Vue.js, JavaScript, HTML, CSS, and several API's.
 
 ### Status:
 
-- Alpha, Beta, 1.1, etc. It's OK to write a sentence, too. The goal is to let interested people know where this project is at. This is also a good place to link to the [CHANGELOG](CHANGELOG.md).
-
-### Getting Started/Requirements/Prerequisites/Dependencies
-
-Include any essential instructions for:
-
-- Getting it
-- Installing It
-- Configuring It
-- Running it
+- Development. Project is not yet finished.
 
 ### Contributing
 
-- Contributor Guidelines
-- Code Style/Requirements
-- Format for commit messages
-- Thank you (name contributors)
+- Contributor Guidelines: Feel free to contribute or fork this project.
+- Code Style/Requirements: If you are going to contribute please use rails, javascript, or vue.
 
 ### Known issues
 
-- Document any known significant shortcomings with the software.
-- Known bugs (shortlist)
+- Known bugs: See todo list
 
 ### TODO
 
-- Next steps
-- Features planned
-- Known bugs (shortlist)
+- Create website
+- Create UI
+- Integrate TextAPI
+- Integrate EmailAPI
+- Integrate JokeAPI
 
 ### Contact
 
@@ -59,6 +49,5 @@ Include any essential instructions for:
 
 ## Credits and references
 
-1. Projects that inspired me
-2. Related projects
-3. Books, papers, talks, or other sources that have meaningful impact or influence on this project
+1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
+2. I started this project while I was at Actualize Coding Bootcamp. That experience was very helpful when I was getting the architecture of the project set up.
