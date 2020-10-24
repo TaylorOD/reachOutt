@@ -6,14 +6,18 @@ class Api::ReachoutsController < ApplicationController
 
   def create
     @reachout = Reachout.new(
+      user_id: current_user.id,
       start_date: params[:start_date],
       last_reachout_sent: params[:last_reachout_sent],
       frequency: params[:frequency],
       contact_id: params[:contact_id],
       datetime: params[:datetime],
     )
-    @reachout.save
-    render "show.json.jb"
+    if @reachout.save
+      render "show.json.jb"
+    else
+      render json: { errors: @reachout.errors.full_messages }, status: :bad_request
+    end
   end
 
   def show
@@ -28,8 +32,11 @@ class Api::ReachoutsController < ApplicationController
     @reachout.frequency = params[:frequency] || @reachout.frequency
     @reachout.contact_id = params[:contact_id] || @reachout.contact_id
     @reachout.datetime = params[:datetime] || @reachout.datetime
-    @reachout.save
-    render "show.json.jb"
+    if @reachout.save
+      render "show.json.jb"
+    else
+      render json: { errors: @reachout.errors.full_messages }, status: :bad_request
+    end
   end
 
   def destroy
