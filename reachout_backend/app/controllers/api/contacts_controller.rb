@@ -10,8 +10,11 @@ class Api::ContactsController < ApplicationController
       last_name: params[:last_name],
       phone_number: params[:phone_number],
     )
-    @contact.save
-    render "show.json.jb"
+    if @contact.save
+      render "show.json.jb"
+    else
+      render json: { errors: @contact.errors.full_messages }, status: :bad_request
+    end
   end
 
   def show
@@ -24,8 +27,11 @@ class Api::ContactsController < ApplicationController
     @contact.first_name = params[:first_name] || @contact.first_name
     @contact.last_name = params[:last_name] || @contact.last_name
     @contact.phone_number = params[:phone_number] || @contact.phone_number
-    @contact.save
-    render "show.json.jb"
+    if @contact.save
+      render "show.json.jb"
+    else
+      render json: { errors: @contact.errors.full_messages }, status: :bad_request
+    end
   end
 
   def destroy
