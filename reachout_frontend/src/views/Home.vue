@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>New Reachout</h1>
+
     <div>
       Start Date: <input type="text" v-model="newReachoutStartDate" />
       Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
@@ -27,6 +28,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data: function() {
     return {
@@ -48,7 +50,7 @@ export default {
         this.reachouts = response.data;
       });
     },
-      createReachout: function() {
+    createReachout: function() {
       var params = {
         start_date: this.newReachoutStartDate,
         last_reachout_sent: this.newReachoutLastReachoutSent,
@@ -61,6 +63,7 @@ export default {
         .then(response => {
           console.log("reachouts create", response);
           this.reachouts.push(response.data);
+
           this.newReachoutStartDate = "";
           this.newReachoutLastReachoutSent = "";
           this.newReachoutFrequency = "";
@@ -70,7 +73,8 @@ export default {
         .catch(error => {
           console.log("reachouts create error", error.response);
         });
-      }
-    },  
-  },
-};
+    }
+  },  
+}
+
+</script>
