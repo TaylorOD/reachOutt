@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <h1>New reachout</h1>
+    <h1>New Reachout</h1>
     <div>
-      Start Date: <input type="text" v-model="newPhotoName" />
-      Last Reachout Sent: <input type="text" v-model="newPhotoWidth" />
-      Frequency: <input type="text" v-model="newPhotoHeight" />
-      Contact ID: <input type="text" v-model="newPhotoUrl" />
-      Datatime: <input type="text" v-model="newPhotoUrl" />
-      <button v-on:click="createPhoto()">Create Photo</button>
+      Start Date: <input type="text" v-model="newReachoutStartDate" />
+      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
+      Frequency: <input type="text" v-model="newReachoutFrequency" />
+      Contact ID: <input type="text" v-model="newReachoutContactID" />
+      Datatime: <input type="text" v-model="newReachoutDatetime" />
+      <button v-on:click="createReachout()">Create Reachout</button>
     </div>
 
     <h2>All Reachouts</h2>
@@ -31,10 +31,11 @@ export default {
   data: function() {
     return {
       reachouts: [],
-      newReachoutName: "",
-      newReachoutWidth: "",
-      newReachoutHeight: "",
-      newReachoutUrl: "",
+      newReachoutStartDate: "",
+      newReachoutLastReachoutSent: "",
+      newReachoutFrequency: "",
+      newReachoutContactID: "",
+      newReachoutDatetime: "",
     };
   },
   created: function() {
@@ -49,20 +50,22 @@ export default {
     },
       createReachout: function() {
       var params = {
-        name: this.newReachoutName,
-        width: this.newReachoutWidth,
-        height: this.newReachoutHeight,
-        url: this.newReachoutUrl,
+        start_date: this.newReachoutStartDate,
+        last_reachout_sent: this.newReachoutLastReachoutSent,
+        frequency: this.newReachoutFrequency,
+        contact_id: this.newReachoutContactID,
+        datetime: this.newReachoutDatetime,
       };
       axios
         .post("/api/reachouts", params)
         .then(response => {
           console.log("reachouts create", response);
           this.reachouts.push(response.data);
-          this.newReachoutName = "";
-          this.newReachoutWidth = "";
-          this.newReachoutHeight = "";
-          this.newReachoutUrl = "";
+          this.newReachoutStartDate = "";
+          this.newReachoutLastReachoutSent = "";
+          this.newReachoutFrequency = "";
+          this.newReachoutContactID = "";
+          this.newReachoutDatetime = ""
         })
         .catch(error => {
           console.log("reachouts create error", error.response);
