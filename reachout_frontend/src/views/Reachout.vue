@@ -11,14 +11,14 @@
       <button v-on:click="createReachout()">Create Reachout</button>
     </div>
 
-    <h2>All Reachouts</h2>
+    <h1>Reachouts</h1>
     <div v-for="reachout in reachouts">
       <p>Start Date: {{ reachout.start_date }}</p>
       <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
       <p>Frequency: {{ reachout.frequency }}</p>
       <p>Contact ID: {{ reachout.contact_id }}</p>
       <p>Datatime: {{ reachout.datetime }}</p>
-      -
+      
     </div>
   </div>
 </template>
