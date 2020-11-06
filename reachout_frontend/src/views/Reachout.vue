@@ -18,8 +18,27 @@
       <p>Frequency: {{ reachout.frequency }}</p>
       <p>Contact ID: {{ reachout.contact_id }}</p>
       <p>Datatime: {{ reachout.datetime }}</p>
+      <a v-on:click="showReachout(Reachout)">
+        <h3>Edit Reachout</h3>
+      </a> 
       
     </div>
+
+    <dialog id="reachout-details">
+        <form method="dialog">
+          <h1>Reachout info</h1>
+          <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></p>
+          <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
+          <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
+          <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
+          <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
+
+          <button v-on:click="updateReachout(currentReachout)">Update</button>
+          <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
+          <button>Close</button>
+        </form>
+    </dialog>
+
   </div>
 </template>
 
@@ -38,6 +57,7 @@ export default {
       newReachoutFrequency: "",
       newReachoutContactID: "",
       newReachoutDatetime: "",
+      currentReachout: {},
     };
   },
   created: function() {
@@ -73,7 +93,11 @@ export default {
         .catch(error => {
           console.log("reachouts create error", error.response);
         });
-    }
+    },
+    showReachout: function (reachout) {
+      this.currentReachout = reachout
+      document.querySelector("#reachout-details").showModal();
+    },
   },  
 }
 
