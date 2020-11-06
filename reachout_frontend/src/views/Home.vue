@@ -1,25 +1,26 @@
 <template>
   <div class="home">
-    <h1>New Reachout</h1>
-
-    <div>
-      Start Date: <input type="text" v-model="newReachoutStartDate" />
-      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
-      Frequency: <input type="text" v-model="newReachoutFrequency" />
-      Contact ID: <input type="text" v-model="newReachoutContactID" />
-      Datatime: <input type="text" v-model="newReachoutDatetime" />
-      <button v-on:click="createReachout()">Create Reachout</button>
+      <div class="hero-full-container background-image-container white-text-container" style="background-image: url('./assets/images/space.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="hero-full-wrapper">
+            <div class="text-content">
+              <h1>Hello,<br>
+                <span id="typed-strings">
+                  <span>I'm a family member</span>
+                  <span>Friend</span>
+                  <span>Someone who misses you</span>
+                  <span>Reachout</span>
+                </span>
+                <span id="typed"></span>
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <h2>All Reachouts</h2>
-    <div v-for="reachout in reachouts">
-      <p>Start Date: {{ reachout.start_date }}</p>
-      <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
-      <p>Frequency: {{ reachout.frequency }}</p>
-      <p>Contact ID: {{ reachout.contact_id }}</p>
-      <p>Datatime: {{ reachout.datetime }}</p>
-      -
-    </div>
+  </div>
   </div>
 </template>
 
