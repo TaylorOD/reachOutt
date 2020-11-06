@@ -28,60 +28,14 @@
             </div> 
           </div>
         </nav>
-</header>
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/contact">Contact</router-link> |
-      <router-link to="/signup">Signup</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/logout">Logout</router-link> -->
+      </header>
     </div>
-     <div class="hero-full-container background-image-container white-text-container" style="background-image: url('./assets/images/space.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="hero-full-wrapper">
-              <div class="text-content">
-                <h1>Hello,<br>
-                  <span id="typed-strings">
-                    <span>I'm a family member</span>
-                    <span>Friend</span>
-                    <span>Someone who misses you</span>
-                    <span>Reachout</span>
-                  </span>
-                  <span id="typed"></span>
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <router-view/>
-
-    <!-- <div class="hero-full-container background-image-container white-text-container" style="background-image: url('./assets/images/space.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="hero-full-wrapper">
-              <div class="text-content">
-                <h1>Hello,<br>
-                  <span id="typed-strings">
-                    <span>I'm a family member</span>
-                    <span>Friend</span>
-                    <span>Someone who misses you</span>
-                    <span>Reachout</span>
-                  </span>
-                  <span id="typed"></span>
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-
+  
   </div>
+
+
 </template>
 
 <style>
