@@ -28,6 +28,10 @@ export default {
   data: function() {
     return {
       contacts: [],
+      newContactPhoneNumber: "",
+      newContactFirstName: "",
+      newContactLastName: "",
+
     };
   },
   created: function() {
@@ -36,6 +40,27 @@ export default {
       this.contacts = response.data;
     });
   },
-  methods: {},
-};
+  methods: {
+    createContact: function() {
+      var params = {
+        phone_number: this.newContactPhoneNumber,
+        first_name: this.newContactFirstName,
+        last_name: this.newContactLastName,
+      };
+      axios
+        .post("/api/contacts", params)
+        .then(response => {
+          console.log("contacts create", response);
+          this.contacts.push(response.data);
+
+          this.newContactPhoneNumber = "";
+          this.newContactFirstName = "";
+          this.newContactLastName = "";
+        })
+        .catch(error => {
+          console.log("contacts create error", error.response);
+        });
+    }
+  },  
+}
 </script>
