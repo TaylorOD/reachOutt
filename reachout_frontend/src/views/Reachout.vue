@@ -98,6 +98,32 @@ export default {
       this.currentReachout = reachout
       document.querySelector("#reachout-details").showModal();
     },
+    updateReachout: function (reachout) {
+      var params = {
+        start_date: reachout.start_date,
+        last_reachout_sent: reachout.last_reachout_sent,
+        frequency: reachout.frequency,
+        contact_id: reachout.contact_id,
+        datetime: reachout.datetime,
+      }
+      axios
+        .patch(`/api/reachouts/${reachout.id}`, params)
+        .then(response => {
+          console.log("Success", response.data)
+        })
+        .catch(error => console.log(error.response))
+    },
+    destroyReachout: function (reachout) {
+        axios
+          .delete(`/api/reachouts/${reachout.id}`)
+          .then(response => {
+            console.log("Success - reachout destroyed", response.data)
+          })
+          .catch(error => console.log(error.response))
+          // remove this reachout from this.reachouts / you dont have to reload page
+        var index = this.reachouts.indexOf(product);
+        this.reachouts.splice(index, 1);
+    },
   },  
 }
 
