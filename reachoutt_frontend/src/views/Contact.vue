@@ -6,10 +6,12 @@
           <div class="text-center">
             <h1 class="h2">02 : Contacts</h1>
             <h3>View, update, or create a new contact here</h3>
-            <h3>New Contact</h3>
           </div>
         </div>
 
+    <div class="text-center">
+      <h2>New Contact</h2>
+    </div>
    <div>
       Phone Number: <input type="text" v-model="newContactPhoneNumber" />
       First Name: <input type="text" v-model="newContactFirstName" />
@@ -25,6 +27,9 @@
         <div class="carousel-inner">
             <div class="item active">
                 <div class="row">
+                    <div class="text-center">
+                    <h2>Existing Contacts</h2>
+                    </div>
                     <div v-for="contact in contacts" class="col-sm-4">
 
                       <!-- Image behind Contacts -->

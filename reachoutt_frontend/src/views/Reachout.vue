@@ -1,4 +1,89 @@
 <template>
+
+  <div class="reachout">
+    <div class="section-container">
+      <div class="container">
+        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
+          <div class="text-center">
+            <h1 class="h2">03 : Reachouts</h1>
+            <h3>View, update, or create a new reachout here</h3>
+          </div>
+        </div>
+
+    <div class="text-center">
+      <h2>New Contact</h2>
+    </div>
+   <div>
+      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
+      First Name: <input type="text" v-model="newContactFirstName" />
+      Last Name: <input type="text" v-model="newContactLastName" />
+      <button v-on:click="createContact()">Create Contact</button>
+    </div>
+
+        <div class="col-md-12">
+
+
+     
+      <div id="myCarousel" class="carousel slide projects-carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="row">
+                    <div class="text-center">
+                    <h2>Existing Contacts</h2>
+                    </div>
+                    <div v-for="contact in contacts" class="col-sm-4">
+
+                      <!-- Image behind Contacts -->
+                      <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
+                      
+                      <!-- Contact Cards -->
+                      <div class="card-container card-container-lg">
+                        <h4>Contact Name:</h4>
+                        <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                        <p>Phone Number: {{ contact.phone_number }}</p>
+                        <a title="" class="btn btn-default" v-on:click="showContact(currentContact)">
+                          <p>Edit Contact</p>
+                        </a>
+                      </div>
+
+                      <!-- Moduel to edit contacts -->
+                      <dialog id="contact-details">
+                          <form method="dialog">
+                            <h1>Contact info</h1>
+                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></p>
+                            <p>First Name: <input v-model="currentContact.first_name"></input></p>
+                            <p>Last Name: <input v-model="currentContact.last_name"></input></p>
+                            <button v-on:click="updateContact(currentContact)">Update</button>
+                            <button v-on:click="destroyContact(currentContact)">Destroy</button>
+                            <button>Close</button>
+                          </form>
+                      </dialog>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="reachout">
     <h1>New Reachout</h1>
 
