@@ -38,11 +38,12 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
               <ul class="nav navbar-nav ">
                 <li><a href="./" title="">01 : Home</a></li>
-                <li><a href="./contact" title="">02 : Contacts</a></li>
-                <li><a href="./reachout" title="">03 : Reachouts</a></li>
-                <li><a href="./login" title="">04 : Login</a></li>
-                <li><a href="./logout" title="">05 : Logout</a></li>
-                <li><a href="./signup" title="">06 : Signup</a></li>
+                <li><a href="./about" title="">02 : About</a></li>
+                <li><a href="./contact" title="">03 : Contacts</a></li>
+                <li><a href="./reachout" title="">04 : Reachouts</a></li>
+                <li><a href="./login" title="">05 : Login</a></li>
+                <li><a href="./logout" title="">06 : Logout</a></li>
+                <li><a href="./signup" title="">07 : Signup</a></li>
               </ul>
 
             </div> 

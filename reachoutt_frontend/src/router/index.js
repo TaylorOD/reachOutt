@@ -29,6 +29,7 @@ const routes = [
   { path: "/contact", name: "contact", component: Contact },
   { path: "/reachout", name: "reachout", component: Reachout },
 
+
 ]
 
 const router = new VueRouter({
