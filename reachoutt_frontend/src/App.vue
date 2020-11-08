@@ -19,6 +19,7 @@
 
     </head>
 
+    <body class="">
       <div id="site-border-left"></div>
       <div id="site-border-right"></div>
       <div id="site-border-top"></div>
@@ -50,20 +51,19 @@
       </header>
 
     <router-view/>
+    </body>
 
-  <footer class="footer-container text-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <p>©ReachOutt</p>
+    <footer class="footer-container text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <p>©ReachOutt</p>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
   </div>
-
-
 
 </template>
 
