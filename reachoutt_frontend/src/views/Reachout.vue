@@ -22,7 +22,7 @@
       <button v-on:click="createReachout()">Create Reachout</button>
     </div>
 
-        <div class="col-md-12">
+    <div class="col-md-12">
 
 
      
@@ -31,21 +31,32 @@
             <div class="item active">
                 <div class="row">
                     <div class="text-center">
-                    <h2>Existing Contacts</h2>
+                    <h2>Existing Reachouts</h2>
                     </div>
-                    <div v-for="contact in contacts" class="col-sm-4">
+                    <div v-for="reachout in reachouts" class="col-sm-4">
 
                       <!-- Image behind Contacts -->
                       <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
                       
                       <!-- Contact Cards -->
                       <div class="card-container card-container-lg">
-                        <h4>Contact Name:</h4>
+                        <h4>Reachouts:</h4>
+
+                        <p>Start Date: {{ reachout.start_date }}</p>
+                        <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
+                        <p>Frequency: {{ reachout.frequency }}</p>
+                        <p>Contact ID: {{ reachout.contact_id }}</p>
+                        <p>Datatime: {{ reachout.datetime }}</p>
+                        <a title="" class="btn btn-default" v-on:click="showReachout(Reachout)">
+                          <h3>Edit Reachout</h3>
+                        </a> 
+
+<!-- 
                         <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                        <p>Phone Number: {{ contact.phone_number }}</p>
-                        <a title="" class="btn btn-default" v-on:click="showContact(currentContact)">
-                          <p>Edit Contact</p>
-                        </a>
+                        <p>Phone Number: {{ contact.phone_number }}</p> -->
+                        <!-- <a title="" class="btn btn-default" v-on:click="showContact(currentContact)"> -->
+                          <!-- <p>Edit Contact</p> -->
+                        <!-- </a> -->
                       </div>
 
                       <!-- Moduel to edit contacts -->
@@ -73,21 +84,6 @@
     </div>
   </div>
 
-
-
-
-    <h1>Reachouts</h1>
-    <div v-for="reachout in reachouts">
-      <p>Start Date: {{ reachout.start_date }}</p>
-      <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
-      <p>Frequency: {{ reachout.frequency }}</p>
-      <p>Contact ID: {{ reachout.contact_id }}</p>
-      <p>Datatime: {{ reachout.datetime }}</p>
-      <a v-on:click="showReachout(Reachout)">
-        <h3>Edit Reachout</h3>
-      </a> 
-      
-    </div>
 
     <dialog id="reachout-details">
         <form method="dialog">
