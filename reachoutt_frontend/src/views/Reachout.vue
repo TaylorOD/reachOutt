@@ -161,7 +161,7 @@ export default {
           .then(response => {
             console.log("Success - Reachout destroyed", response.data)
             // remove this reachout from this.reachouts / you dont have to reload page
-            var index = this.reachouts.indexOf(reachouts);
+            var index = this.reachouts.indexOf(reachout);
             this.reachouts.splice(index, 1);
           })
           .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
