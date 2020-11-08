@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
+  get 'api/twilio_controller'
   # EXAMPLE HTML ROUTE
   # get "/photos" => "photos#index"
 
   # EXAMPLE JSON ROUTE WITH API NAMESPACE
+
+  post "twilio/voice" => "twilio#voice"
+
+  post "notifications/notify" => "notifications#notify"
+
+
   namespace :api do
     get "/contacts" => "contacts#index"
     post "/contacts" => "contacts#create"
@@ -20,8 +27,6 @@ Rails.application.routes.draw do
     patch "/reachouts/:id" => "reachouts#update"
     delete "/reachouts/:id" => "reachouts#destroy"
 
-    post 'twilio/voice' => 'twilio#voice'
-
-    post "notifications/notify" => "notifications#notify"
   end
+
 end
