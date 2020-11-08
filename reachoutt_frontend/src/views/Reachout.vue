@@ -35,10 +35,10 @@
                     </div>
                     <div v-for="reachout in reachouts" class="col-sm-4">
 
-                      <!-- Image behind Contacts -->
+                      <!-- Image behind Reachouts -->
                       <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
                       
-                      <!-- Contact Cards -->
+                      <!-- Reachout Cards -->
                       <div class="card-container card-container-lg">
                         <h4>Reachouts:</h4>
 
@@ -48,26 +48,22 @@
                         <p>Contact ID: {{ reachout.contact_id }}</p>
                         <p>Datatime: {{ reachout.datetime }}</p>
                         <a title="" class="btn btn-default" v-on:click="showReachout(Reachout)">
-                          <h3>Edit Reachout</h3>
+                          <p>Edit Reachout</p>
                         </a> 
 
-<!-- 
-                        <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                        <p>Phone Number: {{ contact.phone_number }}</p> -->
-                        <!-- <a title="" class="btn btn-default" v-on:click="showContact(currentContact)"> -->
-                          <!-- <p>Edit Contact</p> -->
-                        <!-- </a> -->
                       </div>
 
-                      <!-- Moduel to edit contacts -->
-                      <dialog id="contact-details">
+                      <!-- Moduel to edit Reachouts -->
+                      <dialog id="reachout-details">
                           <form method="dialog">
-                            <h1>Contact info</h1>
-                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></p>
-                            <p>First Name: <input v-model="currentContact.first_name"></input></p>
-                            <p>Last Name: <input v-model="currentContact.last_name"></input></p>
-                            <button v-on:click="updateContact(currentContact)">Update</button>
-                            <button v-on:click="destroyContact(currentContact)">Destroy</button>
+                            <h1>Reachout info</h1>
+                                <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></input></p>
+                                <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
+                                <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
+                                <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
+                                <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
+                              <button v-on:click="updateReachout(currentReachout)">Update</button>
+                              <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
                             <button>Close</button>
                           </form>
                       </dialog>
@@ -84,23 +80,6 @@
     </div>
   </div>
 
-
-    <dialog id="reachout-details">
-        <form method="dialog">
-          <h1>Reachout info</h1>
-          <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></p>
-          <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
-          <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
-          <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
-          <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
-
-          <button v-on:click="updateReachout(currentReachout)">Update</button>
-          <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
-          <button>Close</button>
-        </form>
-    </dialog>
-
-  </div>
 </template>
 
 <style>
