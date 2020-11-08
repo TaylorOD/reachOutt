@@ -4,6 +4,12 @@ Rails.application.routes.draw do
   # get "/photos" => "photos#index"
 
   # EXAMPLE JSON ROUTE WITH API NAMESPACE
+
+  post "twilio/voice" => "twilio#voice"
+
+  post "notifications/notify" => "notifications#notify"
+
+
   namespace :api do
     get "/contacts" => "contacts#index"
     post "/contacts" => "contacts#create"
@@ -22,7 +28,5 @@ Rails.application.routes.draw do
     delete "/reachouts/:id" => "reachouts#destroy"
 
   end
-  post "twilio/voice" => 'twilio#voice'
 
-  post "notifications/notify" => "notifications#notify"
 end
