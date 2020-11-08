@@ -34,7 +34,7 @@
                     
 
                       <!-- Image behind Contacts -->
-                      <img :src="`/assets/images/work0${index % 4 + 1}-hover.jpg`" alt="" class="img-responsive">
+                      <img :src="`/assets/images/work0${index % 6 + 1}-hover.jpg`" alt="" class="img-responsive">
                       
                       <!-- Contact Cards -->
                       <div class="card-container card-container-lg">
