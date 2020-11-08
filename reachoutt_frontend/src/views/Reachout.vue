@@ -35,10 +35,10 @@
                     <div class="text-center">
                     <h2>Existing Reachouts</h2>
                     </div>
-                    <div v-for="reachout in reachouts" class="col-sm-4">
+                    <div v-for="(reachout, index) in reachouts" class="col-sm-4" style="height: 500px">
 
                       <!-- Image behind Reachouts -->
-                      <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
+                      <img :src="`/assets/images/work0${index % 4 + 1}-hover.jpg`" alt="" class="img-responsive">
                       
                       <!-- Reachout Cards -->
                       <div class="card-container card-container-lg">
