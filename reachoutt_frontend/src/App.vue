@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
       <div id="site-border-left"></div>
       <div id="site-border-right"></div>
       <div id="site-border-top"></div>
       <div id="site-border-bottom"></div>
+
       <header>
         <nav class="navbar  navbar-fixed-top navbar-inverse">
           <div class="container">
@@ -29,7 +29,6 @@
           </div>
         </nav>
       </header>
-    </div>
 
     <router-view/>
   
