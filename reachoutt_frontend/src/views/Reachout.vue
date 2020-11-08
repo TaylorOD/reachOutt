@@ -11,13 +11,15 @@
         </div>
 
     <div class="text-center">
-      <h2>New Contact</h2>
+      <h2>New Reachout</h2>
     </div>
-   <div>
-      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
-      First Name: <input type="text" v-model="newContactFirstName" />
-      Last Name: <input type="text" v-model="newContactLastName" />
-      <button v-on:click="createContact()">Create Contact</button>
+    <div>
+      Start Date: <input type="text" v-model="newReachoutStartDate" />
+      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
+      Frequency: <input type="text" v-model="newReachoutFrequency" />
+      Contact ID: <input type="text" v-model="newReachoutContactID" />
+      Datatime: <input type="text" v-model="newReachoutDatetime" />
+      <button v-on:click="createReachout()">Create Reachout</button>
     </div>
 
         <div class="col-md-12">
@@ -70,31 +72,9 @@
      </div>
     </div>
   </div>
-</div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-  <div class="reachout">
-    <h1>New Reachout</h1>
-
-    <div>
-      Start Date: <input type="text" v-model="newReachoutStartDate" />
-      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
-      Frequency: <input type="text" v-model="newReachoutFrequency" />
-      Contact ID: <input type="text" v-model="newReachoutContactID" />
-      Datatime: <input type="text" v-model="newReachoutDatetime" />
-      <button v-on:click="createReachout()">Create Reachout</button>
-    </div>
 
     <h1>Reachouts</h1>
     <div v-for="reachout in reachouts">
