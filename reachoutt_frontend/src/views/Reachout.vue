@@ -11,16 +11,18 @@
         </div>
 
     <div class="text-center">
-      <h2>New Contact</h2>
+      <h2>New Reachout</h2>
     </div>
-   <div>
-      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
-      First Name: <input type="text" v-model="newContactFirstName" />
-      Last Name: <input type="text" v-model="newContactLastName" />
-      <button v-on:click="createContact()">Create Contact</button>
+    <div>
+      Start Date: <input type="text" v-model="newReachoutStartDate" />
+      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
+      Frequency: <input type="text" v-model="newReachoutFrequency" />
+      Contact ID: <input type="text" v-model="newReachoutContactID" />
+      Datatime: <input type="text" v-model="newReachoutDatetime" />
+      <button v-on:click="createReachout()">Create Reachout</button>
     </div>
 
-        <div class="col-md-12">
+    <div class="col-md-12">
 
 
      
@@ -29,32 +31,39 @@
             <div class="item active">
                 <div class="row">
                     <div class="text-center">
-                    <h2>Existing Contacts</h2>
+                    <h2>Existing Reachouts</h2>
                     </div>
-                    <div v-for="contact in contacts" class="col-sm-4">
+                    <div v-for="reachout in reachouts" class="col-sm-4">
 
-                      <!-- Image behind Contacts -->
+                      <!-- Image behind Reachouts -->
                       <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
                       
-                      <!-- Contact Cards -->
+                      <!-- Reachout Cards -->
                       <div class="card-container card-container-lg">
-                        <h4>Contact Name:</h4>
-                        <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                        <p>Phone Number: {{ contact.phone_number }}</p>
-                        <a title="" class="btn btn-default" v-on:click="showContact(currentContact)">
-                          <p>Edit Contact</p>
-                        </a>
+                        <h4>Reachouts:</h4>
+
+                        <p>Start Date: {{ reachout.start_date }}</p>
+                        <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
+                        <p>Frequency: {{ reachout.frequency }}</p>
+                        <p>Contact ID: {{ reachout.contact_id }}</p>
+                        <p>Datatime: {{ reachout.datetime }}</p>
+                        <a title="" class="btn btn-default" v-on:click="showReachout(Reachout)">
+                          <p>Edit Reachout</p>
+                        </a> 
+
                       </div>
 
-                      <!-- Moduel to edit contacts -->
-                      <dialog id="contact-details">
+                      <!-- Moduel to edit Reachouts -->
+                      <dialog id="reachout-details">
                           <form method="dialog">
-                            <h1>Contact info</h1>
-                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></p>
-                            <p>First Name: <input v-model="currentContact.first_name"></input></p>
-                            <p>Last Name: <input v-model="currentContact.last_name"></input></p>
-                            <button v-on:click="updateContact(currentContact)">Update</button>
-                            <button v-on:click="destroyContact(currentContact)">Destroy</button>
+                            <h1>Reachout info</h1>
+                                <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></input></p>
+                                <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
+                                <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
+                                <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
+                                <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
+                              <button v-on:click="updateReachout(currentReachout)">Update</button>
+                              <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
                             <button>Close</button>
                           </form>
                       </dialog>
@@ -70,61 +79,7 @@
      </div>
     </div>
   </div>
-</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="reachout">
-    <h1>New Reachout</h1>
-
-    <div>
-      Start Date: <input type="text" v-model="newReachoutStartDate" />
-      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
-      Frequency: <input type="text" v-model="newReachoutFrequency" />
-      Contact ID: <input type="text" v-model="newReachoutContactID" />
-      Datatime: <input type="text" v-model="newReachoutDatetime" />
-      <button v-on:click="createReachout()">Create Reachout</button>
-    </div>
-
-    <h1>Reachouts</h1>
-    <div v-for="reachout in reachouts">
-      <p>Start Date: {{ reachout.start_date }}</p>
-      <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
-      <p>Frequency: {{ reachout.frequency }}</p>
-      <p>Contact ID: {{ reachout.contact_id }}</p>
-      <p>Datatime: {{ reachout.datetime }}</p>
-      <a v-on:click="showReachout(Reachout)">
-        <h3>Edit Reachout</h3>
-      </a> 
-      
-    </div>
-
-    <dialog id="reachout-details">
-        <form method="dialog">
-          <h1>Reachout info</h1>
-          <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></p>
-          <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
-          <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
-          <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
-          <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
-
-          <button v-on:click="updateReachout(currentReachout)">Update</button>
-          <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
-          <button>Close</button>
-        </form>
-    </dialog>
-
-  </div>
 </template>
 
 <style>

@@ -49,7 +49,7 @@
                       <dialog id="contact-details">
                           <form method="dialog">
                             <h1>Contact info</h1>
-                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></p>
+                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></input></p>
                             <p>First Name: <input v-model="currentContact.first_name"></input></p>
                             <p>Last Name: <input v-model="currentContact.last_name"></input></p>
                             <button v-on:click="updateContact(currentContact)">Update</button>
