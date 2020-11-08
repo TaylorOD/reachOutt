@@ -49,7 +49,7 @@
                         <p>Frequency: {{ reachout.frequency }}</p>
                         <p>Contact ID: {{ reachout.contact_id }}</p>
                         <p>Datetime: {{ reachout.datetime }}</p>
-                        <a class="btn btn-default"  v-on:click="showReachout(Reachout)">
+                        <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
                         </a> 
 
@@ -123,7 +123,7 @@ export default {
       axios
         .post("/api/reachouts", params)
         .then(response => {
-          console.log("reachouts create", response);
+          console.log("Succsess - reachout create", response);
           this.reachouts.push(response.data);
 
           this.newReachoutStartDate = "";
@@ -133,7 +133,7 @@ export default {
           this.newReachoutDatetime = ""
         })
         .catch(error => {
-          console.log("reachouts create error", error.response);
+          console.log("Not Successful - reachout could not be created", error.response);
         });
     },
     showReachout: function (reachout) {
@@ -151,20 +151,20 @@ export default {
       axios
         .patch(`/api/reachouts/${reachout.id}`, params)
         .then(response => {
-          console.log("Success", response.data)
+          console.log("Success - reachout updated", response.data)
         })
-        .catch(error => console.log(error.response))
+        .catch(error => console.log("Not Successful - reachout could not be updated", error.response))
     },
     destroyReachout: function (reachout) {
         axios
           .delete(`/api/reachouts/${reachout.id}`)
           .then(response => {
-            console.log("Success - reachout destroyed", response.data)
+            console.log("Success - Reachout destroyed", response.data)
+            // remove this reachout from this.reachouts / you dont have to reload page
+            var index = this.reachouts.indexOf(reachout);
+            this.reachouts.splice(index, 1);
           })
-          .catch(error => console.log(error.response))
-          // remove this reachout from this.reachouts / you dont have to reload page
-        var index = this.reachouts.indexOf(reachouts);
-        this.reachouts.splice(index, 1);
+          .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
     },
   },  
 }
