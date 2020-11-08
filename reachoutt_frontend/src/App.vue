@@ -1,5 +1,24 @@
 <template>
   <div id="app">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta content="IE=edge" http-equiv="X-UA-Compatible">
+      <meta content="width=device-width,initial-scale=1" name="viewport">
+      <meta content="description" name="description">
+      <meta name="google" content="notranslate" />
+
+      <!-- Disable tap highlight on IE -->
+      <meta name="msapplication-tap-highlight" content="no">
+      
+      <link href="/public/assets/favicon.ico" rel="icon">
+
+      <title>ReachOutt</title>  
+
+      <link href="./main.3f6952e4.css" rel="stylesheet">
+
+    </head>
+
       <div id="site-border-left"></div>
       <div id="site-border-right"></div>
       <div id="site-border-top"></div>
@@ -34,8 +53,16 @@
   
   </div>
 
-
 </template>
+
+<script>
+export default {
+  mounted: function () {
+    type("text/javascript");
+    // src("/public/main.70a66962.js")
+  }
+}
+</script>
 
 <style>
 
