@@ -18,8 +18,8 @@
       Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
       Frequency: <input type="text" v-model="newReachoutFrequency" />
       Contact ID: <input type="text" v-model="newReachoutContactID" />
-      Datatime: <input type="text" v-model="newReachoutDatetime" />
-      <button v-on:click="createReachout()">Create Reachout</button>
+      Datetime: <input type="text" v-model="newReachoutDatetime" />
+      <button class="btn btn-primary btn-sm" v-on:click="createReachout()">Create Reachout</button>
     </div>
 
     <div class="col-md-12">
@@ -46,8 +46,8 @@
                         <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
                         <p>Frequency: {{ reachout.frequency }}</p>
                         <p>Contact ID: {{ reachout.contact_id }}</p>
-                        <p>Datatime: {{ reachout.datetime }}</p>
-                        <a title="" class="btn btn-default" v-on:click="showReachout(Reachout)">
+                        <p>Datetime: {{ reachout.datetime }}</p>
+                        <a class="btn btn-default"  v-on:click="showReachout(Reachout)">
                           <p>Edit Reachout</p>
                         </a> 
 
@@ -61,10 +61,10 @@
                                 <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
                                 <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
                                 <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
-                                <p>Datatime:<input v-model="currentReachout.datetime"></input></p>
-                              <button v-on:click="updateReachout(currentReachout)">Update</button>
-                              <button v-on:click="destroyReachout(currentReachout)">Destroy</button>
-                            <button>Close</button>
+                                <p>Datetime:<input v-model="currentReachout.datetime"></input></p>
+                              <button class="btn btn-default btn-sm" v-on:click="updateReachout(currentReachout)">Update</button>
+                              <button class="btn btn-default btn-sm" v-on:click="destroyReachout(currentReachout)">Destroy</button>
+                            <button class="btn btn-default btn-sm">Close</button>
                           </form>
                       </dialog>
 
@@ -161,7 +161,7 @@ export default {
           })
           .catch(error => console.log(error.response))
           // remove this reachout from this.reachouts / you dont have to reload page
-        var index = this.reachouts.indexOf(product);
+        var index = this.reachouts.indexOf(reachouts);
         this.reachouts.splice(index, 1);
     },
   },  
