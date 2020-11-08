@@ -13,9 +13,9 @@
       <h2>New Contact</h2>
     </div>
    <div class="text-center">
-      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
       First Name: <input type="text" v-model="newContactFirstName" />
       Last Name: <input type="text" v-model="newContactLastName" />
+      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
     </div>
     <div class="text-center">
       <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
@@ -41,7 +41,7 @@
                         <h4>Contact Name:</h4>
                         <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
                         <p>Phone Number: {{ contact.phone_number }}</p>
-                        <a class="btn btn-default" v-on:click="showContact(currentContact)">
+                        <a class="btn btn-default" v-on:click="showContact(contact)">
                           <p>Edit Contact</p>
                         </a>
                       </div>
@@ -49,10 +49,10 @@
                       <!-- Moduel to edit contacts -->
                       <dialog id="contact-details">
                           <form method="dialog">
-                            <h1>Contact info</h1>
-                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></input></p>
+                            <h1>Contact info</h1>                    
                             <p>First Name: <input v-model="currentContact.first_name"></input></p>
                             <p>Last Name: <input v-model="currentContact.last_name"></input></p>
+                            <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></input></p>
                             <button class="btn btn-default btn-sm" v-on:click="updateContact(currentContact)">Update</button>
                             <button class="btn btn-default btn-sm" v-on:click="destroyContact(currentContact)">Destroy</button>
                             <button class="btn btn-default btn-sm">Close</button>
@@ -83,9 +83,9 @@ export default {
   data: function() {
     return {
       contacts: [],
-      newContactPhoneNumber: "",
       newContactFirstName: "",
       newContactLastName: "",
+      newContactPhoneNumber: "",
       currentContact: {},
     };
   },
@@ -101,9 +101,9 @@ export default {
     },
     createContact: function() {
       var params = {
-        phone_number: this.newContactPhoneNumber,
         first_name: this.newContactFirstName,
         last_name: this.newContactLastName,
+        phone_number: this.newContactPhoneNumber,
       };
       axios
         .post("/api/contacts", params)
@@ -111,12 +111,12 @@ export default {
           console.log("contacts create", response);
           this.contacts.push(response.data);
 
-          this.newContactPhoneNumber = "";
           this.newContactFirstName = "";
           this.newContactLastName = "";
+          this.newContactPhoneNumber = "";
         })
         .catch(error => {
-          console.log("contacts create error", error.response);
+          console.log("Not Successful - contact could not be created", error.response);
         });
     },
     showContact: function (contact) {
@@ -125,27 +125,28 @@ export default {
     },
     updateContact: function (contact) {
       var params = {
-        phone_number: contact.phone_number,
         first_name: contact.first_name,
         last_name: contact.last_name,
+        phone_number: contact.phone_number,
       }
       axios
         .patch(`/api/contacts/${contact.id}`, params)
         .then(response => {
-          console.log("Success", response.data)
+          console.log("Success - contact updated", response.data)
         })
-        .catch(error => console.log(error.response))
+        .catch(error => console.log("Not Successful - contact could not be updated", error.response))
     },
     destroyContact: function (contact) {
+      console.log(contact)
         axios
           .delete(`/api/contacts/${contact.id}`)
           .then(response => {
             console.log("Success - contact destroyed", response.data)
+            // remove this contact from this.contacts / you dont have to reload page
+            var index = this.contacts.indexOf(contact);
+            this.contacts.splice(index, 1);
           })
-          .catch(error => console.log(error.response))
-          // remove this contact from this.contacts / you dont have to reload page
-        var index = this.contacts.indexOf(contacts);
-        this.contacts.splice(index, 1);
+          .catch(error => console.log("Not Successful - contact could not be destroyed", error.response))
     },
   },
 }
