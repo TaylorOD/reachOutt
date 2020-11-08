@@ -12,17 +12,17 @@
     <div class="text-center">
       <h2>New Contact</h2>
     </div>
-   <div>
+   <div class="text-center">
       Phone Number: <input type="text" v-model="newContactPhoneNumber" />
       First Name: <input type="text" v-model="newContactFirstName" />
       Last Name: <input type="text" v-model="newContactLastName" />
-      <button v-on:click="createContact()">Create Contact</button>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
     </div>
 
         <div class="col-md-12">
 
-
-     
       <div id="myCarousel" class="carousel slide projects-carousel">
         <div class="carousel-inner">
             <div class="item active">
@@ -30,17 +30,18 @@
                     <div class="text-center">
                     <h2>Existing Contacts</h2>
                     </div>
-                    <div v-for="contact in contacts" class="col-sm-4">
+                    <div v-for="(contact, index) in contacts" class="col-sm-4" style="height: 400px">
+                    
 
                       <!-- Image behind Contacts -->
-                      <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
+                      <img :src="`/assets/images/work0${index % 4 + 1}-hover.jpg`" alt="" class="img-responsive">
                       
                       <!-- Contact Cards -->
                       <div class="card-container card-container-lg">
                         <h4>Contact Name:</h4>
                         <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
                         <p>Phone Number: {{ contact.phone_number }}</p>
-                        <a title="" class="btn btn-default" v-on:click="showContact(currentContact)">
+                        <a class="btn btn-default" v-on:click="showContact(currentContact)">
                           <p>Edit Contact</p>
                         </a>
                       </div>
@@ -52,9 +53,9 @@
                             <p>Phone Numer: <input type="text" v-model="currentContact.phone_number"></input></p>
                             <p>First Name: <input v-model="currentContact.first_name"></input></p>
                             <p>Last Name: <input v-model="currentContact.last_name"></input></p>
-                            <button v-on:click="updateContact(currentContact)">Update</button>
-                            <button v-on:click="destroyContact(currentContact)">Destroy</button>
-                            <button>Close</button>
+                            <button class="btn btn-default btn-sm" v-on:click="updateContact(currentContact)">Update</button>
+                            <button class="btn btn-default btn-sm" v-on:click="destroyContact(currentContact)">Destroy</button>
+                            <button class="btn btn-default btn-sm">Close</button>
                           </form>
                       </dialog>
 
@@ -143,7 +144,7 @@ export default {
           })
           .catch(error => console.log(error.response))
           // remove this contact from this.contacts / you dont have to reload page
-        var index = this.contacts.indexOf(product);
+        var index = this.contacts.indexOf(contacts);
         this.contacts.splice(index, 1);
     },
   },
