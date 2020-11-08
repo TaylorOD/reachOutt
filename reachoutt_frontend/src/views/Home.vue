@@ -11,7 +11,7 @@
                     <span>I'm a family member</span>
                     <span>Friend</span>
                     <span>Someone who misses you</span>
-                    <span>ReachOut</span>
+                    <span>ReachOutt</span>
                   </span>
                   <span id="typed"></span>
                 </h1>
