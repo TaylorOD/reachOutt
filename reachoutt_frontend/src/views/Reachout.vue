@@ -13,15 +13,17 @@
     <div class="text-center">
       <h2>New Reachout</h2>
     </div>
-    <div>
+
+    <div class="text-center">
       Start Date: <input type="text" v-model="newReachoutStartDate" />
       Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
       Frequency: <input type="text" v-model="newReachoutFrequency" />
       Contact ID: <input type="text" v-model="newReachoutContactID" />
       Datetime: <input type="text" v-model="newReachoutDatetime" />
+    </div>
+    <div class="text-center">
       <button class="btn btn-primary btn-sm" v-on:click="createReachout()">Create Reachout</button>
     </div>
-
     <div class="col-md-12">
 
 
@@ -33,10 +35,10 @@
                     <div class="text-center">
                     <h2>Existing Reachouts</h2>
                     </div>
-                    <div v-for="reachout in reachouts" class="col-sm-4">
+                    <div v-for="(reachout, index) in reachouts" class="col-sm-4" style="height: 500px">
 
                       <!-- Image behind Reachouts -->
-                      <img src="/assets/images/work01-hover.jpg" alt="" class="img-responsive">
+                      <img :src="`/assets/images/work0${index % 4 + 1}-hover.jpg`" alt="" class="img-responsive">
                       
                       <!-- Reachout Cards -->
                       <div class="card-container card-container-lg">
