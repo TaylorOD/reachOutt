@@ -8,7 +8,7 @@
       <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
         <div class="text-center">
           <h1 class="h2">02 : Contacts</h1>
-          <p>Nulla facilisi. Vivamus vestibulum, elit in scelerisque ultricies, nisl nunc pulvinar ligula, id sodales arcu sapien in nisi. Quisque libero enim, mattis non augue posuere, venenatis dapibus urna.</p>
+          <h3>View, update, or create a new contact here</h3>
         </div>
       </div>
 
@@ -40,15 +40,7 @@
             
             <!--/item-->
         </div>
-        <!--/carousel-inner--> 
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
      </div>
-
-
-
-    <!--/myCarousel-->
     </div>
 
 
