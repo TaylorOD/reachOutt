@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   # EXAMPLE JSON ROUTE WITH API NAMESPACE
 
   post "twilio/voice" => "twilio#voice"
+  
+  post 'twilio/status' => 'twilio#status'
+
 
   post "notifications/notify" => "notifications#notify"
 
