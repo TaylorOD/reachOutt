@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     get "/reachouts/:id" => "reachouts#show"
     patch "/reachouts/:id" => "reachouts#update"
     delete "/reachouts/:id" => "reachouts#destroy"
+
+    post "notifications/notify" => "notifications#notify"
   end
 end
