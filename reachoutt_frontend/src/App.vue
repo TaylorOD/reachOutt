@@ -7,7 +7,7 @@
       <div id="site-border-bottom"></div>
 
       <header>
-        <nav class="navbar  navbar-fixed-top navbar-default">
+        <nav class="navbar  navbar-fixed-top" v-bind:class="{'navbar-inverse': $route.meta.inverse, 'navbar-default': !$route.meta.inverse}">
           <div class="container">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -18,13 +18,13 @@
 
             <div class="collapse navbar-collapse" id="navbar-collapse">
               <ul class="nav navbar-nav ">
-                <li><a href="./" title="">01 : Home</a></li>
-                <li><a href="./about" title="">02 : About</a></li>
-                <li><a href="./contact" title="">03 : Contacts</a></li>
-                <li><a href="./reachout" title="">04 : Reachouts</a></li>
-                <li><a href="./login" title="">05 : Login</a></li>
-                <li><a href="./logout" title="">06 : Logout</a></li>
-                <li><a href="./signup" title="">07 : Signup</a></li>
+                <li><router-link to="/">01: Home</router-link></li>
+                <li><router-link to="/about">02: About</router-link></li>
+                <li><router-link to="/contact">03: Contacts</router-link></li>
+                <li><router-link to="/reachout">04: Reachouts</router-link></li>
+                <li><router-link to="/login">05: Login</router-link></li>
+                <li><router-link to="/logout">06: Logout</router-link></li>
+                <li><router-link to="/signup">07: Signup</router-link></li>
               </ul>
 
             </div> 
