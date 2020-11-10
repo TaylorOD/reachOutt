@@ -1,9 +1,12 @@
 class Api::ContactsController < ApplicationController
+
+  # Show all contacts action
   def index
     @contacts = Contact.all
     render "index.json.jb"
   end
 
+  # Create a new contact action
   def create
     @contact = Contact.new(
       user_id: current_user.id,
@@ -18,11 +21,13 @@ class Api::ContactsController < ApplicationController
     end
   end
 
+  # Show a spesfic contact action
   def show
     @contact = Contact.find_by(id: params[:id])
     render "show.json.jb"
   end
 
+  # Update a contact action
   def update
     @contact = Contact.find_by(id: params[:id])
     @contact.first_name = params[:first_name] || @contact.first_name
@@ -35,6 +40,7 @@ class Api::ContactsController < ApplicationController
     end
   end
 
+  # Destroy a contact action
   def destroy
     contact = Contact.find_by(id: params[:id])
     contact.destroy
