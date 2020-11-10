@@ -26,6 +26,7 @@
             <label>Phone Number:</label>
             <input type="text" class="form-control" v-model="phone_number">
           </div>          
+
           <div class="form-group">
             <label>Email:</label>
             <input type="email" class="form-control" v-model="email">
