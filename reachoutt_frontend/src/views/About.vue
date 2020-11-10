@@ -22,14 +22,14 @@
                   <p>
                   Sometimes we don't know what to say. ReachOutt helps you start the conversation by sending you jokes, sports info, or news that helps you get the converstaion started.</p>
                 </div>
-                <div class="col-xs-12 col-md-6">
-                  <img src="/public/assets/images/reachout_about.jpg" class="" alt="">
+                <div class="container">
+                  <div class="col-xs-12 col-md-6">
+                    <img src="/assets/images/reachout_about.jpg" class="img-responsive" alt="">
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
        </div>
       </div>
     </div>
