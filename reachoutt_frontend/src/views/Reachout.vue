@@ -17,18 +17,16 @@
 
         <div class="text-center">          
           Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
-          <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
 
-          <h2>Drop-down list in Vue.js:</h2>
-            <select class="form-control" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
-              <option value="" selected disabled>Choose</option>
-              <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
-            </select>
-            <br><br>
-            Frequency: <input type="text" v-model="newReachoutFrequency" />
-            <p><span>Selected Reachout Frequency: {{ selectedReachoutFrequencys  }}</span></p>
+          <!-- Frequency selector drop down form -->
+          <select class="form-control" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
+            <option value="" selected disabled>Choose</option>
+            <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
+          </select>
                       
           Contact: <input type="text" v-model="newReachoutContactID" />
+
+          <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
         </div>
         <br>
