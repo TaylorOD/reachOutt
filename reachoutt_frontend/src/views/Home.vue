@@ -5,6 +5,7 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="hero-full-wrapper">
+              <!-- Scrolling Text Div -->
               <div class="text-content">
                 <h1>Hello,<br>
                   <span id="typed-strings">
