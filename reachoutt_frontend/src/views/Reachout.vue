@@ -19,8 +19,13 @@
           Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           Frequency: <input type="text" v-model="newReachoutFrequency" />
-            
-          Contact ID: <input type="text" v-model="newReachoutContactID" />
+
+            <select class="form-control">
+              <option value="" selected disabled>Choose</option>
+              <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.id" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
+            </select>
+                      
+          Contact: <input type="text" v-model="newReachoutContactID" />
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
         </div>
         <br>
@@ -50,7 +55,8 @@
                         <p>Start Date: {{ reachout.start_date }}</p>
                         <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
                         <p>Frequency: {{ reachout.frequency }}</p>
-                        <p>Contact ID: {{ reachout.contact_id }}</p>
+                        
+                        <p>Contact: {{ reachout.contact_id }}</p>
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
                         <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
@@ -95,9 +101,15 @@ export default {
   data: function() {
     return {
       reachouts: [],
-      reachoutFrequencies: [
-        {}
-
+      reachoutFrequencys: [
+        { name: "Daily", id: 1 },
+        { name: "Weekly", id: 2 },
+        { name: "Bi-Weekly", id: 3 },
+        { name: "Monthly", id: 4 },
+        { name: "Bi-Monthly", id: 5 },
+        { name: "Quarterly", id: 6 },
+        { name: "Semi-Annually", id: 7 },
+        { name: "Annually", id: 8 },
       ],
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
@@ -109,6 +121,7 @@ export default {
   },
   created: function() {
     this.indexReachouts();
+
   },
   methods: {
     indexReachouts: function() {
