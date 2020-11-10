@@ -24,8 +24,16 @@
             <option value="" selected disabled>Select Frequency</option>
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
-                      
-          Contact: <input type="text" v-model="newReachoutContactID" />
+
+          <!-- Contact selector drop down form -->   
+          Contact: 
+          <select class="text-center" v-model="newReachoutContactID">
+            <option value="" selected disabled>Select Contact</option>
+            <option v-for="contactID in contactIDs" :key="reachout.contact_id">{{ reachout.contact_id }}</option>
+          </select>          
+          
+          <!-- Contact: <input type="text" v-model="newReachoutContactID" /> -->
+
 
           <!-- Will readd these is needed params later -->
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
@@ -77,7 +85,14 @@
                                   <option value="" selected disabled>Select Frequency</option>
                                   <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
                                 </select>
-                                <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p>
+
+                                Contact: 
+                                <select class="text-center" v-model="newReachoutContactID">
+                                  <option value="" selected disabled>Select Contact</option>
+                                  <option v-for="contactID in contactIDs" :key="reachout.contact_id">{{ reachout.contact_id }}</option>
+                                </select>
+
+                                <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
                                 <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
                               <button class="btn btn-default btn-sm" v-on:click="updateReachout(currentReachout)">Update</button>
                               <button class="btn btn-default btn-sm" v-on:click="destroyReachout(currentReachout)">Destroy</button>
@@ -118,6 +133,7 @@ export default {
         { name: "Semi-Annually", id: 7, value: "182.5d" },
         { name: "Annually", id: 8, value: "365d" },
       ],
+      contactIDs: [],
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
       newReachoutFrequency: "",
