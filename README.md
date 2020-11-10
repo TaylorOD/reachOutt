@@ -6,7 +6,7 @@
 - After signing up users can create contacts, people they would like to keep in touch with, and set reachouts, reminders to reach out to them, on whatever schedule they would like.
 - It utilizes several API's to send automated reminder texts and ideas of what to reach out about.
 - This was the largest app I had built at the time and I worked on it over the course of five weeks.
-- You can find it online at (Reacoutt.com)
+- You can find it online at (Reachoutt.com)
 
 ### Technology stack:
 
@@ -24,16 +24,23 @@
 ### Known issues
 
 - There is a bug on the homepage that sometimes makes the typed text all show at once
-
+- About Me does not maintain correct location when window is dragged
 
 ### TODO
 
-- Host website at domain
-- Generate good fake data for 7 Users with 10 contacts each and 1 reachout for each contact
-- Finish website UI - About Me picture needs to be fixed
-- Integrate TextAPI - Mostly Finished - Need to upgrade Twilio Account
+Small:
 - Hide Login and Signup page when logged in
 - Hide Logout page when not logged in
+- Show Contact first_name and last_name in Reachout instead of Contact_id
+- Show Frequency in friendly form in Reachout instead of the number of days
+
+
+Medium: 
+- Host website at domain
+- Make the Contact form on the Reachouts page show a list of available existing Contacts to chose from
+- Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
+
+Big:
 - Integrate SportsAPI
 - Integrate NewsAPI
 - Integrate WeatherAPI
@@ -59,3 +66,4 @@
 
 1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
 2. I started this project while I was at Actualize Coding Bootcamp. That experience was very helpful when I was getting the architecture of the project set up.
+3. I use Rufus-Scheduler for my reminders. It's a simple version of a cron job.
