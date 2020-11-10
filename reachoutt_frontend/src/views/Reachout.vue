@@ -16,11 +16,12 @@
 
     <div class="text-center">
       Start Date: <input type="text" v-model="newReachoutStartDate" />
-      Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" />
+      <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
       Frequency: <input type="text" v-model="newReachoutFrequency" />
       Contact ID: <input type="text" v-model="newReachoutContactID" />
-      Datetime: <input type="text" v-model="newReachoutDatetime" />
+      <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
     </div>
+    <br>
     <div class="text-center">
       <button class="btn btn-primary btn-sm" v-on:click="createReachout()">Create Reachout</button>
     </div>
@@ -45,10 +46,10 @@
                         <h4>Reachouts:</h4>
 
                         <p>Start Date: {{ reachout.start_date }}</p>
-                        <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p>
+                        <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
                         <p>Frequency: {{ reachout.frequency }}</p>
                         <p>Contact ID: {{ reachout.contact_id }}</p>
-                        <p>Datetime: {{ reachout.datetime }}</p>
+                        <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
                         <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
                         </a> 

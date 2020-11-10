@@ -17,6 +17,7 @@
       Last Name: <input type="text" v-model="newContactLastName" />
       Phone Number: <input type="text" v-model="newContactPhoneNumber" />
     </div>
+    <br>
     <div class="text-center">
       <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
     </div>
