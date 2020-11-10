@@ -18,12 +18,15 @@
         <div class="text-center">          
           Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
-          Frequency: <input type="text" v-model="newReachoutFrequency" />
 
-            <select class="form-control">
+          <h2>Drop-down list in Vue.js:</h2>
+            <select class="form-control" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
               <option value="" selected disabled>Choose</option>
-              <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.id" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
+              <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
             </select>
+            <br><br>
+            Frequency: <input type="text" v-model="newReachoutFrequency" />
+            <p><span>Selected Reachout Frequency: {{ selectedReachoutFrequencys  }}</span></p>
                       
           Contact: <input type="text" v-model="newReachoutContactID" />
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
@@ -102,15 +105,16 @@ export default {
     return {
       reachouts: [],
       reachoutFrequencys: [
-        { name: "Daily", id: 1 },
-        { name: "Weekly", id: 2 },
-        { name: "Bi-Weekly", id: 3 },
-        { name: "Monthly", id: 4 },
-        { name: "Bi-Monthly", id: 5 },
-        { name: "Quarterly", id: 6 },
-        { name: "Semi-Annually", id: 7 },
-        { name: "Annually", id: 8 },
+        { name: "Daily", id: 1, value: "1d" },
+        { name: "Weekly", id: 2, value: "7d" },
+        { name: "Bi-Weekly", id: 3, value: "14d" },
+        { name: "Monthly", id: 4, value: "30d" },
+        { name: "Bi-Monthly", id: 5, value: "60d" },
+        { name: "Quarterly", id: 6, value: "90d" },
+        { name: "Semi-Annually", id: 7, value: "182.5d" },
+        { name: "Annually", id: 8, value: "365d" },
       ],
+      selectedReachoutFrequencys: null,
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
       newReachoutFrequency: "",
@@ -124,6 +128,9 @@ export default {
 
   },
   methods: {
+    changeReachoutFrequency (event) {
+      this.selectedReachoutFrequencys = event.target.options[event.target.options.selectedIndex].value
+    },
     indexReachouts: function() {
       axios.get("/api/reachouts").then(response => {
         console.log("reachouts index", response);
