@@ -7,15 +7,17 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create!([
-  { email: "jonasdorsett@gmail.com", password: "password", first_name: "Jonas", last_name: "Dorsett" },
-  { email: "dorsetttaylor@gmail.com", password: "password", first_name: "Taylor", last_name: "Dorsett" },
-  { email: "luke@example.com", password: "password", first_name: "Luke", last_name: "Booker" },
+  { email: "jonasdorsett@gmail.com", password: "password", first_name: "Jonas", last_name: "Dorsett", phone_number: "802-522-7788" },
+  { email: "dorsetttaylor@gmail.com", password: "password", first_name: "Taylor", last_name: "Dorsett", phone_number: "802-522-8145" },
+  { email: "luke@example.com", password: "password", first_name: "Luke", last_name: "Booker", phone_number: "802-557-0433" },
+  { email: "leahshawd@gmail.com", password: "password", first_name: "Leah", last_name: "Shaw", phone_number: "815-878-3186" },
 ])
 
 Contact.create!([
   { phone_number: "802-522-7788", first_name: "Jonas", last_name: "Dorsett", user_id: 1 },
-  { phone_number: "802-522-7753", first_name: "Luke", last_name: "Rockhold", user_id: 2 },
-  { phone_number: "802-522-7534", first_name: "Jonas", last_name: "Dorsett", user_id: 2 },
+  { phone_number: "802-557-0433", first_name: "Luke", last_name: "Rockhold", user_id: 2 },
+  { phone_number: "802-522-8145", first_name: "Jonas", last_name: "Dorsett", user_id: 2 },
+  { phone_number: "815-878-3186", first_name: "Leah", last_name: "Shaw", user_id: 1 },
 ])
 
 Reachout.create!([
