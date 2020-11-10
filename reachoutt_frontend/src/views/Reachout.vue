@@ -20,8 +20,8 @@
 
           <!-- Frequency selector drop down form -->
           Frequency: 
-          <select class="text-center" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
-            <option value="" selected disabled>Choose Frequency</option>
+          <select class="text-center" v-model="newReachoutFrequency">
+            <option value="" selected disabled>Select Frequency</option>
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
                       
@@ -70,11 +70,15 @@
                       <dialog id="reachout-details">
                           <form method="dialog">
                             <h1>Reachout info</h1>
-                                <p>Start Date:  <input type="text" v-model="currentReachout.start_date"></input></p>
-                                <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p>
-                                <p>Frequency:<input v-model="currentReachout.frequency"></input></p>
-                                <p>Contact ID:<input v-model="currentReachout.contact_id"></input></p>
-                                <p>Datetime:<input v-model="currentReachout.datetime"></input></p>
+                                <p>Start Date: {{ currentReachout.start_date }}</input></p>
+                                <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
+                                Frequency:
+                                <select class="text-center" v-model="newReachoutFrequency">
+                                  <option value="" selected disabled>Select Frequency</option>
+                                  <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
+                                </select>
+                                <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p>
+                                <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
                               <button class="btn btn-default btn-sm" v-on:click="updateReachout(currentReachout)">Update</button>
                               <button class="btn btn-default btn-sm" v-on:click="destroyReachout(currentReachout)">Destroy</button>
                             <button class="btn btn-default btn-sm">Close</button>
@@ -114,7 +118,6 @@ export default {
         { name: "Semi-Annually", id: 7, value: "182.5d" },
         { name: "Annually", id: 8, value: "365d" },
       ],
-      selectedReachoutFrequencys: null,
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
       newReachoutFrequency: "",
@@ -128,9 +131,6 @@ export default {
 
   },
   methods: {
-    changeReachoutFrequency (event) {
-      this.selectedReachoutFrequencys = event.target.options[event.target.options.selectedIndex].value
-    },
     indexReachouts: function() {
       axios.get("/api/reachouts").then(response => {
         console.log("reachouts index", response);
