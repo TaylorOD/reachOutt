@@ -26,11 +26,12 @@
           </select>
 
           <!-- Contact selector drop down form -->   
+
           Contact: 
           <select class="text-center" v-model="newReachoutContactID">
             <option value="" selected disabled>Select Contact</option>
-            <option v-for="contactID in contactIDs" :key="reachout.contact_id">{{ reachout.contact_id }}</option>
-          </select>          
+            <option v-for="contact in contacts" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
+          </select>       
           
           <!-- Contact: <input type="text" v-model="newReachoutContactID" /> -->
 
@@ -89,7 +90,7 @@
                                 Contact: 
                                 <select class="text-center" v-model="newReachoutContactID">
                                   <option value="" selected disabled>Select Contact</option>
-                                  <option v-for="contactID in contactIDs" :key="reachout.contact_id">{{ reachout.contact_id }}</option>
+                                  <option v-for="contact in contacts" :key="contact.id">{{ contact.first_name }}</option>
                                 </select>
 
                                 <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
@@ -133,7 +134,7 @@ export default {
         { name: "Semi-Annually", id: 7, value: "182.5d" },
         { name: "Annually", id: 8, value: "365d" },
       ],
-      contactIDs: [],
+      contacts: [],
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
       newReachoutFrequency: "",
@@ -144,6 +145,7 @@ export default {
   },
   created: function() {
     this.indexReachouts();
+    this.indexContacts();
 
   },
   methods: {
@@ -151,6 +153,12 @@ export default {
       axios.get("/api/reachouts").then(response => {
         console.log("reachouts index", response);
         this.reachouts = response.data;
+      });
+    },
+    indexContacts: function() {
+      axios.get("/api/contacts").then(response => {
+        console.log("contacts index", response);
+        this.contacts = response.data;
       });
     },
     createReachout: function() {
