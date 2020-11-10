@@ -15,10 +15,11 @@
           <h2>New Reachout</h2>
         </div>
 
-        <div class="text-center">
-          Start Date: <input type="text" v-model="newReachoutStartDate" />
+        <div class="text-center">          
+          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           Frequency: <input type="text" v-model="newReachoutFrequency" />
+            
           Contact ID: <input type="text" v-model="newReachoutContactID" />
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
         </div>
@@ -94,6 +95,10 @@ export default {
   data: function() {
     return {
       reachouts: [],
+      reachoutFrequencies: [
+        {}
+
+      ],
       newReachoutStartDate: "",
       newReachoutLastReachoutSent: "",
       newReachoutFrequency: "",
