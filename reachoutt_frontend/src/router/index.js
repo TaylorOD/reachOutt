@@ -13,7 +13,11 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home, 
+    meta: {
+      // allows us to use a separate nav baron home
+      inverse: true
+    }
   },
   {
     path: '/about',
