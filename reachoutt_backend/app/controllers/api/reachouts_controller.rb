@@ -19,7 +19,13 @@ class Api::ReachoutsController < ApplicationController
     if @reachout.save
       render "show.json.jb"
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
-      message = client.messages.create from: '12014236603', to: '18025228145', body: 'New Reachout Created for ${contact_id}`'
+      message = client.messages.create from: '12014236603', to: '18025228145', body: "New Reachout Created for #{@reachout.contact.first_name} #{@reachout.contact.last_name}"
+      s = Rufus::Scheduler.singleton
+      s.every @reachout.frequency do
+        puts "Reachout to #{@reachout.contact_id}"
+        client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
+        message = client.messages.create from: '12014236603', to: '18025228145', body: "Hey! It's time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+      end
     else
       render json: { errors: @reachout.errors.full_messages }, status: :bad_request
     end
