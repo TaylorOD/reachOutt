@@ -1,9 +1,12 @@
 class Api::ReachoutsController < ApplicationController
+
+  # Show all reachouts action
   def index
     @reachouts = Reachout.all
     render "index.json.jb"
   end
 
+  # Create a new reachout action
   def create
     @reachout = Reachout.new(
       user_id: current_user.id,
@@ -22,11 +25,13 @@ class Api::ReachoutsController < ApplicationController
     end
   end
 
+  # Show a spesfic reachout action
   def show
     @reachout = Reachout.find_by(id: params[:id])
     render "show.json.jb"
   end
 
+  # Update a reachout action
   def update
     @reachout = Reachout.find_by(id: params[:id])
     @reachout.start_date = params[:start_date] || @reachout.start_date
@@ -41,6 +46,7 @@ class Api::ReachoutsController < ApplicationController
     end
   end
 
+  # Destroy a reachout action
   def destroy
     reachout = Reachout.find_by(id: params[:id])
     reachout.destroy
