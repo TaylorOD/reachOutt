@@ -19,13 +19,15 @@
           Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
 
           <!-- Frequency selector drop down form -->
-          <select class="form-control" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
-            <option value="" selected disabled>Choose</option>
+          Frequency: 
+          <select class="text-center" v-model="newReachoutFrequency" @change="changeReachoutFrequency($event)">
+            <option value="" selected disabled>Choose Frequency</option>
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
                       
           Contact: <input type="text" v-model="newReachoutContactID" />
 
+          <!-- Will readd these is needed params later -->
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
         </div>
