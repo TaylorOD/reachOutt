@@ -2,13 +2,14 @@
   <div class="login">
     <div class="section-container">
       <div class="container">
-
+        <!-- Title Div -->
         <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
           <div class="text-center">
             <h1 class="h2">05 : Login</h1>
           </div>
         </div>
 
+        <!-- Login Dev -->
         <form v-on:submit.prevent="submit()">
           <h1>Login</h1>
           <ul>
@@ -24,6 +25,7 @@
           </div>
           <input type="submit" class="btn btn-primary" value="Submit">
         </form>
+        
       </div>
     </div>
   </div>
