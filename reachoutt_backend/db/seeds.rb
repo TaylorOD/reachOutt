@@ -473,7 +473,7 @@ Reachout.create!([
   { user_id: 21, contact_id: 4, frequency: "365d", last_reachout_sent: "", start_date: "08/24/2019", datetime: ""},
   { user_id: 19, contact_id: 34, frequency: "14d", last_reachout_sent: "", start_date: "05/02/2020", datetime: ""},
   { user_id: 2, contact_id: 18, frequency: "60d", last_reachout_sent: "", start_date: "10/26/2020", datetime: ""},
-  { user_id: 1, contact_id: 17, frequency: "", last_reachout_sent: "", start_date: "03/18/2020", datetime: ""},
-  { user_id: 13, contact_id: 33, frequency: "", last_reachout_sent: "", start_date: "02/21/2019", datetime: ""},
+  { user_id: 1, contact_id: 17, frequency: "1d", last_reachout_sent: "", start_date: "03/18/2020", datetime: ""},
+  { user_id: 13, contact_id: 33, frequency: "365d", last_reachout_sent: "", start_date: "02/21/2019", datetime: ""},
   { user_id: 31, contact_id: 40, frequency: "14d", last_reachout_sent: "", start_date: "03/29/2020", datetime: ""}
 ])
