@@ -66,7 +66,7 @@
 
                         <p>Start Date: {{ reachout.start_date }}</p>
                         <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
-                        <p>Frequency: {{ reachout.frequency }}</p>
+                        <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
                         
                         <p>Contact: {{ reachout.contact_id }}</p>
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
@@ -215,6 +215,9 @@ export default {
           })
           .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
     },
+    frequencyToName: function (frequency) {
+      return frequency
+    }
   },  
 }
 
