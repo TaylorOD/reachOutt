@@ -23,20 +23,23 @@
 
 ### Known issues
 
-- Update and delete function on edit modals do not work correctly
-- UI Padding is formatted incorrectly
-- Contacts and Reachoutt page are not formatted correctly
+- There is a bug on the homepage that sometimes makes the typed text all show at once
+
 
 ### TODO
 
 - Host website at domain
-- Finish website UI
-- Integrate TextAPI
-- Integrate EmailAPI
+- Generate good fake data for 7 Users with 10 contacts each and 1 reachout for each contact
+- Finish website UI - About Me picture needs to be fixed
+- Integrate TextAPI - Mostly Finished - Need to upgrade Twilio Account
+- Hide Login and Signup page when logged in
+- Hide Logout page when not logged in
+- Integrate SportsAPI
+- Integrate NewsAPI
+- Integrate WeatherAPI
 - Integrate JokeAPI
 - Vue Native App
-- Create about page
-- Change app name to ReachOutt across all docs
+
 
 ### Contact
 
