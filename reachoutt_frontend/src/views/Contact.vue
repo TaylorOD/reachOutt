@@ -2,6 +2,7 @@
   <div class="contacts">
     <div class="section-container">
       <div class="container">
+        <!-- Title Div -->
         <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
           <div class="text-center">
             <h1 class="h2">02 : Contacts</h1>
@@ -9,21 +10,24 @@
           </div>
         </div>
 
+    <!-- New Contact Div -->
     <div class="text-center">
       <h2>New Contact</h2>
     </div>
-   <div class="text-center">
-      First Name: <input type="text" v-model="newContactFirstName" />
-      Last Name: <input type="text" v-model="newContactLastName" />
-      Phone Number: <input type="text" v-model="newContactPhoneNumber" />
-    </div>
-    <br>
+
     <div class="text-center">
-      <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
-    </div>
+        First Name: <input type="text" v-model="newContactFirstName" />
+        Last Name: <input type="text" v-model="newContactLastName" />
+        Phone Number: <input type="text" v-model="newContactPhoneNumber" />
+      </div>
 
-        <div class="col-md-12">
+      <br>
+      <div class="text-center">
+        <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
+      </div>
 
+      <!-- Edit Contact Div-->
+      <div class="col-md-12">
       <div id="myCarousel" class="carousel slide projects-carousel">
         <div class="carousel-inner">
             <div class="item active">
@@ -33,7 +37,6 @@
                     </div>
                     <div v-for="(contact, index) in contacts" class="col-sm-4" style="height: 400px">
                     
-
                       <!-- Image behind Contacts -->
                       <img :src="`/assets/images/work0${index % 6 + 1}-hover.jpg`" alt="" class="img-responsive">
                       
@@ -42,12 +45,13 @@
                         <h4>Contact Name:</h4>
                         <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
                         <p>Phone Number: {{ contact.phone_number }}</p>
+
                         <a class="btn btn-default" v-on:click="showContact(contact)">
                           <p>Edit Contact</p>
                         </a>
                       </div>
 
-                      <!-- Moduel to edit contacts -->
+                      <!-- Modal to edit contacts -->
                       <dialog id="contact-details">
                           <form method="dialog">
                             <h1>Contact info</h1>                    
