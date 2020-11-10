@@ -15,6 +15,7 @@ const routes = [
     name: 'Home',
     component: Home, 
     meta: {
+      // allows us to use a separate nav baron home
       inverse: true
     }
   },

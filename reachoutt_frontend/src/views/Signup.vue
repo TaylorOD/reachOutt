@@ -2,13 +2,13 @@
   <div class="signup">
     <div class="section-container">
       <div class="container">
-
+        <!-- Title Div -->
         <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
           <div class="text-center">
             <h1 class="h2">07 : Signup</h1>
           </div>
         </div>
-            
+        <!-- Signup Form Div -->
         <form v-on:submit.prevent="submit()">
           <h1>Signup</h1>
           <ul>
