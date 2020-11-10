@@ -1,8 +1,8 @@
 <template>
-
   <div class="reachout">
     <div class="section-container">
       <div class="container">
+        <!-- Title Div -->
         <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
           <div class="text-center">
             <h1 class="h2">03 : Reachouts</h1>
@@ -10,31 +10,32 @@
           </div>
         </div>
 
-    <div class="text-center">
-      <h2>New Reachout</h2>
-    </div>
+        <!-- New Reachout Div -->
+        <div class="text-center">
+          <h2>New Reachout</h2>
+        </div>
 
-    <div class="text-center">
-      Start Date: <input type="text" v-model="newReachoutStartDate" />
-      <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
-      Frequency: <input type="text" v-model="newReachoutFrequency" />
-      Contact ID: <input type="text" v-model="newReachoutContactID" />
-      <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
-    </div>
-    <br>
-    <div class="text-center">
-      <button class="btn btn-primary btn-sm" v-on:click="createReachout()">Create Reachout</button>
-    </div>
-    <div class="col-md-12">
+        <div class="text-center">
+          Start Date: <input type="text" v-model="newReachoutStartDate" />
+          <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
+          Frequency: <input type="text" v-model="newReachoutFrequency" />
+          Contact ID: <input type="text" v-model="newReachoutContactID" />
+          <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
+        </div>
+        <br>
+        <div class="text-center">
+          <button class="btn btn-primary btn-sm" v-on:click="createReachout()">Create Reachout</button>
+        </div>
 
-
-     
+        <!-- Existing Reachouts Div  -->
+      <div class="col-md-12">
       <div id="myCarousel" class="carousel slide projects-carousel">
         <div class="carousel-inner">
             <div class="item active">
                 <div class="row">
+
                     <div class="text-center">
-                    <h2>Existing Reachouts</h2>
+                      <h2>Existing Reachouts</h2>
                     </div>
                     <div v-for="(reachout, index) in reachouts" class="col-sm-4" style="height: 500px">
 
@@ -53,10 +54,9 @@
                         <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
                         </a> 
-
                       </div>
 
-                      <!-- Moduel to edit Reachouts -->
+                      <!-- Modal to edit Reachouts -->
                       <dialog id="reachout-details">
                           <form method="dialog">
                             <h1>Reachout info</h1>
@@ -70,7 +70,7 @@
                             <button class="btn btn-default btn-sm">Close</button>
                           </form>
                       </dialog>
-
+                      
                     </div>
                   </div>
                 </div>
@@ -82,7 +82,6 @@
      </div>
     </div>
   </div>
-
 </template>
 
 <style>
