@@ -1,32 +1,43 @@
 <template>
   <div class="signup">
-    <form v-on:submit.prevent="submit()">
-      <h1>Signup</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>First Name:</label> 
-        <input type="text" class="form-control" v-model="first_name">
+    <div class="section-container">
+      <div class="container">
+
+        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
+          <div class="text-center">
+            <h1 class="h2">07 : Signup</h1>
+          </div>
+        </div>
+            
+        <form v-on:submit.prevent="submit()">
+          <h1>Signup</h1>
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+          <div class="form-group">
+            <label>First Name:</label> 
+            <input type="text" class="form-control" v-model="first_name">
+          </div>
+          <div class="form-group">
+            <label>Last Name:</label> 
+            <input type="text" class="form-control" v-model="last_name">
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" class="form-control" v-model="email">
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="password" class="form-control" v-model="password">
+          </div>
+          <div class="form-group">
+            <label>Password confirmation:</label>
+            <input type="password" class="form-control" v-model="passwordConfirmation">
+          </div>
+          <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
       </div>
-      <div class="form-group">
-        <label>Last Name:</label> 
-        <input type="text" class="form-control" v-model="last_name">
-      </div>
-      <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" v-model="email">
-      </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" v-model="password">
-      </div>
-      <div class="form-group">
-        <label>Password confirmation:</label>
-        <input type="password" class="form-control" v-model="passwordConfirmation">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit">
-    </form>
+    </div>
   </div>
 </template>
 
