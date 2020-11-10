@@ -421,9 +421,9 @@ Contact.create!([
 ])
 
 Reachout.create!([
-  { user_id: 1, contact_id: 1, frequency: "weekly", last_reachout_sent: "", start_date: "10/15/2020", datetime: "" },
-  { user_id: 1, contact_id: 2, frequency: "monthly", last_reachout_sent: "", start_date: "10/12/2020", datetime: "" },
-  { user_id: 2, contact_id: 3, frequency: "daily", last_reachout_sent: "", start_date: "10/09/2020", datetime: "" },
-  { user_id: 2, contact_id: 1, frequency: "weekly", last_reachout_sent: "", start_date: "09/15/2020", datetime: "" },
-  { user_id: 3, contact_id: 2, frequency: "bi-weekly", last_reachout_sent: "", start_date: "08/15/2020", datetime: "" },
+  { user_id: 1, contact_id: 1, frequency: "7d", last_reachout_sent: "", start_date: "10/15/2020", datetime: "" },
+  { user_id: 1, contact_id: 2, frequency: "30d", last_reachout_sent: "", start_date: "10/12/2020", datetime: "" },
+  { user_id: 2, contact_id: 3, frequency: "1d", last_reachout_sent: "", start_date: "10/09/2020", datetime: "" },
+  { user_id: 2, contact_id: 1, frequency: "7d", last_reachout_sent: "", start_date: "09/15/2020", datetime: "" },
+  { user_id: 3, contact_id: 2, frequency: "14d", last_reachout_sent: "", start_date: "08/15/2020", datetime: "" },
 ])
