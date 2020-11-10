@@ -18,13 +18,21 @@ class Api::ReachoutsController < ApplicationController
     )
     if @reachout.save
       render "show.json.jb"
+      # Creates our Twilio request via their API and Rails
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
-      message = client.messages.create from: '12014236603', to: '18025228145', body: "New Reachout Created for #{@reachout.contact.first_name} #{@reachout.contact.last_name}"
+      # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
+      message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Congrats! You created a new ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name} starting on #{@reachout.start_date}. 
+      ReachOutt will remind you to reachout to #{@reachout.contact.first_name} every #{@reachout.frequency}."
+      # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
+      # Sets reminder text to the fequency that the user inputed
       s.every @reachout.frequency do
+        # Testing that our code is running
         puts "Reachout to #{@reachout.contact_id}"
+        # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
-        message = client.messages.create from: '12014236603', to: '18025228145', body: "Hey! It's time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+        # ReachOutt reminder text code
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
       end
     else
       render json: { errors: @reachout.errors.full_messages }, status: :bad_request
@@ -47,6 +55,22 @@ class Api::ReachoutsController < ApplicationController
     @reachout.datetime = params[:datetime] || @reachout.datetime
     if @reachout.save
       render "show.json.jb"
+      # Creates our Twilio request via their API and Rails
+      client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
+      # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
+      message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "You updated your ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name}. 
+      ReachOutt will remind you to reachout to #{@reachout.contact.first_name} every #{@reachout.frequency}."
+      # Create Rufus (cron) job to send a reminder text to reachout every frequency
+      s = Rufus::Scheduler.singleton
+      # Sets reminder text to the fequency that the user inputed
+      s.every @reachout.frequency do
+        # Testing that our code is running
+        puts "Reachout to #{@reachout.contact_id}"
+        # Twilio call with their API and Rails
+        client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
+        # ReachOutt reminder text code
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+      end
     else
       render json: { errors: @reachout.errors.full_messages }, status: :bad_request
     end
