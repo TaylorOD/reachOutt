@@ -16,8 +16,6 @@
         </div>
 
         <div class="text-center">          
-          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
-
           <!-- Frequency selector drop down form -->
           Frequency: 
           <select class="text-center" v-model="newReachoutFrequency">
@@ -25,18 +23,16 @@
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
 
-          <!-- Contact selector drop down form -->   
+          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
 
-          Contact: 
+          <!-- Contact selector drop down form -->   
+          Contact Name: 
           <select class="text-center" v-model="newReachoutContactID">
             <option value="" selected disabled>Select Contact</option>
-            <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+            <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
           </select>       
-          
-          <!-- Contact: <input type="text" v-model="newReachoutContactID" /> -->
 
-
-          <!-- Will readd these is needed params later -->
+          <!-- Will readd these if needed params later -->
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
         </div>
@@ -64,12 +60,13 @@
                       <div class="card-container card-container-lg">
                         <h4>Reachouts:</h4>
 
+                        <p>Contact Name: {{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</p>
+                        
                         <p>Start Date: {{ reachout.start_date }}</p>
 
                         <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
                         
-                        <p>Contact: {{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</p>
-
+                        <!-- Will readd these if needed later -->
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
                         <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
 
@@ -82,19 +79,24 @@
                       <dialog id="reachout-details">
                           <form method="dialog">
                             <h1>Reachout info</h1>
+
+                                Contact Name: 
+                                <select class="text-center" v-model="newReachoutContactID">
+                                  <option value="" selected disabled>Select Contact</option>
+                                  <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+                                </select>
+                                <br>
+                                <br>
                                 <p>Start Date: {{ currentReachout.start_date }}</input></p>
                                 <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
+                            
                                 Frequency:
                                 <select class="text-center" v-model="newReachoutFrequency">
                                   <option value="" selected disabled>Select Frequency</option>
                                   <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
                                 </select>
-
-                                Contact: 
-                                <select class="text-center" v-model="newReachoutContactID">
-                                  <option value="" selected disabled>Select Contact</option>
-                                  <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
-                                </select>
+                                <br>
+                                <br>
 
                                 <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
                                 <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
@@ -219,6 +221,24 @@ export default {
           .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
     },
     frequencyToName: function (frequency) {
+      if (frequency === "1d") {
+        frequency = "Daily"
+      } else if (frequency === "7d") {
+        frequency = "Weekly"
+      } else if (frequency === "14d") {
+        frequency = "Bi-Weekly"
+      } else if (frequency === "30d") {
+        frequency = "Monthly"
+      } else if (frequency === "60d") {
+        frequency = "Bi-Monthly"
+      } else if (frequency === "90d") {
+        frequency = "Quarterly"
+      } else if (frequency === "182.5d") {
+        frequency = "Semi-Annually"
+      } else if (frequency === "365d") {
+        frequency = "Annually"
+      }
+
       return frequency
     }
   },  
