@@ -150,7 +150,6 @@ export default {
   },
   created: function() {
     this.indexContacts();
-    this.indexReachouts();
     
 
   },
@@ -165,6 +164,7 @@ export default {
       axios.get("/api/contacts").then(response => {
         console.log("contacts index", response);
         this.contacts = response.data;
+        this.indexReachouts();
       });
     },
     createReachout: function() {
