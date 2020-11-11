@@ -5,6 +5,7 @@
     last_reachout_sent: reachout.last_reachout_sent,
     frequency: reachout.frequency,
     contact_id: reachout.contact_id,
+    contact: reachout.contact,
     datetime: reachout.datetime,
   }
 end
