@@ -149,8 +149,9 @@ export default {
     };
   },
   created: function() {
-    this.indexReachouts();
     this.indexContacts();
+    this.indexReachouts();
+    
 
   },
   methods: {
