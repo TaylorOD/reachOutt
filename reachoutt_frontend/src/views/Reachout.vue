@@ -224,6 +224,7 @@ export default {
           .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
     },
     frequencyToName: function (frequency) {
+      // refactor this using a loop
       if (frequency === "1d") {
         frequency = "Daily"
       } else if (frequency === "7d") {
