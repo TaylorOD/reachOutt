@@ -65,12 +65,14 @@
                         <h4>Reachouts:</h4>
 
                         <p>Start Date: {{ reachout.start_date }}</p>
-                        <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
+
                         <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
                         
-                        <p>Contact: {{ reachout.contact_id }}</p>
-                          <!-- <option v-for="(reachout, index) in reachouts" :key="reachout.contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option> -->
+                        <p>Contact: {{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</p>
+
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
+                        <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
+
                         <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
                         </a> 
