@@ -81,7 +81,7 @@
                             <h1>Reachout info</h1>
 
                                 Contact Name: 
-                                <select class="text-center" v-model="newReachoutContactID">
+                                <select class="text-center" v-model="currentReachout.contact_id">
                                   <option value="" selected disabled>Select Contact</option>
                                   <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
                                 </select>
@@ -91,7 +91,7 @@
                                 <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
                             
                                 Frequency:
-                                <select class="text-center" v-model="newReachoutFrequency">
+                                <select class="text-center" v-model="currentReachout.frequency">
                                   <option value="" selected disabled>Select Frequency</option>
                                   <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
                                 </select>
