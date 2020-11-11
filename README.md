@@ -31,13 +31,9 @@
 Small:
 - Hide Login and Signup page when logged in
 - Hide Logout page when not logged in
-- Show Contact first_name and last_name in Reachout instead of Contact_id
-- Show Frequency in friendly form in Reachout instead of the number of days
-
 
 Medium: 
 - Host website at domain
-- Make the Contact form on the Reachouts page show a list of available existing Contacts to chose from
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
 
 Big:
