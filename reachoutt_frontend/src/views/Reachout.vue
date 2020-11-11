@@ -184,7 +184,7 @@ export default {
           this.newReachoutLastReachoutSent = "";
           this.newReachoutFrequency = "";
           this.newReachoutContactID = "";
-          this.newReachoutDatetime = ""
+          this.newReachoutDatetime = "";
         })
         .catch(error => {
           console.log("Not Successful - reachout could not be created", error.response);
