@@ -22,7 +22,7 @@ class Reachout < ApplicationRecord
     elsif frequency == "365d"
       frequency = "Annually"
     end
-
+    p frequency
     return frequency
   end
 end
