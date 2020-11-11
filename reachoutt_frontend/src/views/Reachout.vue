@@ -69,6 +69,7 @@
                         <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
                         
                         <p>Contact: {{ reachout.contact_id }}</p>
+                          <!-- <option v-for="(reachout, index) in reachouts" :key="reachout.contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option> -->
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
                         <a class="btn btn-default"  v-on:click="showReachout(reachout)">
                           <p>Edit Reachout</p>
