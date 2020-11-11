@@ -81,9 +81,9 @@
                             <h1>Reachout info</h1>
 
                                 Contact Name: 
-                                <select class="text-center" v-model="newReachoutContactID">
+                                <select class="text-center" v-model="currentReachout.contact_id">
                                   <option value="" selected disabled>Select Contact</option>
-                                  <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+                                  <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
                                 </select>
                                 <br>
                                 <br>
@@ -91,7 +91,7 @@
                                 <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
                             
                                 Frequency:
-                                <select class="text-center" v-model="newReachoutFrequency">
+                                <select class="text-center" v-model="currentReachout.frequency">
                                   <option value="" selected disabled>Select Frequency</option>
                                   <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
                                 </select>
@@ -206,6 +206,9 @@ export default {
         .patch(`/api/reachouts/${reachout.id}`, params)
         .then(response => {
           console.log("Success - reachout updated", response.data)
+          var index = this.reachouts.indexOf(reachout);
+          this.reachouts.splice(index, 1);
+          this.reachouts.push(response.data);
         })
         .catch(error => console.log("Not Successful - reachout could not be updated", error.response))
     },
