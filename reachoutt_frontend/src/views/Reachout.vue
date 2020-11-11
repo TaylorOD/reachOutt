@@ -83,7 +83,7 @@
                                 Contact Name: 
                                 <select class="text-center" v-model="currentReachout.contact_id">
                                   <option value="" selected disabled>Select Contact</option>
-                                  <option v-for="contact in contacts" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+                                  <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
                                 </select>
                                 <br>
                                 <br>
@@ -206,6 +206,9 @@ export default {
         .patch(`/api/reachouts/${reachout.id}`, params)
         .then(response => {
           console.log("Success - reachout updated", response.data)
+          var index = this.reachouts.indexOf(reachout);
+          this.reachouts.splice(index, 1);
+          this.reachouts.push(response.data);
         })
         .catch(error => console.log("Not Successful - reachout could not be updated", error.response))
     },
