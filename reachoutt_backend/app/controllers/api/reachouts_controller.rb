@@ -32,7 +32,13 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} e
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
-        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"
+        topic_data = @reachout.get_topic_data
+        if topic_data
+          # ReachOutt topic text code - edit to make api call
+          message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You can reachout to #{@reachout.contact.first_name} about #{@reachout.topic}.
+#{@reachout.get_topic_data}"
+        end
       end
     else
       render json: { errors: @reachout.errors.full_messages }, status: :bad_request

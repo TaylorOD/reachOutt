@@ -25,4 +25,14 @@ class Reachout < ApplicationRecord
     p frequency
     return frequency
   end
+
+  def get_topic_data
+    if topic == "sports"
+      # make api call then return data
+      # elsif topic == "weather"
+    else
+      nil
+    end
+  end
+
 end
