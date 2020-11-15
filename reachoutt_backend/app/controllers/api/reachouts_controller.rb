@@ -41,7 +41,7 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
-        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! It's been #{@reachout.friendly_frequency(@reachout.frequency)}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"
 
         # Checks if reachout has a topic and if so gives a topic based reachout sudgestion
         topic_response = @reachout.get_topic_data
@@ -75,17 +75,22 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
       # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
       message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "You updated your ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name}. 
-ReachOutt will remind you to reachout to #{@reachout.contact.first_name} every #{@reachout.frequency}."
+ReachOutt will remind you to reachout to #{@reachout.contact.first_name} #{@reachout.friendly_frequency(@reachout.frequency)}."
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
       # Sets reminder text to the fequency that the user inputed
       s.every @reachout.frequency do
-        # Testing that our code is running
-        puts "Reachout to #{@reachout.contact_id}"
+
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
-        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey! It's been #{@reachout.frequency}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey! It's been #{@reachout.friendly_frequency(@reachout.frequency)}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
+        # Checks if reachout has a topic and if so gives a topic based reachout sudgestion
+        topic_response = @reachout.get_topic_data
+        if topic_response
+          message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
+#{@reachout.get_topic_data}"
+        end
       end
     else
       render json: { errors: @reachout.errors.full_messages }, status: :bad_request
