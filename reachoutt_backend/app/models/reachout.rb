@@ -30,11 +30,10 @@ class Reachout < ApplicationRecord
     if topic == "jokes"
       response = HTTP.get("https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=racist,sexist&type=single")
       return "Try this one: #{response.parse["joke"]}"
-    elsif topic == "weather"
-      # make api call then return data
-    elsif topic == "sports"
-      # make api call then return data
     elsif topic == "news"
+      response = HTTP.get("https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=#{Rails.application.credentials.news_api[:api_key]}")
+      return "Have they seen this? #{response.parse["articles"][0]["title"]} #{response.parse["articles"][0]["url"]}"
+    elsif topic == "sports"
       # make api call then return data
     else
       nil
