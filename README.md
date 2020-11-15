@@ -31,15 +31,13 @@
 Small:
 - Hide Login and Signup page when logged in
 - Hide Logout page when not logged in
+- Add flash for new reachout, contact, or user created
+- Add flash for reachout or contact deleted 
 
 Medium: 
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
 
 Big:
-- Integrate SportsAPI
-- Integrate NewsAPI
-- Integrate WeatherAPI
-- Integrate JokeAPI
 - Vue Native App
 
 
