@@ -34,7 +34,9 @@ class Reachout < ApplicationRecord
       response = HTTP.get("https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=#{Rails.application.credentials.news_api[:api_key]}")
       return "Have they seen this? #{response.parse["articles"][0]["title"]} #{response.parse["articles"][0]["url"]}"
     elsif topic == "sports"
-      # make api call then return data
+      response = HTTP.get("https://odds.p.rapidapi.com/v1/sports")
+      p response.parse
+      # return response.parse
     else
       nil
     end
