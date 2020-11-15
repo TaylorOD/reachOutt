@@ -29,7 +29,13 @@ class Reachout < ApplicationRecord
   def get_topic_data
     if topic == "sports"
       # make api call then return data
-      # elsif topic == "weather"
+      
+    elsif topic == "weather"
+      # make api call then return data
+    elsif topic == "jokes"
+      # make api call then return data
+    elsif topic == "news"
+      # make api call then return data
     else
       nil
     end
