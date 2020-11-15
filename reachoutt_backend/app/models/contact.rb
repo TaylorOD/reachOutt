@@ -1,4 +1,4 @@
 class Contact < ApplicationRecord
-  has_many :reachouts
+  has_many :reachouts, dependent: :destroy
   belongs_to :user
 end

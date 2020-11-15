@@ -15,6 +15,7 @@ class Api::ReachoutsController < ApplicationController
       frequency: params[:frequency],
       contact_id: params[:contact_id],
       datetime: params[:datetime],
+      topic: params[:topic]
     )
     if @reachout.save
       render "show.json.jb"
