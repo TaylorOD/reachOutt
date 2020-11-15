@@ -27,13 +27,12 @@ class Reachout < ApplicationRecord
   end
 
   def get_topic_data
-    if topic == "sports"
-      response = HTTP.get("https://api.jokes.one/jod?category=animal")
-      p response.parse
-      return response.parse
+    if topic == "jokes"
+      response = HTTP.get("https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=racist,sexist&type=single")
+      return "Try this one: #{response.parse["joke"]}"
     elsif topic == "weather"
       # make api call then return data
-    elsif topic == "jokes"
+    elsif topic == "sports"
       # make api call then return data
     elsif topic == "news"
       # make api call then return data
