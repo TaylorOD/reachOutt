@@ -25,4 +25,32 @@ class Reachout < ApplicationRecord
     p frequency
     return frequency
   end
+
+  def get_topic_data
+    if topic == "sports"
+      def get_joke_of_the_day()
+        xhttp = new XMLHttpRequest()
+        xhttp.onreadystatechange = function()
+        if this.readyState == 4 && this.status == 200
+          #Access the result here
+          alert(this.responseText)
+        end
+
+        xhttp.open("GET", "https://api.jokes.one/jod?category=animal", true)
+        xhttp.setRequestHeader("Content-type", "application/json")
+        xhttp.send()
+      end
+      p get_joke_of_the_day
+
+    elsif topic == "weather"
+      # make api call then return data
+    elsif topic == "jokes"
+      # make api call then return data
+    elsif topic == "news"
+      # make api call then return data
+    else
+      nil
+    end
+  end
+
 end

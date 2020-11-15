@@ -6,4 +6,5 @@
   contact_id: @reachout.contact_id,
   contact: @reachout.contact,
   datetime: @reachout.datetime,
+  topic: @reachout.topic,
 }
