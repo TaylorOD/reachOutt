@@ -38,8 +38,6 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} e
 
       # Sets reminder text to the fequency that the user inputed
       s.every @reachout.frequency do
-        # Testing that our code is running
-        # puts "Reachout to #{@reachout.contact_id}"
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
