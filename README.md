@@ -23,8 +23,7 @@
 
 ### Known issues
 
-- There is a bug on the homepage that sometimes makes the typed text all show at once
-- About Me does not maintain correct location when window is dragged
+- 
 
 ### TODO
 
@@ -36,6 +35,7 @@ Small:
 
 Medium: 
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
+- Take screen shots of live app for Github
 
 Big:
 - Vue Native App
