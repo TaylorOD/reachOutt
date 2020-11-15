@@ -23,23 +23,21 @@ class Api::ReachoutsController < ApplicationController
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
 
       # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
-#       message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "#{@reachout.user.first_name} - You created a new ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name} starting on #{@reachout.start_date}.
-# ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} every #{@reachout.frequency}."
+      message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "#{@reachout.user.first_name} - You created a new ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name} starting on #{@reachout.start_date}.
+ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} every #{@reachout.frequency}."
       
       # Checks if reachout has a topic and if so gives a topic based reachout sudgestion - testing code. Only sent on reachout frequency texts
-      topic_response = @reachout.get_topic_data
-      if topic_response
+#       topic_response = @reachout.get_topic_data
+#       if topic_response
 #         message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
 # #{@reachout.get_topic_data}"
-      end
+#       end
 
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
 
       # Sets reminder text to the fequency that the user inputed
       s.every @reachout.frequency do
-        # Testing that our code is running
-        # puts "Reachout to #{@reachout.contact_id}"
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
