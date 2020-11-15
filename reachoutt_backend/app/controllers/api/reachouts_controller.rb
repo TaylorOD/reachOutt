@@ -24,14 +24,14 @@ class Api::ReachoutsController < ApplicationController
 
       # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
       message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "#{@reachout.user.first_name} - You created a new ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name} starting on #{@reachout.start_date}.
-# ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} every #{@reachout.frequency}."
+ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} every #{@reachout.frequency}."
       
       # Checks if reachout has a topic and if so gives a topic based reachout sudgestion - testing code. Only sent on reachout frequency texts
-      # topic_response = @reachout.get_topic_data
-      # if topic_response
-      #   message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You can reachout to #{@reachout.contact.first_name} about #{@reachout.topic}.
-      # #{@reachout.get_topic_data}"
-      # end
+      topic_response = @reachout.get_topic_data
+      if topic_response
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
+#{@reachout.get_topic_data}"
+      end
 
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
@@ -48,8 +48,8 @@ class Api::ReachoutsController < ApplicationController
         # Checks if reachout has a topic and if so gives a topic based reachout sudgestion
         topic_response = @reachout.get_topic_data
         if topic_response
-          message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You can reachout to #{@reachout.contact.first_name} about #{@reachout.topic}.
-        #{@reachout.get_topic_data}"
+          message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
+#{@reachout.get_topic_data}"
         end
       end
     else
