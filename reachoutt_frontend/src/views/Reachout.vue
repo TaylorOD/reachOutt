@@ -32,6 +32,17 @@
             <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
           </select>       
 
+          Topic: 
+          <select class="text-center" v-model="newReachoutTopic">
+            <option value="" selected disabled>Select Topic</option>
+
+            <option value="jokes">Jokes</option>
+            <option value="weather">Weather</option>
+            <option value="news">News</option>
+            <option value="sports">Sports</option>
+
+          </select> 
+
           <!-- Will readd these if needed params later -->
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
           <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
@@ -51,7 +62,7 @@
                     <div class="text-center">
                       <h2>Existing Reachouts</h2>
                     </div>
-                    <div v-for="(reachout, index) in reachouts" class="col-sm-4" style="height: 500px">
+                    <div v-for="(reachout, index) in reachouts" v-if="reachout.contact" class="col-sm-4" style="height: 500px">
 
                       <!-- Image behind Reachouts -->
                       <img :src="`/assets/images/work0${index % 6 + 1}-hover.jpg`" alt="" class="img-responsive">
@@ -65,6 +76,8 @@
                         <p>Start Date: {{ reachout.start_date }}</p>
 
                         <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
+
+                        <p v-if="reachout.topic">Topic: {{ reachout.topic }} </p>
                         
                         <!-- Will readd these if needed later -->
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
@@ -87,7 +100,6 @@
                                 </select>
                                 <br>
                                 <br>
-                                <p>Start Date: {{ currentReachout.start_date }}</input></p>
                                 <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
                             
                                 Frequency:
@@ -97,6 +109,21 @@
                                 </select>
                                 <br>
                                 <br>
+
+                                Topic: 
+                                <select class="text-center" v-model="newReachoutTopic">
+                                  <option value="" selected disabled>Select Topic</option>
+
+                                  <option value="jokes">Jokes</option>
+                                  <option value="weather">Weather</option>
+                                  <option value="news">News</option>
+                                  <option value="sports">Sports</option>
+
+                                </select>
+                                <br>
+                                <br> 
+
+                                <p>Start Date: {{ currentReachout.start_date }}</input></p>
 
                                 <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
                                 <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
@@ -145,6 +172,7 @@ export default {
       newReachoutFrequency: "",
       newReachoutContactID: "",
       newReachoutDatetime: "",
+      newReachoutTopic: "",
       currentReachout: {},
     };
   },
@@ -174,6 +202,7 @@ export default {
         frequency: this.newReachoutFrequency,
         contact_id: this.newReachoutContactID,
         datetime: this.newReachoutDatetime,
+        topic: this.newReachoutTopic,
       };
       axios
         .post("/api/reachouts", params)
@@ -186,6 +215,7 @@ export default {
           this.newReachoutFrequency = "";
           this.newReachoutContactID = "";
           this.newReachoutDatetime = "";
+          this.newReachoutTopic = "";
         })
         .catch(error => {
           console.log("Not Successful - reachout could not be created", error.response);
@@ -202,6 +232,7 @@ export default {
         frequency: reachout.frequency,
         contact_id: reachout.contact_id,
         datetime: reachout.datetime,
+        topic: reachout.topic,
       }
       axios
         .patch(`/api/reachouts/${reachout.id}`, params)
