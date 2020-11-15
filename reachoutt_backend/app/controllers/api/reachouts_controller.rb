@@ -36,7 +36,7 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} e
         topic_data = @reachout.get_topic_data
         if topic_data
           # ReachOutt topic text code - edit to make api call
-          message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You can reachout to #{@reachout.contact.first_name} about #{@reachout.topic}.
+          # message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You can reachout to #{@reachout.contact.first_name} about #{@reachout.topic}.
 #{@reachout.get_topic_data}"
         end
       end
