@@ -2,7 +2,7 @@
 
 ### ReachOutt:
 
-- ReachOutt was build out of my frustrating with not keeping in touch with friends and family that I care about. I often found myself going weeks without speaking to them. I developed ReachOutt as an automated system to remind me to keep in tough.
+- ReachOutt was build out of my frustration with not keeping in touch with friends and family that I care about. I often found myself going weeks without speaking to them. I developed ReachOutt as an automated system to remind me to keep in tough.
 - After signing up users can create contacts, people they would like to keep in touch with, and set reachouts, reminders to reach out to them, on whatever schedule they would like.
 - It utilizes several API's to send automated reminder texts and ideas of what to reach out about.
 - This was the largest app I had built at the time and I worked on it over the course of five weeks.
@@ -31,13 +31,8 @@
 Small:
 - Hide Login and Signup page when logged in
 - Hide Logout page when not logged in
-- Show Contact first_name and last_name in Reachout instead of Contact_id
-- Show Frequency in friendly form in Reachout instead of the number of days
-
 
 Medium: 
-- Host website at domain
-- Make the Contact form on the Reachouts page show a list of available existing Contacts to chose from
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
 
 Big:
