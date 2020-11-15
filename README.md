@@ -33,7 +33,6 @@ Small:
 - Hide Logout page when not logged in
 
 Medium: 
-- Host website at domain
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
 
 Big:
