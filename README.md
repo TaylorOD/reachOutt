@@ -17,7 +17,7 @@
 
 ## Screenshots:
 
-- ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_About_screenshot.png "Home Page")
+- ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
 - ![About Page](/reachoutt_frontend/public/assets/images/ReachOutt_About_screenshot.png "About Page")
 - ![Reachouts Page](/reachoutt_frontend/public/assets/images/ReachOutt_Reachout_screenshot.png "Reachouts Page")
 
@@ -33,13 +33,9 @@
 ### TODO
 
 Small:
-- Hide Login and Signup page when logged in
-- Hide Logout page when not logged in
-
 
 Medium: 
 - Only show CurrentUser's (currently logged in User) Contacts and Reachouts
-- Take screen shots of live app for Github
 
 Big:
 - Vue Native App
