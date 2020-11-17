@@ -31,8 +31,6 @@
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
 
-          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
-
           <!-- Contact selector drop down form -->   
           Contact Name: 
           <select class="text-center" v-model="newReachoutContactID">
@@ -49,6 +47,8 @@
             <option value="sports">Sports</option>
 
           </select> 
+
+          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
 
           <!-- Will readd these if needed params later -->
           <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
@@ -80,11 +80,11 @@
 
                         <p>Contact Name: {{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</p>
                         
-                        <p>Start Date: {{ reachout.start_date }}</p>
-
                         <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
 
                         <p v-if="reachout.topic">Topic: {{ reachout.topic }} </p>
+
+                        <p>Start Date: {{ reachout.start_date }}</p>
                         
                         <!-- Will readd these if needed later -->
                         <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
