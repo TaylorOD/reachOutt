@@ -22,7 +22,7 @@
                     ReachOutt sends your quick reminders that make it easier for you to remember to talk with those you miss.
                     <h3>You don't know what to say</h3>
                     <p>
-                    Sometimes we don't know what to say. ReachOutt helps you start the conversation by sending you jokes, sports info, or news that helps you get the converstaion started using apis.</p>
+                    Sometimes we don't know what to say. ReachOutt helps you start the conversation by sending you jokes, sports info, or news that helps you get the converstaion started.</p>
                   </div>
                   <!-- Image Div -->
                   <div class="container">
