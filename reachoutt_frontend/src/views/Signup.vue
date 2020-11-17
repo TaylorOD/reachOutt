@@ -5,7 +5,7 @@
         <!-- Title Div -->
         <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
           <div class="text-center">
-            <h1 class="h2">07 : Signup</h1>
+            <h1 class="h2">04 : Signup</h1>
           </div>
         </div>
         <!-- Signup Form Div -->
