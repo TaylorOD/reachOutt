@@ -5,8 +5,7 @@
 - ReachOutt was build out of my frustration with not keeping in touch with friends and family that I care about. I often found myself going weeks without speaking to them. I developed ReachOutt as an automated system to remind me to keep in tough.
 - After signing up users can create contacts, people they would like to keep in touch with, and set reachouts, reminders to reach out to them, on whatever schedule they would like.
 - It utilizes several API's to send automated reminder texts and ideas of what to reach out about.
-- This was the largest app I had built at the time and I worked on it over the course of five weeks.
-- You can find it online at (Reachoutt.com)
+- You can find it online at: Reachoutt.com
 
 ### Technology stack:
 
@@ -14,7 +13,7 @@
 
 ### Status:
 
-- Development. Project is not yet finished.
+- Beta.
 
 ### Contributing
 
@@ -30,11 +29,10 @@
 Small:
 - Hide Login and Signup page when logged in
 - Hide Logout page when not logged in
-- Add flash for new reachout, contact, or user created
-- Add flash for reachout or contact deleted 
+
 
 Medium: 
-- Only show CurrentUser's (currently logged in User) Contacts and Reachouts (Will do after Demo)
+- Only show CurrentUser's (currently logged in User) Contacts and Reachouts
 - Take screen shots of live app for Github
 
 Big:
@@ -43,7 +41,7 @@ Big:
 
 ### Contact
 
-- taylorsunwantedemails@gmail.com
+- dorsetttaylordev@gmail.com
 
 ---
 
