@@ -11,8 +11,16 @@
         </div>
 
     <!-- New Contact Div -->
-    <div class="text-center">
+    <div class="text-center section-container-spacer">
       <h2>New Contact</h2>
+    </div>
+
+    <!-- Bootstrap alert Code for new Reachout -->
+    <div v-if="createdAlert === true" class="alert alert-warning alert-dismissible text-center" role="alert">
+      <strong>New Contact Successfully Created!</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
 
     <div class="text-center">
@@ -32,7 +40,7 @@
         <div class="carousel-inner">
             <div class="item active">
                 <div class="row">
-                    <div class="text-center">
+                    <div class="text-center section-container-spacer">
                     <h2>Existing Contacts</h2>
                     </div>
                     <div v-for="(contact, index) in contacts" class="col-sm-4" style="height: 400px">
@@ -92,6 +100,7 @@ export default {
       newContactLastName: "",
       newContactPhoneNumber: "",
       currentContact: {},
+      createdAlert: false
     };
   },
   created: function() {
@@ -119,6 +128,7 @@ export default {
           this.newContactFirstName = "";
           this.newContactLastName = "";
           this.newContactPhoneNumber = "";
+          this.createdAlert = true
         })
         .catch(error => {
           console.log("Not Successful - contact could not be created", error.response);
@@ -153,6 +163,9 @@ export default {
           })
           .catch(error => console.log("Not Successful - contact could not be destroyed", error.response))
     },
+    dismissAlert() {
+      this.createdAlert = false
+    }
   },
 }
 
