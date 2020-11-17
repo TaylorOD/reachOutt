@@ -14,6 +14,7 @@
         <div class="text-center section-container-spacer">
           <h2>New Reachout</h2>
         </div>
+        
         <!-- Bootstrap alert Code for new Reachout -->
         <div v-if="createdAlert === true" class="alert alert-warning alert-dismissible text-center" role="alert">
           <strong>New Reachout Successfully Created!</strong>
