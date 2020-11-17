@@ -42,9 +42,9 @@
           <select class="text-center" v-model="newReachoutTopic">
             <option value="" selected disabled>Select Topic</option>
 
-            <option value="jokes">Jokes</option>
-            <option value="news">News</option>
-            <option value="sports">Sports</option>
+            <option value="Jokes">Jokes</option>
+            <option value="News">News</option>
+            <option value="Sports">Sports</option>
 
           </select> 
 
@@ -121,9 +121,9 @@
                                 <select class="text-center" v-model="newReachoutTopic">
                                   <option value="" selected disabled>Select Topic</option>
 
-                                  <option value="jokes">Jokes</option>
-                                  <option value="news">News</option>
-                                  <option value="sports">Sports</option>
+                                  <option value="Jokes">Jokes</option>
+                                  <option value="News">News</option>
+                                  <option value="Sports">Sports</option>
 
                                 </select>
                                 <br>
