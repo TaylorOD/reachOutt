@@ -11,8 +11,15 @@
         </div>
 
         <!-- New Reachout Div -->
-        <div class="text-center">
+        <div class="text-center section-container-spacer">
           <h2>New Reachout</h2>
+        </div>
+        <!-- Bootstrap alert Code for new Reachout -->
+        <div v-if="createdAlert === true" class="alert alert-warning alert-dismissible text-center" role="alert">
+          <strong>New Reachout Successfully Created!</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
 
         <div class="text-center">          
@@ -58,7 +65,7 @@
             <div class="item active">
                 <div class="row">
 
-                    <div class="text-center">
+                    <div class="text-center section-container-spacer">
                       <h2>Existing Reachouts</h2>
                     </div>
                     <div v-for="(reachout, index) in reachouts" v-if="reachout.contact" class="col-sm-4" style="height: 500px">
@@ -148,6 +155,7 @@
 </style>
 
 <script>
+
 import axios from "axios";
 
 export default {
@@ -172,6 +180,7 @@ export default {
       newReachoutDatetime: "",
       newReachoutTopic: "",
       currentReachout: {},
+      createdAlert: false,
     };
   },
   created: function() {
@@ -208,12 +217,14 @@ export default {
           console.log("Succsess - reachout create", response);
           this.reachouts.push(response.data);
 
+
           this.newReachoutStartDate = "";
           this.newReachoutLastReachoutSent = "";
           this.newReachoutFrequency = "";
           this.newReachoutContactID = "";
           this.newReachoutDatetime = "";
           this.newReachoutTopic = "";
+          this.createdAlert = true
         })
         .catch(error => {
           console.log("Not Successful - reachout could not be created", error.response);
@@ -274,8 +285,11 @@ export default {
       }
 
       return frequency
+    },
+    dismissAlert() {
+      this.createdAlert = false
     }
-  },  
+  },
 }
 
 </script>
