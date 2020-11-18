@@ -34,11 +34,15 @@
 ### TODO
 
 Small:
+- Create User Account Page
 
 Medium: 
+- Remove Ability to change contact name on reachout page
+- Create Password Reset Function
 
 Big:
 - Vue Native App
+- Add Ability to turn ReachOuts off
 
 ### Contact
 
