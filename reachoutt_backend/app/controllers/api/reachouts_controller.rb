@@ -2,7 +2,7 @@ class Api::ReachoutsController < ApplicationController
 
   # Show all reachouts action
   def index
-    @reachouts = Reachout.all
+    @reachouts = current_user.reachouts
     render "index.json.jb"
   end
 
