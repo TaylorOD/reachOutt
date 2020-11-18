@@ -35,7 +35,7 @@
           Contact Name: 
           <select class="text-center" v-model="newReachoutContactID">
             <option value="" selected disabled>Select Contact</option>
-            <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+            <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
           </select>       
 
           Topic: 
@@ -103,7 +103,7 @@
                                 Contact Name: 
                                 <select class="text-center" v-model="currentReachout.contact_id">
                                   <option value="" selected disabled>Select Contact</option>
-                                  <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.id }}: {{ contact.first_name }} {{ contact.last_name }}</option>
+                                  <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
                                 </select>
                                 <br>
                                 <br>
