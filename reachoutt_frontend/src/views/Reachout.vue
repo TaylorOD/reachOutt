@@ -129,7 +129,7 @@
                                 <br>
                                 <br> 
 
-                                <p>Start Date: {{ currentReachout.start_date }}</input></p>
+                                <p>Start Date: {{ currentReachout.start_date }}</p>
 
                                 <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
                                 <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
