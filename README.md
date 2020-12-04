@@ -61,5 +61,4 @@ Big:
 ## Credits and references
 
 1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
-2. I started this project while I was at Actualize Coding Bootcamp. That experience was very helpful when I was getting the architecture of the project set up.
-3. I use Rufus-Scheduler for my reminders. It's a simple version of a cron job.
+2. I use Rufus-Scheduler for my reminders. It's a simple version of a cron job.
