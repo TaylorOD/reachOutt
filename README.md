@@ -39,6 +39,7 @@ Small:
 Medium: 
 - Remove Ability to change contact name on reachout page
 - Create Password Reset Function
+- Utilize Github well using Issues that are formatted correctly
 
 Big:
 - Vue Native App
