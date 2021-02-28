@@ -27,11 +27,11 @@ class Api::ReachoutsController < ApplicationController
 ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #{@reachout.friendly_frequency(@reachout.frequency)}."
       
       # Checks if reachout has a topic and if so gives a topic based reachout sudgestion - testing code. Only sent on reachout frequency texts
-#       topic_response = @reachout.get_topic_data
-#       if topic_response
-#         message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
-# #{@reachout.get_topic_data}"
-#       end
+      topic_response = @reachout.get_topic_data
+      if topic_response
+        message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
+#{@reachout.get_topic_data}"
+      end
 
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
