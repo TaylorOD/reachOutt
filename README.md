@@ -18,9 +18,9 @@
 
 ## Screenshots:
 
-- ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
-- ![About Page](/reachoutt_frontend/public/assets/images/ReachOutt_About_screenshot.png "About Page")
-- ![Reachouts Page](/reachoutt_frontend/public/assets/images/ReachOutt_Reachout_screenshot.png "Reachouts Page")
+- ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_Home_screenshot.png 'Home Page')
+- ![About Page](/reachoutt_frontend/public/assets/images/ReachOutt_About_screenshot.png 'About Page')
+- ![Reachouts Page](/reachoutt_frontend/public/assets/images/ReachOutt_Reachout_screenshot.png 'Reachouts Page')
 
 ### Contributing
 
@@ -29,19 +29,22 @@
 
 ### Known issues
 
-- 
+-
 
 ### TODO
 
 Small:
+
 - Create User Account Page
 
-Medium: 
+Medium:
+
 - Remove Ability to change contact name on reachout page
 - Create Password Reset Function
 - Utilize Github well using Issues that are formatted correctly
 
 Big:
+
 - Vue Native App
 - Add Ability to turn ReachOuts off
 
