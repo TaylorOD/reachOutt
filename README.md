@@ -16,6 +16,11 @@
 
 - Beta.
 
+### Running this app:
+
+  - bundle install
+  - rails s
+
 ## Screenshots:
 
 - ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
