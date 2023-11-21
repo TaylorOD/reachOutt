@@ -4,7 +4,6 @@ class Reachout < ApplicationRecord
 
   # converts frequency to nicer format for text messages and the front end
   def friendly_frequency(frequency)
-
     if frequency == "1d"
       frequency = "Daily"
     elsif frequency == "7d"
@@ -22,7 +21,6 @@ class Reachout < ApplicationRecord
     elsif frequency == "365d"
       frequency = "Annually"
     end
-    p frequency
     return frequency
   end
 
@@ -40,5 +38,4 @@ class Reachout < ApplicationRecord
       nil
     end
   end
-
 end
