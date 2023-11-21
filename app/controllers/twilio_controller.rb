@@ -8,6 +8,6 @@ class TwilioController < ApplicationController
   def status
     # the status can be found in params['MessageStatus']
     # send back an empty response
-    render_twiml Twilio::TwiML::Response.new
+    render_twiml Twilio::TwiML::MessagingResponse.new
   end
 end

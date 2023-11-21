@@ -7,8 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create!([
+  { email: "dorsetttaylor@gmail.com", password: "password", first_name: "Taylor", last_name: "Dorsett", phone_number: "802-522-8145" },
   { email: "test@test.com", password: "password", first_name: "Test", last_name: "Testerman", phone_number: "802-522-8145" },
-  
 ])
 
 Contact.create!([

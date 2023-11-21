@@ -1,5 +1,14 @@
 class Api::SessionsController < ApplicationController
 
+  # Creates a new session by authenticating the user's credentials.
+  #
+  # Params:
+  # - email: The email address of the user.
+  # - password: The password of the user.
+  #
+  # Returns:
+  # - If the user is authenticated successfully, it returns a JSON object containing a JWT token, email, and user ID.
+  # - If the user is not authenticated, it returns an empty JSON object with an unauthorized status.
   def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
