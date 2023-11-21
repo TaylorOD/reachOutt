@@ -18,14 +18,18 @@
 
 ### Running this app:
 
+backend:
   - bundle install
   - rails s
 
+front end:
+  - npm run serve
+
 ## Screenshots:
 
-- ![Home Page](/reachoutt_frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
-- ![About Page](/reachoutt_frontend/public/assets/images/ReachOutt_About_screenshot.png "About Page")
-- ![Reachouts Page](/reachoutt_frontend/public/assets/images/ReachOutt_Reachout_screenshot.png "Reachouts Page")
+- ![Home Page](/frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
+- ![About Page](/frontend/public/assets/images/ReachOutt_About_screenshot.png "About Page")
+- ![Reachouts Page](/frontend/public/assets/images/ReachOutt_Reachout_screenshot.png "Reachouts Page")
 
 ### Contributing
 
@@ -34,7 +38,7 @@
 
 ### Known issues
 
-- 
+- reachouts don't persist after a certain period of time on heroku
 
 ### TODO
 
@@ -44,10 +48,9 @@ Small:
 Medium: 
 - Remove Ability to change contact name on reachout page
 - Create Password Reset Function
-- Utilize Github well using Issues that are formatted correctly
 
 Big:
-- Vue Native App
+- Rebuild front end with react
 - Add Ability to turn ReachOuts off
 
 ### Contact

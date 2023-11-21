@@ -36,14 +36,14 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
 
-      # Sets reminder text to the fequency that the user inputed
+      # Sets reminder text to the frequency that the user inputted
       s.every @reachout.frequency do
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
         message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! ReachOutt here. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"
 
-        # Checks if reachout has a topic and if so gives a topic based reachout sudgestion
+        # Checks if reachout has a topic and if so gives a topic based reachout suggestion
         topic_response = @reachout.get_topic_data
         if topic_response
           message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.
@@ -55,7 +55,7 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #
     end
   end
 
-  # Show a spesfic reachout action
+  # Show a specific reachout action
   def show
     @reachout = Reachout.find_by(id: params[:id])
     render "show.json.jb"
@@ -73,19 +73,19 @@ ReachOutt will remind you to get in touch with #{@reachout.contact.first_name} #
       render "show.json.jb"
       # Creates our Twilio request via their API and Rails
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
-      # Sends text to user who created a new ReachOutt to let them know their creation was sucsessful 
+      # Sends text to user who created a new ReachOutt to let them know their creation was successful 
       message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "You updated your ReachOutt for #{@reachout.contact.first_name} #{@reachout.contact.last_name}. 
 ReachOutt will remind you to reachout to #{@reachout.contact.first_name} #{@reachout.friendly_frequency(@reachout.frequency)}."
       # Create Rufus (cron) job to send a reminder text to reachout every frequency
       s = Rufus::Scheduler.singleton
-      # Sets reminder text to the fequency that the user inputed
+      # Sets reminder text to the frequency that the user inputted
       s.every @reachout.frequency do
 
         # Twilio call with their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
         # ReachOutt reminder text code
         message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey! It's been #{@reachout.friendly_frequency(@reachout.frequency)}. Time to reachout to #{@reachout.contact.first_name} #{@reachout.contact.last_name} at #{@reachout.contact.phone_number}"  
-        # Checks if reachout has a topic and if so gives a topic based reachout sudgestion
+        # Checks if reachout has a topic and if so gives a topic based reachout suggestion
         topic_response = @reachout.get_topic_data
         if topic_response
           message = client.messages.create from: '12014236603', to: "#{@reachout.user.phone_number}", body: "Hey #{@reachout.user.first_name}! You and #{@reachout.contact.first_name} both like #{@reachout.topic}.

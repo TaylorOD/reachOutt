@@ -21,7 +21,7 @@ class Api::ContactsController < ApplicationController
     end
   end
 
-  # Show a spesfic contact action
+  # Show a specific contact action
   def show
     @contact = Contact.find_by(id: params[:id])
     render "show.json.jb"
