@@ -172,7 +172,7 @@ GEM
     psych (5.1.1.1)
       stringio
     public_suffix (5.0.4)
-    puma (4.3.12)
+    puma (6.4.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.7.3)
@@ -278,7 +278,7 @@ DEPENDENCIES
   listen (~> 3.2)
   mimemagic!
   pg (>= 0.18, < 2.0)
-  puma (~> 4.1)
+  puma (~> 6.4)
   rack-cors
   rails (~> 7.1.2)
   rufus-scheduler
