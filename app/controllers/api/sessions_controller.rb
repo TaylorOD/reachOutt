@@ -26,4 +26,18 @@ class Api::SessionsController < ApplicationController
       render json: {}, status: :unauthorized
     end
   end
+
+  def show
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    begin
+      decoded = JWT.decode(header, Rails.application.credentials.fetch(:secret_key_base))[0]
+      @user = User.find(decoded["user_id"])
+      render json: @user
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { error: e.message }, status: :unauthorized
+    rescue JWT::DecodeError => e
+      render json: { error: e.message }, status: :unauthorized
+  end
+  end
 end

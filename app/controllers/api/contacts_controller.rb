@@ -1,5 +1,5 @@
 class Api::ContactsController < ApplicationController
-  before_action :require_user
+  before_action :authenticate_user
 
   # Show all contacts action
   def index

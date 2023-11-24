@@ -2,18 +2,21 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   def current_user
-    auth_headers = request.headers["Authorization"]
-    if auth_headers.present? && auth_headers[/(?<=\A(Bearer ))\S+\z/]
-      token = auth_headers[/(?<=\A(Bearer ))\S+\z/]
+    if decoded_token
+      user_id = decoded_token[0]['user_id']
+      @user ||= User.find_by(id: user_id)
+    else 
+      nil
+    end
+  end
+
+  def decoded_token
+    header = request.headers['Authorization']
+    if header
+      token = header.split(' ')[1]
       begin
-        decoded_token = JWT.decode(
-          token,
-          Rails.application.credentials.fetch(:secret_key_base),
-          true,
-          { algorithm: "HS256" }
-        )
-        User.find_by(id: decoded_token[0]["user_id"])
-      rescue JWT::ExpiredSignature
+        JWT.decode(token, 'your_secret_key', true, algorithm: 'HS256')
+      rescue JWT::DecodeError
         nil
       end
     end
@@ -23,11 +26,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     unless current_user
-      render json: {}, status: :unauthorized
+      render json: { error: 'Not Authorized' }, status: 401
     end
-  end
-
-  def require_user
-    redirect_to login_path unless current_user
   end
 end
