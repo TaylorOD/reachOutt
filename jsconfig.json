@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./frontend/src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["./frontend/src/**/*.js", "./frontend/src/**/*.vue", "jsconfig.json"],
+  "vueCompilerOptions": {
+    "target": 2
+  }
+}

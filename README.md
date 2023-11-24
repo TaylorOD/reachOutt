@@ -19,17 +19,24 @@
 ### Running this app:
 
 backend:
-  - bundle install
-  - rails s
+
+- Setup: `bundle install`
+- `bin/rails s`
 
 front end:
-  - npm run serve
+
+- Setup: `npm install`
+- `npm run serve`
+
+You can also build the front end pages and have the backend page serve them using: `npm run build`
+This allows you to work without having a front end server running but you will not get any
+front end hot reloads or updates.
 
 ## Screenshots:
 
-- ![Home Page](/frontend/public/assets/images/ReachOutt_Home_screenshot.png "Home Page")
-- ![About Page](/frontend/public/assets/images/ReachOutt_About_screenshot.png "About Page")
-- ![Reachouts Page](/frontend/public/assets/images/ReachOutt_Reachout_screenshot.png "Reachouts Page")
+- ![Home Page](/frontend/public/assets/images/ReachOutt_Home_screenshot.png 'Home Page')
+- ![About Page](/frontend/public/assets/images/ReachOutt_About_screenshot.png 'About Page')
+- ![Reachouts Page](/frontend/public/assets/images/ReachOutt_Reachout_screenshot.png 'Reachouts Page')
 
 ### Contributing
 
@@ -43,15 +50,19 @@ front end:
 ### TODO
 
 Small:
-- Create User Account Page
 
-Medium: 
+- Create User Account Page
+- Fix reachout not persisting bug
+
+Medium:
+
 - Remove Ability to change contact name on reachout page
 - Create Password Reset Function
+- Add Ability to turn ReachOuts off
 
 Big:
+
 - Rebuild front end with react
-- Add Ability to turn ReachOuts off
 
 ### Contact
 
