@@ -15,31 +15,33 @@
           <h2>New Contact</h2>
         </div>
 
-        <!-- Success message -->
-        <div v-if="createdAlert" class="alert alert-success alert-dismissible text-center" role="alert">
-          <strong>New Contact Successfully Created!</strong>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <form v-on:submit.prevent="createContact">
+          <!-- Success message -->
+          <div v-if="createdAlert" class="alert alert-success alert-dismissible text-center" role="alert">
+            <strong>New Contact Successfully Created!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-        <!-- Error message -->
-        <div v-if="errorMessage" class="alert alert-danger alert-dismissible text-center" role="alert">
-          <strong>Error: {{ errorMessage }}</strong>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
+          <!-- Error message -->
+          <div v-if="errorMessage" class="alert alert-danger alert-dismissible text-center" role="alert">
+            <strong>Error: {{ errorMessage }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-      <div class="text-center">
-        First Name: <input type="text" v-model="newContactFirstName" />
-        Last Name: <input type="text" v-model="newContactLastName" />
-        Phone Number: <input type="text" v-model="newContactPhoneNumber" />
-      </div>
+          <div class="text-center">
+            First Name: <input type="text" v-model="newContactFirstName" />
+            Last Name: <input type="text" v-model="newContactLastName" />
+            Phone Number: <input type="text" v-model="newContactPhoneNumber" />
+          </div>
 
-      <div class="text-center">
-        <button class="btn btn-primary btn-sm" v-on:click="createContact()">Create Contact</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-sm">Create Contact</button>
+          </div>
+        </form>
       </div>
 
       <!-- Edit Contact Div-->
