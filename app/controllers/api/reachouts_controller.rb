@@ -1,4 +1,5 @@
 class Api::ReachoutsController < ApplicationController
+  before_action :require_user
 
   # Retrieves all reachouts associated with the current user.
   #

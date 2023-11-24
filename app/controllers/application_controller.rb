@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
       render json: {}, status: :unauthorized
     end
   end
+
+  def require_user
+    redirect_to login_path unless current_user
+  end
 end
