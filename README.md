@@ -10,7 +10,7 @@
 
 ### Technology stack:
 
-- Built using Ruby on Rails, Vue.js, Vue Native, JavaScript, HTML, CSS, and several API's.
+- Built using Ruby on Rails, Vue.js, Vue Native, JavaScript, HTML, CSS, tailwinds, and several API's.
 
 ### Status:
 
@@ -51,14 +51,19 @@ front end hot reloads or updates.
 
 Small:
 
-- Create User Account Page
 - Fix reachout not persisting bug
+- Reachout page validation
+- General ui cleanup (using tailwinds)
+- Sign up page validation and error messaging
+-
 
 Medium:
 
 - Remove Ability to change contact name on reachout page
 - Create Password Reset Function
 - Add Ability to turn ReachOuts off
+- Log users in directly from sign up page
+- Create User Account Page
 
 Big:
 

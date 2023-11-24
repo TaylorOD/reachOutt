@@ -32,14 +32,14 @@
             </button>
           </div>
 
-          <div class="text-center">
+          <div class="text-center mb-8">
             First Name: <input type="text" v-model="newContactFirstName" />
             Last Name: <input type="text" v-model="newContactLastName" />
             Phone Number: <input type="text" v-model="newContactPhoneNumber" />
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-sm">Create Contact</button>
+            <button type="submit" class="btn btn-primary btn-sm mb-8">Create Contact</button>
           </div>
         </form>
       </div>
