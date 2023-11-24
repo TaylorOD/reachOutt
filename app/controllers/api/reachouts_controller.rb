@@ -1,13 +1,11 @@
 class Api::ReachoutsController < ApplicationController
-  before_action :authenticate_user
-
   # Retrieves all reachouts associated with the current user.
   #
   # Returns:
   # - @reachouts: An array of reachouts belonging to the current user.
   def index
     @reachouts = current_user.reachouts
-    render "index.json.jb"
+    render :index
   end
 
   # Create a new reachout action
@@ -22,7 +20,7 @@ class Api::ReachoutsController < ApplicationController
       topic: params[:topic]
     )
     if @reachout.save
-        render "show.json.jb"
+        render :show
         # Creates our Twilio request via their API and Rails
         client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
 
@@ -61,7 +59,7 @@ class Api::ReachoutsController < ApplicationController
   # Show a specific reachout action
   def show
     @reachout = Reachout.find_by(id: params[:id])
-    render "show.json.jb"
+    render :show
   end
 
   # Updates a reachout record with the provided parameters
@@ -85,7 +83,7 @@ class Api::ReachoutsController < ApplicationController
     @reachout.contact_id = params[:contact_id] || @reachout.contact_id
     @reachout.datetime = params[:datetime] || @reachout.datetime
     if @reachout.save
-      render "show.json.jb"
+      render :show
       # Creates our Twilio request via their API and Rails
       client = Twilio::REST::Client.new Rails.application.credentials.twilio_account_sid, Rails.application.credentials.twilio_auth_token
       # Sends text to user who created a new ReachOutt to let them know their creation was successful 
