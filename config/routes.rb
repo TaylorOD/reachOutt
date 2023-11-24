@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
     post "/users" => "users#create"
 
-    post "/login" => "sessions#create"
+    post "/sessions" => "sessions#create"
     
     get "/reachouts" => "reachouts#index"
     post "/reachouts" => "reachouts#create"
@@ -25,5 +25,5 @@ Rails.application.routes.draw do
   
   get "/*path" => proc { [200, {}, [File.read(Rails.root.join('public', 'index.html'))]] }
 
-  match "*path", to: proc { [404, {}, [File.read(Rails.root.join('public', '404.html'))]] }, via: :all
+  # match "*path", to: proc { [404, {}, [File.read(Rails.root.join('public', '404.html'))]] }, via: :all
 end

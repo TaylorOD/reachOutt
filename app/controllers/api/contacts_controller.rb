@@ -4,7 +4,7 @@ class Api::ContactsController < ApplicationController
   # Show all contacts action
   def index
     @contacts = current_user.contacts
-    render "index.json.jb"
+    render :index
   end
 
   # Create a new contact action
@@ -16,7 +16,7 @@ class Api::ContactsController < ApplicationController
       phone_number: params[:phone_number],
     )
     if @contact.save
-      render "show.json.jb"
+      render :show
     else
       render json: { errors: @contact.errors.full_messages }, status: :bad_request
     end
@@ -25,7 +25,7 @@ class Api::ContactsController < ApplicationController
   # Show a specific contact action
   def show
     @contact = Contact.find_by(id: params[:id])
-    render "show.json.jb"
+    render :show
   end
 
   # Update a contact action
@@ -35,7 +35,7 @@ class Api::ContactsController < ApplicationController
     @contact.last_name = params[:last_name] || @contact.last_name
     @contact.phone_number = params[:phone_number] || @contact.phone_number
     if @contact.save
-      render "show.json.jb"
+      render :show
     else
       render json: { errors: @contact.errors.full_messages }, status: :bad_request
     end
