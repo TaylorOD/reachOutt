@@ -15,9 +15,17 @@
           <h2>New Contact</h2>
         </div>
 
-        <!-- Bootstrap alert Code for new Reachout -->
-        <div v-if="createdAlert === true" class="alert alert-warning alert-dismissible text-center" role="alert">
+        <!-- Success message -->
+        <div v-if="createdAlert" class="alert alert-success alert-dismissible text-center" role="alert">
           <strong>New Contact Successfully Created!</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Error message -->
+        <div v-if="errorMessage" class="alert alert-danger alert-dismissible text-center" role="alert">
+          <strong>Error: {{ errorMessage }}</strong>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissAlert()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -63,9 +71,9 @@
                   <dialog id="contact-details">
                     <form method="dialog">
                       <h1>Contact info</h1>                    
-                      <p>First Name: <input v-model="currentContact.first_name"></input></p>
-                      <p>Last Name: <input v-model="currentContact.last_name"></input></p>
-                      <p>Phone Number: <input type="text" v-model="currentContact.phone_number"></input></p>
+                      <p>First Name: <input v-model="currentContact.first_name"></p>
+                      <p>Last Name: <input v-model="currentContact.last_name"></p>
+                      <p>Phone Number: <input type="text" v-model="currentContact.phone_number"></p>
                       <button class="btn btn-default btn-sm" v-on:click="updateContact(currentContact)">Update</button>
                       <button class="btn btn-default btn-sm" v-on:click="destroyContact(currentContact)">Destroy</button>
                       <button class="btn btn-default btn-sm">Close</button>
@@ -83,85 +91,77 @@
 
 <style>
 </style>
-
 <script>
-  import axios from "axios";
-  
+  import axios from 'axios';
+
   export default {
-    data: function() {
+    data() {
       return {
         contacts: [],
-        newContactFirstName: "",
-        newContactLastName: "",
-        newContactPhoneNumber: "",
+        newContactFirstName: '',
+        newContactLastName: '',
+        newContactPhoneNumber: '',
         currentContact: {},
-        createdAlert: false
+        createdAlert: false,
+        errorMessage: '',
       };
     },
-    created: function() {
-      this.indexContacts()
+    created() {
+      this.indexContacts();
     },
     methods: {
-      indexContacts: function() {
-        axios.get("/api/contacts").then(response => {
-          console.log("contacts index:", response)
-          this.contacts = response.data
-        });
+      async indexContacts() {
+        try {
+          const response = await axios.get('/api/contacts');
+          this.contacts = response.data;
+        } catch (error) {
+          this.errorMessage = 'Failed to load contacts.';
+        }
       },
-      createContact() {
-        axios.post('/api/contacts', {
-          first_name: this.newContactFirstName,
-          last_name: this.newContactLastName,
-          phone_number: this.newContactPhoneNumber,
-        })
-        .then(response => {
-          // The new contact was created successfully
-          // Add the new contact to the list
-          this.contacts.push(response.data);
-          // Reset the input fields
+      async createContact() {
+        try {
+          const response = await axios.post('/api/contacts', {
+            first_name: this.newContactFirstName,
+            last_name: this.newContactLastName,
+            phone_number: this.newContactPhoneNumber,
+          });
+          this.contacts.unshift(response.data); // Add the new contact to the beginning of the list
           this.newContactFirstName = '';
           this.newContactLastName = '';
           this.newContactPhoneNumber = '';
-          // Show the success alert
           this.createdAlert = true;
-        })
-        .catch(error => {
-          // Handle error
-          console.log("Not Successful - contact could not be created", error.response);
-        });
+        } catch (error) {
+          this.errorMessage = 'Failed to create contact.';
+        }
       },
-      showContact: function (contact) {
-          this.currentContact = contact
-          document.querySelector("#contact-details").showModal();
+      showContact(contact) {
+        this.currentContact = contact;
+        document.querySelector('#contact-details').showModal();
       },
-      updateContact: function (contact) {
-        var params = {
+      async updateContact(contact) {
+        const params = {
           first_name: contact.first_name,
           last_name: contact.last_name,
           phone_number: contact.phone_number,
+        };
+        try {
+          await axios.patch(`/api/contacts/${contact.id}`, params);
+        } catch (error) {
+          this.errorMessage = 'Failed to update contact.';
         }
-        axios
-          .patch(`/api/contacts/${contact.id}`, params)
-          .then(response => {
-            console.log("Success - contact updated", response.data)
-          })
-          .catch(error => console.log("Not Successful - contact could not be updated", error.response))
       },
-      destroyContact: function (contact) {
-        console.log(contact)
-          axios
-            .delete(`/api/contacts/${contact.id}`)
-            .then(response => {
-              console.log("Success - contact destroyed", response.data)
-              // remove this contact from this.contacts / you dont have to reload page
-              var index = this.contacts.indexOf(contact);
-              this.contacts.splice(index, 1);
-            })
-            .catch(error => console.log("Not Successful - contact could not be destroyed", error.response))
+      async destroyContact(contact) {
+        try {
+          await axios.delete(`/api/contacts/${contact.id}`);
+          const index = this.contacts.indexOf(contact);
+          this.contacts.splice(index, 1);
+        } catch (error) {
+          this.errorMessage = 'Failed to delete contact.';
+        }
       },
       dismissAlert() {
-        this.createdAlert = false
-      }
+        this.createdAlert = false;
+      },
     },
-  }
+  };
 </script>

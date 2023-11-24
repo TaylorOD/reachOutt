@@ -29,10 +29,10 @@
 </style>
 
 <script>
- export default{
-   mounted: function () {
-     type();
-     movingBackgroundImage();
-   }
- }
+  export default{
+    mounted: function () {
+      type();
+      movingBackgroundImage();
+    }
+  }
 </script>
