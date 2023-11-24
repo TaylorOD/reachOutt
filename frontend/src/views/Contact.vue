@@ -119,13 +119,29 @@
         }
       },
       async createContact() {
+        // Validation
+        if (!this.newContactFirstName || this.newContactFirstName.length < 1) {
+          this.errorMessage = 'First name is required and must be at least 1 character long.';
+          return;
+        }
+        if (!this.newContactLastName || this.newContactLastName.length < 1) {
+          this.errorMessage = 'Last name is required and must be at least 1 character long.';
+          return;
+        }
+        const phoneNumberPattern = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+        if (!this.newContactPhoneNumber || !phoneNumberPattern.test(this.newContactPhoneNumber)) {
+          this.errorMessage = 'Phone number is required and must be a valid format.';
+          return;
+        }
+        // If validation passes, clear any previous error message
+        this.errorMessage = '';
         try {
           const response = await axios.post('/api/contacts', {
             first_name: this.newContactFirstName,
             last_name: this.newContactLastName,
             phone_number: this.newContactPhoneNumber,
           });
-          this.contacts.unshift(response.data); // Add the new contact to the beginning of the list
+          this.contacts.unshift(response.data);
           this.newContactFirstName = '';
           this.newContactLastName = '';
           this.newContactPhoneNumber = '';
