@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
     post "/users" => "users#create"
 
-    post "/sessions" => "sessions#create"
-
+    post "/login" => "sessions#create"
+    
     get "/reachouts" => "reachouts#index"
     post "/reachouts" => "reachouts#create"
     get "/reachouts/:id" => "reachouts#show"
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     post "notifications/notify" => "notifications#notify"
   end
   
-  get "/*path" => proc { [200, {}, [ActionView::Base.new.render(file: 'public/index.html')]] }
+  get "/*path" => proc { [200, {}, [File.read(Rails.root.join('public', 'index.html'))]] }
 
+  match "*path", to: proc { [404, {}, [File.read(Rails.root.join('public', '404.html'))]] }, via: :all
 end
