@@ -51,23 +51,28 @@ front end hot reloads or updates.
 
 Small:
 
-- Fix reachout not persisting bug
-- Reachout page validation
-- General ui cleanup (using tailwinds)
-- Sign up page validation and error messaging
--
+- Fix reachout not persisting bug - 3 points
+- General ui cleanup (using tailwinds) - 3 points
+- Sign up page validation and error messaging - 2 points
+- Contact page data validation - 2 point
+- Error and success messaging being the same box rather than two - 1 point
+- Remove any capstone language and ensure no errors caused by it - 2 points
+- Prevent non logged in users from contact and reachout pages - 2 points
+- Add more data to db:seeds and ensure it runs on build - 2 points
 
 Medium:
 
-- Remove Ability to change contact name on reachout page
-- Create Password Reset Function
-- Add Ability to turn ReachOuts off
-- Log users in directly from sign up page
-- Create User Account Page
+- Remove Ability to change contact name on reachout page - 2 points
+- Create Password Reset Function - 3 points
+- Add Ability to turn ReachOuts off - 3 points
+- Log users in directly from sign up page - 2 points
+- Create User Account Page - 3 points +
 
 Big:
 
-- Rebuild front end with react
+- Rebuild front end with react - 5 points
+- Research other ways of running scheduled jobs - 3 point spike
+- Optimize for mobile - 5 points
 
 ### Contact
 
