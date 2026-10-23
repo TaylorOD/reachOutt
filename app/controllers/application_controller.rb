@@ -4,8 +4,8 @@ class ApplicationController < ActionController::Base
 
   def current_user
     auth_headers = request.headers["Authorization"]
-    if auth_headers.present? && auth_headers[/(?<=\A(Bearer ))\S+\z/]
-      token = auth_headers[/(?<=\A(Bearer ))\S+\z/]
+    if auth_headers.present? && (match = /\ABearer (\S+)\z/.match(auth_headers))
+      token = match[1]
       begin
         decoded_token = JWT.decode(
           token,
