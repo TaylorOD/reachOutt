@@ -1,4 +1,6 @@
 class Api::ReachoutsController < ApplicationController
+  before_action :authenticate_user
+
   # Retrieves all reachouts associated with the current user.
   #
   # Returns:
@@ -10,6 +12,9 @@ class Api::ReachoutsController < ApplicationController
 
   # Create a new reachout action
   def create
+    contact = current_user.contacts.find_by(id: params[:contact_id])
+    return render json: { error: "Contact not found" }, status: :not_found unless contact
+
     @reachout = Reachout.new(
       user_id: current_user.id,
       start_date: params[:start_date],
@@ -58,7 +63,9 @@ class Api::ReachoutsController < ApplicationController
 
   # Show a specific reachout action
   def show
-    @reachout = Reachout.find_by(id: params[:id])
+    @reachout = current_user.reachouts.find_by(id: params[:id])
+    return render json: { error: "Reachout not found" }, status: :not_found unless @reachout
+
     render :show
   end
 
@@ -76,7 +83,13 @@ class Api::ReachoutsController < ApplicationController
   # - If the reachout is successfully updated, renders the updated reachout as JSON
   # - If there are errors in updating the reachout, renders the error messages as JSON with a bad request status
   def update
-    @reachout = Reachout.find_by(id: params[:id])
+    @reachout = current_user.reachouts.find_by(id: params[:id])
+    return render json: { error: "Reachout not found" }, status: :not_found unless @reachout
+
+    if params[:contact_id] && !current_user.contacts.find_by(id: params[:contact_id])
+      return render json: { error: "Contact not found" }, status: :not_found
+    end
+
     @reachout.start_date = params[:start_date] || @reachout.start_date
     @reachout.last_reachout_sent = params[:last_reachout_sent] || @reachout.last_reachout_sent
     @reachout.frequency = params[:frequency] || @reachout.frequency
@@ -118,7 +131,9 @@ class Api::ReachoutsController < ApplicationController
   # Returns:
   #   A JSON response with a success message indicating that the reachout record has been successfully destroyed.
   def destroy
-    reachout = Reachout.find_by(id: params[:id])
+    reachout = current_user.reachouts.find_by(id: params[:id])
+    return render json: { error: "Reachout not found" }, status: :not_found unless reachout
+
     reachout.destroy
     render json: { message: "Reachout successfully destroyed." }
   end
