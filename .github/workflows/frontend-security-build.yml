@@ -1,0 +1,23 @@
+name: Vue production build validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify Axios security minimum
+        run: |
+          node -e 'const fs=require("fs"); const v=JSON.parse(fs.readFileSync("node_modules/axios/package.json")).version.split(".").map(Number); if(v[0]!==1 || v[1]<19) { console.error("Axios minimum 1.19 not met"); process.exit(1) } console.log("Axios version:",v.join("."))'
+      - run: npm run build
