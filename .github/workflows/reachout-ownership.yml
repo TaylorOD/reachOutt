@@ -1,0 +1,21 @@
+name: Reachout ownership security tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  authorization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: false
+      - run: ruby -c app/controllers/api/reachouts_controller.rb
+      - run: ruby script/security/check_reachout_ownership.rb
