@@ -1,0 +1,21 @@
+name: Disable legacy SMS endpoint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  no-unprotected-sms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: false
+      - run: ruby -c config/routes.rb
+      - run: ruby script/security/check_no_public_sms_endpoint.rb
