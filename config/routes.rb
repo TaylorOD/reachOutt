@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   
     post 'twilio/status' => 'twilio#status'
 
-    post "notifications/notify" => "notifications#notify"
   end
   
   get "/*path" => proc { [200, {}, [File.read(Rails.root.join('public', 'index.html'))]] }
