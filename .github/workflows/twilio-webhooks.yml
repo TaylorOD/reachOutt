@@ -1,0 +1,22 @@
+name: Twilio webhook signature validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  twilio-authentication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: false
+      - run: ruby -c app/controllers/twilio_controller.rb
+      - run: gem install twilio-ruby -v 7.2.0 --no-document
+      - run: ruby script/security/check_twilio_signature.rb
