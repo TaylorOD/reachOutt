@@ -10,7 +10,16 @@
 
 ### Technology stack:
 
-- Built using Ruby on Rails, Vue.js, Vue Native, JavaScript, HTML, CSS, and several API's.
+| Tech | What it does |
+| --- | --- |
+| Ruby on Rails | The API |
+| Vue.js and Bootstrap | The front end |
+| PostgreSQL | The database |
+| Twilio | Sends the reminder texts |
+| rufus-scheduler | Times the reminders |
+| News API and JokeAPI | Ideas for what to reach out about |
+| bcrypt and JWT | Passwords and logins |
+| Heroku | Hosting |
 
 ### Status:
 
