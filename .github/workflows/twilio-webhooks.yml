@@ -15,8 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: false
+          bundler-cache: true
       - run: ruby -c app/controllers/twilio_controller.rb
-      - run: gem install twilio-ruby -v 7.13.0 --no-document
-      - run: ruby script/security/check_twilio_signature.rb
+      - run: bundle exec ruby script/security/check_twilio_signature.rb
