@@ -82,7 +82,6 @@ Small:
 
 Medium:
 
-- Remove Ability to change contact name on reachout page
 
 Big:
 

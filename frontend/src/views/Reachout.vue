@@ -109,11 +109,8 @@
                     <form method="dialog">
                       <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
                       <h1>Reachout info</h1>
-                        Contact Name: 
-                        <select class="text-center" v-model="currentReachout.contact_id" aria-label="Edit contact id">
-                          <option value="" selected disabled>Select Contact</option>
-                          <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
-                        </select>
+                        <p>Contact Name: {{ currentReachout.contact?.first_name }} {{ currentReachout.contact?.last_name }}</p>
+                        <p>Edit contact details on the Contacts page.</p>
                         <br>
                         <br>
                         <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent" aria-label="Edit last reachout sent"></input></p> -->
@@ -244,7 +241,6 @@
           start_date: reachout.start_date,
           last_reachout_sent: reachout.last_reachout_sent,
           frequency: reachout.frequency,
-          contact_id: reachout.contact_id,
           datetime: reachout.datetime,
           topic: reachout.topic,
         }
