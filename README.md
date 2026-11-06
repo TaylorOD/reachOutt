@@ -60,10 +60,13 @@ Leave the variable unset to keep the scheduler off. Keep SMS_ENABLED false on th
 
 Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.
 
-## Heroku setup
+## Hosting
 
 Production redirects user traffic to HTTPS and logs at info level. Use `/health/ready` for hosting health checks. It checks PostgreSQL and returns 503 if the database is unavailable. `/up` only checks that Rails is running. Neither endpoint exposes connection details.
+
 For a fresh free deployment, see [free hosting](docs/free-hosting.md). The Render Blueprint provisions only a free web service. It uses an external Neon database and keeps SMS disabled.
+
+### Heroku
 
 The Procfile runs database migrations during release and defines separate web and reminder processes. Configure the Node.js buildpack before Ruby so the Vue build is included. The app still uses Vue 3, Vue Router 5, and Vite 8.
 

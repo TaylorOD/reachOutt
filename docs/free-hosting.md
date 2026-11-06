@@ -23,7 +23,7 @@ Render blocks outbound SMTP ports 25, 465, and 587 on free web services. A provi
 
 ## Reminders
 
-SMS stays disabled on the web service. A separate scheduler must run reminders:send against the same database. The free web service cannot keep a worker running while asleep.
+SMS stays disabled on the web service. Follow the [free reminder scheduler setup](../README.md#free-reminder-scheduler) to configure GitHub Actions against the same database. The free web service cannot keep a worker running while asleep.
 
 Twilio is separate from hosting and may charge for numbers and messages. Keep delivery disabled until credentials, recipient consent, and spending limits are configured. Never put credentials in this repository or a PR.
 
@@ -31,7 +31,7 @@ Twilio is separate from hosting and may charge for numbers and messages. Keep de
 
 Use /health/ready for Render's health check and review failed deploys in its dashboard. That endpoint checks the database without returning private connection details. Monitoring that keeps waking the app can consume the workspace's free hours.
 
-Neon's free restore history is limited to six hours and up to 1 GB of changes. It is not a replacement for an independent backup. Keep encrypted database exports somewhere private and test a restore into a separate database before relying on them. Never upload a plain database dump to a public repository or Actions artifact.
+Neon's free restore history is limited to six hours and up to 1 GB of changes. It is not a replacement for an independent backup. Follow the [encrypted backup and restore guide](backups.md) before enabling the optional backup schedule. Never upload a plain database dump to a public repository or Actions artifact.
 
 Before launch, confirm the app survives a service restart, email delivery works, an approved test text arrives, and a backup restores successfully. Until then, this setup is prepared but not verified live.
 
