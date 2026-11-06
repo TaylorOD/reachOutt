@@ -19,7 +19,12 @@ class ReminderDeliveryTest < ActiveSupport::TestCase
       options[:from] == '+15005550006' && options[:to] == user.phone_number && options[:body].include?('Sam')
     end
     client = Struct.new(:messages).new(messages)
-    Twilio::REST::Client.stub(:new, client) do
+    factory = ->(*args) do
+      assert_instance_of Twilio::HTTP::Client, args[4]
+      assert_equal 10, args[4].timeout
+      client
+    end
+    Twilio::REST::Client.stub(:new, factory) do
       assert ReminderDelivery.call(reminder)
     end
     messages.verify
