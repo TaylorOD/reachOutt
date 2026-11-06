@@ -1,0 +1,24 @@
+name: Ruby dependency security audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '19 11 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  bundler-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+      - name: Install Ruby dependency auditor
+        run: gem install bundler-audit --no-document
+      - name: Check locked Ruby gems against the current advisory database
+        run: bundle-audit check --update
