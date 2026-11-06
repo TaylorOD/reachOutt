@@ -1,0 +1,41 @@
+name: Scheduled reminders
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: production-reminders
+  cancel-in-progress: false
+jobs:
+  send:
+    if: github.repository == 'TaylorOD/reachOutt' && github.ref == 'refs/heads/main' && vars.REMINDERS_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Send approved reminders
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: '1'
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SMS_ENABLED: 'true'
+          SMS_ALLOWED_RECIPIENTS: ${{ secrets.SMS_ALLOWED_RECIPIENTS }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+        run: |
+          for key in DATABASE_URL SMS_ALLOWED_RECIPIENTS TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN TWILIO_FROM_NUMBER; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Missing required setting: $key"
+              exit 1
+            fi
+          done
+          bundle exec rails reminders:send
