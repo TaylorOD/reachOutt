@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     post "/users" => "users#create"
 
     post "/sessions" => "sessions#create"
-    
+
     get "/reachouts" => "reachouts#index"
     post "/reachouts" => "reachouts#create"
     get "/reachouts/:id" => "reachouts#show"
@@ -21,14 +21,12 @@ Rails.application.routes.draw do
     delete "/reachouts/:id" => "reachouts#destroy"
 
 
-  
     post 'twilio/status' => '/twilio#status'
 
   end
-  
+
   get '/up', to: 'rails/health#show', as: :rails_health_check
   root 'frontend#show'
   get '*path', to: 'frontend#show', constraints: ->(request) { !request.path.match?(%r{\A/(api|app|assets)(/|$)}) && request.format.html? }
 
-  # match "*path", to: proc { [404, {}, [File.read(Rails.root.join('public', '404.html'))]] }, via: :all
 end

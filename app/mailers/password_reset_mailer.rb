@@ -8,8 +8,19 @@ class PasswordResetMailer < ApplicationMailer
     end
     token = user.generate_token_for(:account_password_reset)
     link = "#{origin.chomp('/')}/reset-password##{token}"
-    mail(to: user.email, from: ENV.fetch("MAIL_FROM", "reachoutt@example.test"),
-         subject: "Reset your ReachOutt password", body: "Use this link within 15 minutes to reset your password:\n\n#{link}\n\nIf you did not request this, you can ignore this email.",
-         content_type: "text/plain")
+    body = <<~MESSAGE
+      Use this link within 15 minutes to reset your password:
+
+      #{link}
+
+      If you did not request this, you can ignore this email.
+    MESSAGE
+    mail(
+      to: user.email,
+      from: ENV.fetch("MAIL_FROM", "reachoutt@example.test"),
+      subject: "Reset your ReachOutt password",
+      body: body,
+      content_type: "text/plain"
+    )
   end
 end

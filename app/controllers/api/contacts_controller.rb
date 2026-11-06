@@ -1,13 +1,11 @@
 class Api::ContactsController < ApplicationController
   before_action :authenticate_user
 
-  # Show all contacts action
   def index
     @contacts = current_user.contacts
     render :index
   end
 
-  # Create a new contact action
   def create
     @contact = Contact.new(
       user_id: current_user.id,
@@ -22,7 +20,6 @@ class Api::ContactsController < ApplicationController
     end
   end
 
-  # Show a specific contact action
   def show
     @contact = current_user.contacts.find_by(id: params[:id])
     return render json: { error: "Contact not found" }, status: :not_found unless @contact
@@ -30,7 +27,6 @@ class Api::ContactsController < ApplicationController
     render :show
   end
 
-  # Update a contact action
   def update
     @contact = current_user.contacts.find_by(id: params[:id])
     return render json: { error: "Contact not found" }, status: :not_found unless @contact
@@ -45,7 +41,6 @@ class Api::ContactsController < ApplicationController
     end
   end
 
-  # Destroy a contact action
   def destroy
     contact = current_user.contacts.find_by(id: params[:id])
     return render json: { error: "Contact not found" }, status: :not_found unless contact

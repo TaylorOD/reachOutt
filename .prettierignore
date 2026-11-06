@@ -1,0 +1,6 @@
+node_modules/
+public/
+frontend/public/
+docs/screenshots/
+test-results/
+package-lock.json

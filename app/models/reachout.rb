@@ -5,14 +5,14 @@ class Reachout < ApplicationRecord
     '182.5d' => 'Semiannually', '365d' => 'Annually'
   }.freeze
 
-  validates :enabled, inclusion: { in: [true, false] }
   belongs_to :user
   belongs_to :contact
+  validates :enabled, inclusion: { in: [true, false] }
   validates :frequency, inclusion: { in: FREQUENCIES.keys }
   validates :topic, inclusion: { in: %w[Jokes News Sports] }, allow_blank: true
   validate :valid_start_date
   validate :contact_belongs_to_user
-  before_save :reset_schedule, if: -> { new_record? || will_save_change_to_start_date? || will_save_change_to_frequency? || (will_save_change_to_enabled? && enabled?) }
+  before_save :reset_schedule, if: :schedule_changed?
 
   def interval
     frequency.to_f.days
@@ -30,7 +30,10 @@ class Reachout < ApplicationRecord
       "Try this one: #{data['joke']}" if data['joke'].present?
     elsif ENV['NEWS_API_KEY'].present?
       source = topic == 'Sports' ? 'espn' : 'bbc-news'
-      data = HTTP.timeout(5).get('https://newsapi.org/v2/top-headlines', params: { sources: source, apiKey: ENV['NEWS_API_KEY'] }).parse
+      data = HTTP.timeout(5).get(
+        'https://newsapi.org/v2/top-headlines',
+        params: { sources: source, apiKey: ENV['NEWS_API_KEY'] }
+      ).parse
       article = data.fetch('articles', []).first
       "Have they seen this? #{article['title']} #{article['url']}" if article
     end
@@ -48,6 +51,11 @@ class Reachout < ApplicationRecord
 
   def contact_belongs_to_user
     errors.add(:contact, 'must belong to you') if contact && contact.user_id != user_id
+  end
+
+  def schedule_changed?
+    new_record? || will_save_change_to_start_date? || will_save_change_to_frequency? ||
+      (will_save_change_to_enabled? && enabled?)
   end
 
   def reset_schedule
