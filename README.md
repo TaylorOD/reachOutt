@@ -88,6 +88,8 @@ GitHub Pages must publish the root of the `gh-pages` branch. The preview workflo
 
 See [database backups](docs/backups.md) for encrypted exports, the optional daily schedule, and a restore check. Backups are not active until configured and tested.
 
+See [launch status](docs/launch-status.md) for the latest live checks and remaining setup, and [operations alerts](docs/monitoring.md) for failed or overdue background workflows.
+
 See [the code guide](docs/code-guide.md) for the folder layout, authentication flow, reminder lifecycle, and editing conventions. Keep unrelated work in separate PRs and include desktop and mobile screenshots for review.
 
 ## Screenshots
