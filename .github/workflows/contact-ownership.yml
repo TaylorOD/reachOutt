@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.2'
-          bundler-cache: false
+          bundler-cache: true
       - run: ruby -c app/controllers/api/contacts_controller.rb
-      - run: ruby script/security/check_contact_ownership.rb
+      - run: bundle exec ruby script/security/check_contact_ownership.rb

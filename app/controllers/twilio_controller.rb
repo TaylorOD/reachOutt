@@ -3,7 +3,6 @@ require 'twilio-ruby'
 class TwilioController < ApplicationController
   include Webhookable
   after_action :set_header
-  skip_before_action :verify_authenticity_token
   before_action :validate_twilio_signature, only: [:status, :voice]
 
   def status
@@ -16,7 +15,7 @@ class TwilioController < ApplicationController
 
   def validate_twilio_signature
     signature = request.headers["X-Twilio-Signature"]
-    auth_token = Rails.application.credentials.twilio_auth_token
+    auth_token = ENV["TWILIO_AUTH_TOKEN"] || Rails.application.credentials.twilio_auth_token
 
     valid = signature.is_a?(String) && !signature.empty? &&
       auth_token.is_a?(String) && !auth_token.empty? &&

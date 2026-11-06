@@ -7,7 +7,7 @@ class NilClass
   def present?; false; end
 end
 module ActionController
-  class Base
+  class API
     def self.protect_from_forgery(**); end
     def self.before_action(*); end
     def self.helper_method(*); end
@@ -15,7 +15,8 @@ module ActionController
   end
 end
 module JWT
-  class ExpiredSignature < StandardError; end
+  class DecodeError < StandardError; end
+  class ExpiredSignature < DecodeError; end
   def self.decode(token, secret, verify, options)
     raise 'wrong verification' unless verify && options == {algorithm: 'HS256'} && secret == 'test-only-secret'
     raise ExpiredSignature if token == 'expired'
@@ -25,7 +26,7 @@ module JWT
 end
 module Rails
   def self.application; self; end
-  def self.credentials; {secret_key_base: 'test-only-secret'}; end
+  def self.secret_key_base; 'test-only-secret'; end
 end
 class User
   def self.find_by(id:); raise 'wrong id' unless id == 7; :valid_user; end

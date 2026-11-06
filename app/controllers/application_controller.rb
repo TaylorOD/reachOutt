@@ -1,5 +1,4 @@
-class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+class ApplicationController < ActionController::API
   before_action :set_default_response_format
 
   def current_user
@@ -9,18 +8,17 @@ class ApplicationController < ActionController::Base
       begin
         decoded_token = JWT.decode(
           token,
-          Rails.application.credentials.fetch(:secret_key_base),
+          Rails.application.secret_key_base,
           true,
           { algorithm: "HS256" }
         )
         User.find_by(id: decoded_token[0]["user_id"])
-      rescue JWT::ExpiredSignature
+      rescue JWT::DecodeError
         nil
       end
     end
   end
 
-  helper_method :current_user
 
   def authenticate_user
     unless current_user
