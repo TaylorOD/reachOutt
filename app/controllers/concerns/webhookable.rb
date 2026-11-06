@@ -1,12 +1,11 @@
 module Webhookable
-	extend ActiveSupport::Concern
+  extend ActiveSupport::Concern
 
-	def set_header
-    response.headers["Content-Type"] = "text/xml"
-	end
+  def set_header
+    response.headers['Content-Type'] = 'text/xml' if response.successful?
+  end
 
-	def render_twiml(response)
-    render text: response.text
-	end
-
+  def render_twiml(message)
+    render xml: message.to_s
+  end
 end

@@ -16,13 +16,15 @@ Rails.application.routes.draw do
     patch "/reachouts/:id" => "reachouts#update"
     delete "/reachouts/:id" => "reachouts#destroy"
 
-    post "twilio/voice" => "twilio#voice"
+
   
-    post 'twilio/status' => 'twilio#status'
+    post 'twilio/status' => '/twilio#status'
 
   end
   
-  get "/*path" => proc { [200, {}, [File.read(Rails.root.join('public', 'index.html'))]] }
+  get '/up', to: 'rails/health#show', as: :rails_health_check
+  root 'frontend#show'
+  get '*path', to: 'frontend#show', constraints: ->(request) { !request.path.start_with?('/api/', '/assets/') && request.format.html? }
 
   # match "*path", to: proc { [404, {}, [File.read(Rails.root.join('public', '404.html'))]] }, via: :all
 end

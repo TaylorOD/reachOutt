@@ -15,7 +15,7 @@ class DisabledTestSmsEndpointTest < Minitest::Test
 
   def test_signed_twilio_callbacks_remain_available
     routes = File.read(File.join(ROOT, "config/routes.rb"))
-    assert_includes routes, "'twilio/status' => 'twilio#status'"
+    assert_includes routes, "'twilio/status' => '/twilio#status'"
     controller = File.read(File.join(ROOT, "app/controllers/twilio_controller.rb"))
     assert_includes controller, "before_action :validate_twilio_signature"
   end
