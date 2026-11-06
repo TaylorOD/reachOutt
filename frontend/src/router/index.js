@@ -9,6 +9,8 @@ import Logout from "../views/Logout.vue"
 
 
 const routes = [
+  { path: '/forgot-password', component: () => import('../views/PasswordReset.vue') },
+  { path: '/reset-password', component: () => import('../views/PasswordReset.vue') },
   {
     path: '/',
     name: 'Home',

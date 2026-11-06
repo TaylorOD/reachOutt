@@ -13,6 +13,7 @@ class Api::SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       jwt = JWT.encode(
         {
+          session_version: user.session_version,
           user_id: user.id, # the data to encode
           exp: 24.hours.from_now.to_i, # the expiration time
         },

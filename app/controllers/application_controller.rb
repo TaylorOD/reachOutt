@@ -12,7 +12,8 @@ class ApplicationController < ActionController::API
           true,
           { algorithm: "HS256" }
         )
-        User.find_by(id: decoded_token[0]["user_id"])
+        user = User.find_by(id: decoded_token[0]["user_id"])
+        user if user && user.session_version == decoded_token[0].fetch("session_version", 0)
       rescue JWT::DecodeError
         nil
       end
