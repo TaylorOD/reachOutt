@@ -3,3 +3,4 @@
 *.vue text eol=lf
 *.json text eol=lf
 bin/database-backup text eol=lf
+bin/render-* text eol=lf
