@@ -1,0 +1,42 @@
+name: Operations monitor
+on:
+  workflow_run:
+    workflows: [Database backup, Scheduled reminders]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: '19 * * * *'
+  workflow_dispatch:
+    inputs:
+      test_alert:
+        description: Create a clearly marked test alert
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+  issues: write
+concurrency:
+  group: operations-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    if: github.repository == 'TaylorOD/reachOutt'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Never execute a triggering branch or download its artifacts.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test script/operations/status.test.mjs
+      - run: node script/operations/monitor.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BACKUPS_ENABLED: ${{ vars.BACKUPS_ENABLED }}
+          REMINDERS_ENABLED: ${{ vars.REMINDERS_ENABLED }}
+          TEST_ALERT: ${{ inputs.test_alert }}
