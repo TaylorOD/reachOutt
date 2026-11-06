@@ -47,7 +47,7 @@ Optional demo data is fictional. Set `SEED_DEMO=true` and run `bundle exec rails
 
 ### Sending reminders
 
-Run `bundle exec rails reminders:send` every minute with your hosting scheduler or cron. It reads due reminders from PostgreSQL. Start dates use UTC. Edits replace the schedule, and deleting a contact removes its reminders.
+Run `bundle exec rails reminders:work` as a separate worker process. It checks schedules every minute. You can also run `bundle exec rails reminders:send` from an external scheduler. It reads due reminders from PostgreSQL. Start dates use UTC. Edits replace the schedule, and deleting a contact removes its reminders.
 
 SMS is off by default. To enable it, set `SMS_ENABLED=true`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER`. News and sports suggestions also need `NEWS_API_KEY`. Failed suggestions do not block the reminder.
 
@@ -70,23 +70,6 @@ Run `npm test` for form tests. For browser tests, run `npm run build`, start Rai
 - Contributor Guidelines: Feel free to contribute or fork this project.
 - Code Style/Requirements: If you are going to contribute please use rails, javascript, or vue.
 
-### Known issues
-
-Reminder delivery requires a scheduled worker.
-
-### TODO
-
-Small:
-
-- Fix reachout not persisting bug
-
-Medium:
-
-
-Big:
-
-The frontend uses Vue 3, Vue Router 5, and Vite 8.
-
 ### Contact
 
 - dorsetttaylordev@gmail.com
@@ -103,3 +86,11 @@ The frontend uses Vue 3, Vue Router 5, and Vite 8.
 Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.
 
 Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
+
+### Heroku setup
+
+The Procfile runs database migrations during release and defines separate web and reminder processes. Configure the Node.js buildpack before Ruby so the Vue build is included. The app still uses Vue 3, Vue Router 5, and Vite 8.
+
+Keep your existing PostgreSQL database and stable `SECRET_KEY_BASE`. Configure `DATABASE_URL` and `RAILS_SERVE_STATIC_FILES=true`. Enable one worker with `heroku ps:scale worker=1 --app YOUR_APP` after checking your plan and costs. Creating a Procfile alone does not enable a worker.
+
+Schedules and pause status live in PostgreSQL. A restarted worker resumes from those records instead of losing timers. The worker still needs to be running for messages to go out. Set the SMS and email settings above only when you are ready to enable delivery. This repository does not provision hosting or send a test text automatically.
