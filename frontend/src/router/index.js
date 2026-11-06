@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Reachout from '../views/Reachout.vue'
@@ -7,7 +6,7 @@ import Signup from "../views/Signup.vue"
 import Login from "../views/Login.vue"
 import Logout from "../views/Logout.vue"
 
-Vue.use(VueRouter)
+
 
 const routes = [
   {
@@ -36,10 +35,13 @@ const routes = [
 
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.DEV ? "/app/" : "/"),
   routes
+})
+
+router.beforeEach(to => {
+  if (['/contact', '/reachout'].includes(to.path) && !localStorage.getItem('jwt')) return '/login'
 })
 
 export default router

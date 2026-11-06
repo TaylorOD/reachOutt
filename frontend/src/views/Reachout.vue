@@ -1,5 +1,6 @@
 <template>
   <div class="reachout">
+    <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
     <div class="section-container">
       <div class="container">
         <!-- Title Div -->
@@ -26,31 +27,31 @@
         <div class="text-center">          
           <!-- Frequency selector drop down form -->
           Frequency: 
-          <select class="text-center" v-model="newReachoutFrequency">
+          <select class="text-center" v-model="newReachoutFrequency" aria-label="New Frequency">
             <option value="" selected disabled>Select Frequency</option>
             <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
           </select>
 
           <!-- Contact selector drop down form -->   
           Contact Name: 
-          <select class="text-center" v-model="newReachoutContactID">
+          <select class="text-center" v-model="newReachoutContactID" aria-label="New ContactID">
             <option value="" selected disabled>Select Contact</option>
             <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
           </select>       
 
           Topic: 
-          <select class="text-center" v-model="newReachoutTopic">
+          <select class="text-center" v-model="newReachoutTopic" aria-label="New Topic">
             <option value="" selected disabled>Select Topic</option>
             <option value="Jokes">Jokes</option>
             <option value="News">News</option>
             <option value="Sports">Sports</option>
           </select> 
 
-          Start Date: <input type="date" id="start" v-model="newReachoutStartDate">
+          Start Date: <input type="date" id="start" v-model="newReachoutStartDate" aria-label="New StartDate">
 
           <!-- Will re add these if needed params later -->
-          <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" /> -->
-          <!-- Datetime: <input type="text" v-model="newReachoutDatetime" /> -->
+          <!-- Last Reachout Sent: <input type="text" v-model="newReachoutLastReachoutSent" aria-label="New LastReachoutSent" /> -->
+          <!-- Datetime: <input type="text" v-model="newReachoutDatetime" aria-label="New Datetime" /> -->
         </div>
 
         <div class="text-center">
@@ -68,9 +69,9 @@
                   <h2>Existing Reachouts</h2>
                 </div>
 
-                <div v-for="(reachout, index) in reachouts" v-if="reachout.contact" class="col-sm-4" style="height: 500px">
+                <div v-for="(reachout, index) in reachouts.filter(item => item.contact)" :key="reachout.id" class="col-sm-4" style="height: 500px">
                   <!-- Image behind Reachouts -->
-                  <img :src="`/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
+                  <img :src="`/app/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
                   <!-- Reachout Cards -->
                   <div class="card-container card-container-lg">
                     <h4>Reachouts:</h4>
@@ -87,26 +88,36 @@
                     <!-- <p>Datetime: {{ reachout.datetime }}</p> -->
                     <!-- <p>Last Reachout Sent: {{ reachout.last_reachout_sent }}</p> -->
 
-                    <a class="btn btn-default"  v-on:click="showReachout(reachout)">
+                    <a class="btn btn-default" role="button" tabindex="0" @keydown.enter="showReachout(reachout)" v-on:click="showReachout(reachout)">
                       <p>Edit Reachout</p>
                     </a> 
                   </div>
 
                   <!-- Modal to edit Reachouts -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
                   <dialog id="reachout-details">
                     <form method="dialog">
+                      <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
                       <h1>Reachout info</h1>
                         Contact Name: 
-                        <select class="text-center" v-model="currentReachout.contact_id">
+                        <select class="text-center" v-model="currentReachout.contact_id" aria-label="Edit contact id">
                           <option value="" selected disabled>Select Contact</option>
                           <option v-for="contact in contacts" :value="contact.id" :key="contact.id">{{ contact.first_name }} {{ contact.last_name }}</option>
                         </select>
                         <br>
                         <br>
-                        <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent"></input></p> -->
+                        <!-- <p>Last Reachout Sent: <input v-model="currentReachout.last_reachout_sent" aria-label="Edit last reachout sent"></input></p> -->
                     
                         Frequency:
-                        <select class="text-center" v-model="currentReachout.frequency">
+                        <select class="text-center" v-model="currentReachout.frequency" aria-label="Edit frequency">
                           <option value="" selected disabled>Select Frequency</option>
                           <option v-for="reachoutFrequency in reachoutFrequencys" :value="reachoutFrequency.value" :key="reachoutFrequency.id">{{ reachoutFrequency.name }}</option>
                         </select>
@@ -114,7 +125,7 @@
                         <br>
 
                         Topic: 
-                        <select class="text-center" v-model="newReachoutTopic">
+                        <select class="text-center" v-model="currentReachout.topic" aria-label="Edit topic">
                           <option value="" selected disabled>Select Topic</option>
                           <option value="Jokes">Jokes</option>
                           <option value="News">News</option>
@@ -124,21 +135,13 @@
                         <br> 
 
                         <p>Start Date: {{ currentReachout.start_date }}</p>
-                        <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id"></input></p> -->
-                        <!-- <p>Datetime:<input v-model="currentReachout.datetime"></input></p> -->
-                      <button class="btn btn-default btn-sm" v-on:click="updateReachout(currentReachout)">Update</button>
-                      <button class="btn btn-default btn-sm" v-on:click="destroyReachout(currentReachout)">Destroy</button>
+                        <!-- <p>Contact ID: <input type="text" v-model="currentReachout.contact_id" aria-label="Edit contact id"></input></p> -->
+                        <!-- <p>Datetime:<input v-model="currentReachout.datetime" aria-label="Edit datetime"></input></p> -->
+                      <button type="button" class="btn btn-default btn-sm" v-on:click="updateReachout(currentReachout)">Update</button>
+                      <button type="button" class="btn btn-default btn-sm" v-on:click="destroyReachout(currentReachout)">Destroy</button>
                       <button class="btn btn-default btn-sm">Close</button>
                     </form>
                   </dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style>
@@ -170,6 +173,7 @@
         newReachoutTopic: "",
         currentReachout: {},
         createdAlert: false,
+        errorMessage: "",
       };
     },
     created: function() {
@@ -180,13 +184,11 @@
     methods: {
       indexReachouts: function() {
         axios.get("/api/reachouts").then(response => {
-          console.log("reachouts index", response);
           this.reachouts = response.data;
         });
       },
       indexContacts: function() {
         axios.get("/api/contacts").then(response => {
-          console.log("contacts index", response);
           this.contacts = response.data;
           this.indexReachouts();
         });
@@ -203,7 +205,6 @@
         axios
           .post("/api/reachouts", params)
           .then(response => {
-            console.log("Success - reachout create", response);
             this.reachouts.push(response.data);
 
 
@@ -216,11 +217,12 @@
             this.createdAlert = true
           })
           .catch(error => {
-            console.log("Not Successful - reachout could not be created", error.response);
+            this.errorMessage = error.response?.data?.errors?.join(" ") || "Could not create reminder.";
           });
       },
       showReachout: function (reachout) {
-        this.currentReachout = reachout
+        this.errorMessage = "";
+        this.currentReachout = { ...reachout }
         document.querySelector("#reachout-details").showModal();
       },
       updateReachout: function (reachout) {
@@ -235,23 +237,22 @@
         axios
           .patch(`/api/reachouts/${reachout.id}`, params)
           .then(response => {
-            console.log("Success - reachout updated", response.data)
-            var index = this.reachouts.indexOf(reachout);
+            var index = this.reachouts.findIndex(item => item.id === reachout.id);
             this.reachouts.splice(index, 1);
+              document.querySelector("#reachout-details").close();
             this.reachouts.push(response.data);
           })
-          .catch(error => console.log("Not Successful - reachout could not be updated", error.response))
+          .catch(error => { this.errorMessage = error.response?.data?.errors?.join(" ") || "Could not save reminder." })
       },
       destroyReachout: function (reachout) {
           axios
             .delete(`/api/reachouts/${reachout.id}`)
             .then(response => {
-              console.log("Success - Reachout destroyed", response.data)
               // remove this reachout from this.reachouts / you don't have to reload page
               var index = this.reachouts.indexOf(reachout);
               this.reachouts.splice(index, 1);
             })
-            .catch(error => console.log("Not Successful - reachout could not be destroyed", error.response))
+            .catch(error => { this.errorMessage = error.response?.data?.errors?.join(" ") || "Could not save reminder." })
       },
       frequencyToName: function (frequency) {
         // refactor this using a loop

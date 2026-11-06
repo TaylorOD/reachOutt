@@ -19,7 +19,7 @@
                     ReachOutt makes it easy by sending you a text reminding you to say hello.</p>
                     <h3>You forget or can't find time </h3>
                     <p> Most of us are busy. Keeping in touch with friends or family is hard. It's easy to forget or push it off.
-                    ReachOutt sends your quick reminders that make it easier for you to remember to talk with those you miss.
+                    ReachOutt sends your quick reminders that make it easier for you to remember to talk with those you miss.</p>
                     <h3>You don't know what to say</h3>
                     <p>
                     Sometimes we don't know what to say. ReachOutt helps you start the conversation by sending you jokes, sports info, or news that helps you get the converstaion started.</p>
@@ -27,7 +27,7 @@
                   <!-- Image Div -->
                   <div class="container">
                     <div class="col-xs-12 col-md-6">
-                      <img src="/assets/images/reachout_about.jpg" class="img-responsive" alt="">
+                      <img src="/app/assets/images/reachout_about.jpg" class="img-responsive" alt="">
                     </div>
                   </div>
 

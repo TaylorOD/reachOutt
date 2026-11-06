@@ -27,7 +27,7 @@
 
 ### Running this app:
 
-Use Ruby 4.0.7, Node 24 or newer, and PostgreSQL 18. Copy `.env.example` to `.env` and set your local database connection.
+Use Ruby 4.0.7, Node 24.15 or newer, and PostgreSQL 18. Copy `.env.example` to `.env` and set your local database connection.
 
 ```sh
 bundle install
@@ -35,7 +35,9 @@ bundle exec rails db:prepare
 bundle exec rails server
 ```
 
-In another terminal, run `npm ci` and `npm run serve`.
+In another terminal, run `npm ci` and `npm run serve`. Open `http://127.0.0.1:8080/app/`. The dev server forwards API requests to Rails on port 3000.
+
+For the production build, run `npm run build` and open Rails at `http://127.0.0.1:3000`. Build output goes to `public/app`. Set `RAILS_SERVE_STATIC_FILES=true` in production unless your web server serves that directory.
 
 Run backend tests with `RAILS_ENV=test bundle exec rails db:prepare` and `bundle exec rails test`. On PowerShell, set `$env:RAILS_ENV='test'` before preparing the test database.
 
@@ -52,6 +54,10 @@ SMS is off by default. To enable it, set `SMS_ENABLED=true`, `TWILIO_ACCOUNT_SID
 The migration preserves existing records. Valid old schedules become due at their start date or the migration time, whichever is later. Invalid old schedules stay paused until edited. Review existing reminders before enabling SMS.
 
 Concurrent workers use row locks. Failed sends stay due for retry. A crash after Twilio accepts a message but before the database commits can still result in a duplicate on retry. Check Twilio delivery logs before manually retrying an uncertain send.
+
+### Frontend tests
+
+Run `npm test` for form tests. For browser tests, run `npm run build`, start Rails with SMS disabled, install Chromium with `npx playwright install chromium`, then run `npm run test:e2e`. Browser tests create fictional accounts in the database used by that server. Use a local or disposable database.
 
 ## Screenshots:
 
@@ -83,19 +89,11 @@ Medium:
 
 Big:
 
-- Rebuild front end with react
+The frontend uses Vue 3, Vue Router 5, and Vite 8.
 
 ### Contact
 
 - dorsetttaylordev@gmail.com
-
----
-
-## Open source licensing info
-
-1. [TERMS](TERMS.md)
-2. [LICENSE](LICENSE)
-3. [CFPB Source Code Policy](https://github.com/cfpb/source-code-policy/)
 
 ---
 

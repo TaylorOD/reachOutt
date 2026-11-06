@@ -33,9 +33,9 @@
           </div>
 
           <div class="text-center">
-            First Name: <input type="text" v-model="newContactFirstName" />
-            Last Name: <input type="text" v-model="newContactLastName" />
-            Phone Number: <input type="text" v-model="newContactPhoneNumber" />
+            First Name: <input type="text" v-model="newContactFirstName" aria-label="New FirstName" />
+            Last Name: <input type="text" v-model="newContactLastName" aria-label="New LastName" />
+            Phone Number: <input type="text" v-model="newContactPhoneNumber" aria-label="New PhoneNumber" />
           </div>
 
           <div class="text-center">
@@ -54,33 +54,22 @@
                   <h2>Existing Contacts</h2>
                 </div>
 
-                <div v-for="(contact, index) in contacts" class="col-sm-4" style="height: 400px">
+                <div v-for="(contact, index) in contacts" :key="contact.id" class="col-sm-4" style="height: 400px">
                   <!-- Image behind Contacts -->
-                  <img :src="`/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
-                  
+                  <img :src="`/app/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
+
                   <!-- Contact Cards -->
                   <div class="card-container card-container-lg">
                     <h4>Contact Name:</h4>
                     <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
                     <p>Phone Number: {{ contact.phone_number }}</p>
 
-                    <a class="btn btn-default" v-on:click="showContact(contact)">
+                    <a class="btn btn-default" role="button" tabindex="0" @keydown.enter="showContact(contact)" v-on:click="showContact(contact)">
                       <p>Edit Contact</p>
                     </a>
                   </div>
 
                   <!-- Modal to edit contacts -->
-                  <dialog id="contact-details">
-                    <form method="dialog">
-                      <h1>Contact info</h1>                    
-                      <p>First Name: <input v-model="currentContact.first_name"></p>
-                      <p>Last Name: <input v-model="currentContact.last_name"></p>
-                      <p>Phone Number: <input type="text" v-model="currentContact.phone_number"></p>
-                      <button class="btn btn-default btn-sm" v-on:click="updateContact(currentContact)">Update</button>
-                      <button class="btn btn-default btn-sm" v-on:click="destroyContact(currentContact)">Destroy</button>
-                      <button class="btn btn-default btn-sm">Close</button>
-                    </form>
-                  </dialog>
                 </div>
               </div>
             </div>
@@ -89,6 +78,19 @@
       </div>
     </div>
   </div>
+
+                  <dialog id="contact-details">
+                    <form method="dialog">
+                      <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
+                      <h1>Contact info</h1>
+                      <p>First Name: <input v-model="currentContact.first_name" aria-label="Edit first name"></p>
+                      <p>Last Name: <input v-model="currentContact.last_name" aria-label="Edit last name"></p>
+                      <p>Phone Number: <input type="text" v-model="currentContact.phone_number" aria-label="Edit phone number"></p>
+                      <button type="button" class="btn btn-default btn-sm" v-on:click="updateContact(currentContact)">Update</button>
+                      <button type="button" class="btn btn-default btn-sm" v-on:click="destroyContact(currentContact)">Destroy</button>
+                      <button class="btn btn-default btn-sm">Close</button>
+                    </form>
+                  </dialog>
 </template>
 
 <style>
@@ -153,7 +155,8 @@
         }
       },
       showContact(contact) {
-        this.currentContact = contact;
+        this.errorMessage = "";
+        this.currentContact = { ...contact };
         document.querySelector('#contact-details').showModal();
       },
       async updateContact(contact) {
@@ -163,7 +166,10 @@
           phone_number: contact.phone_number,
         };
         try {
-          await axios.patch(`/api/contacts/${contact.id}`, params);
+          const response = await axios.patch(`/api/contacts/${contact.id}`, params);
+          const index = this.contacts.findIndex(item => item.id === contact.id);
+          this.contacts.splice(index, 1, response.data);
+          document.querySelector("#contact-details").close();
         } catch (error) {
           this.errorMessage = 'Failed to update contact.';
         }
@@ -171,14 +177,16 @@
       async destroyContact(contact) {
         try {
           await axios.delete(`/api/contacts/${contact.id}`);
-          const index = this.contacts.indexOf(contact);
+          const index = this.contacts.findIndex(item => item.id === contact.id);
           this.contacts.splice(index, 1);
+          document.querySelector("#contact-details").close();
         } catch (error) {
           this.errorMessage = 'Failed to delete contact.';
         }
       },
       dismissAlert() {
         this.createdAlert = false;
+        this.errorMessage = "";
       },
     },
   };
