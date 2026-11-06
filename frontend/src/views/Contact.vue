@@ -56,7 +56,7 @@
 
                 <div v-for="(contact, index) in contacts" :key="contact.id" class="col-sm-4" style="height: 400px">
                   <!-- Image behind Contacts -->
-                  <img :src="`/app/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
+                  <img :src="assetPath(`assets/images/work0${index % 7 + 1}-hover.jpg`)" alt="" class="img-responsive">
 
                   <!-- Contact Cards -->
                   <div class="card-container card-container-lg">
@@ -96,6 +96,7 @@
 <style>
 </style>
 <script>
+import { assetPath } from "../config"
   import axios from 'axios';
 
   export default {
@@ -114,6 +115,7 @@
       this.indexContacts();
     },
     methods: {
+      assetPath,
       async indexContacts() {
         try {
           const response = await axios.get('/api/contacts');
