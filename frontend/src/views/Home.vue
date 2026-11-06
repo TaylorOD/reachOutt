@@ -11,7 +11,11 @@
               <div class="text-content">
                 <h1>
                   Hello,<br />
-                  <span>{{ greeting }}</span>
+                  <span class="sr-only"
+                    >I'm a family member. I'm a friend. I'm someone who misses you. I'm
+                    ReachOutt.</span
+                  >
+                  <span class="greeting" aria-hidden="true">{{ greeting }}</span>
                 </h1>
               </div>
             </div>
@@ -24,21 +28,53 @@
 
 <script>
 import { assetPath } from '../config'
+const greetings = [
+  "I'm a family member",
+  "I'm a friend",
+  "I'm someone who misses you",
+  "I'm ReachOutt"
+]
+
 export default {
-  methods: { assetPath },
+  methods: {
+    assetPath,
+    animateGreeting() {
+      const phrase = greetings[this.phraseIndex]
+      if (this.deleting) {
+        this.greeting = this.greeting.slice(0, -1)
+        if (!this.greeting) {
+          this.deleting = false
+          this.phraseIndex = (this.phraseIndex + 1) % greetings.length
+          this.timer = window.setTimeout(this.animateGreeting, 300)
+          return
+        }
+      } else {
+        this.greeting = phrase.slice(0, this.greeting.length + 1)
+        if (this.greeting === phrase) {
+          this.deleting = true
+          this.timer = window.setTimeout(this.animateGreeting, 2200)
+          return
+        }
+      }
+      this.timer = window.setTimeout(this.animateGreeting, this.deleting ? 45 : 85)
+    }
+  },
   data() {
-    return { greeting: "I'm a family member", timer: null }
+    return { greeting: greetings[0], phraseIndex: 0, deleting: true, timer: null }
   },
   mounted() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const greetings = ["I'm a family member", 'Friend', 'Someone who misses you', 'ReachOutt']
-    let index = 0
-    this.timer = window.setInterval(() => {
-      this.greeting = greetings[++index % greetings.length]
-    }, 3000)
+    this.timer = window.setTimeout(this.animateGreeting, 2200)
   },
   beforeUnmount() {
-    window.clearInterval(this.timer)
+    window.clearTimeout(this.timer)
   }
 }
 </script>
+
+<style scoped>
+.greeting {
+  display: inline-block;
+  min-height: 1em;
+}
+</style>
