@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   get '/up', to: 'rails/health#show', as: :rails_health_check
+  get '/health/ready', to: 'health#ready'
   root 'frontend#show'
   get '*path', to: 'frontend#show', constraints: ->(request) { !request.path.match?(%r{\A/(api|app|assets)(/|$)}) && request.format.html? }
 
