@@ -56,6 +56,8 @@ test('signup login contacts and reminders work together', async ({ page }, testI
   await page.getByRole('button', { name: 'Create Reachout' }).click()
   await expect(page.getByText('Topic: News', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Edit Reachout' }).click()
+  await expect(page.getByRole('dialog')).toContainText('Contact Name: Sam Example')
+  await expect(page.getByLabel('Edit contact id', { exact: true })).toHaveCount(0)
   await page.getByLabel('Edit topic', { exact: true }).selectOption('Sports')
   await page.screenshot({ path: `test-results/${testInfo.project.name}-edit.png`, fullPage: false, scale: 'css' })
   await page.getByRole('button', { name: 'Update', exact: true }).click()

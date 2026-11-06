@@ -40,6 +40,10 @@ class Api::ReachoutsController < ApplicationController
       return render json: { error: "Contact not found" }, status: :not_found
     end
 
+    if params[:contact_id] && params[:contact_id].to_s != @reachout.contact_id.to_s
+      return render json: { errors: ["A reminder's contact cannot be changed. Create a new reminder instead."] }, status: :unprocessable_entity
+    end
+
     if params.key?(:enabled) && ![true, false].include?(params[:enabled])
       return render json: { errors: ["Enabled must be true or false"] }, status: :bad_request
     end
@@ -48,7 +52,6 @@ class Api::ReachoutsController < ApplicationController
       @reachout.enabled = params[:enabled] if params.key?(:enabled)
       @reachout.start_date = params[:start_date] || @reachout.start_date
       @reachout.frequency = params[:frequency] || @reachout.frequency
-      @reachout.contact_id = params[:contact_id] || @reachout.contact_id
       @reachout.datetime = params[:datetime] || @reachout.datetime
       @reachout.topic = params[:topic] if params.key?(:topic)
       if @reachout.save
