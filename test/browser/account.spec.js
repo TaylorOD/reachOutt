@@ -2,11 +2,20 @@ import { test, expect } from '@playwright/test'
 
 test('account changes persist and email changes require a password', async ({ page }, testInfo) => {
   const email = `account-${testInfo.project.name}-${Date.now()}@example.test`
-  await page.request.post('/api/users', { data: { email, password: 'account test password', first_name: 'Alex', phone_number: '+15005550006' } })
-  const login = await page.request.post('/api/sessions', { data: { email, password: 'account test password' } })
+  await page.request.post('/api/users', {
+    data: {
+      email,
+      password: 'account test password',
+      first_name: 'Alex',
+      phone_number: '+15005550006'
+    }
+  })
+  const login = await page.request.post('/api/sessions', {
+    data: { email, password: 'account test password' }
+  })
   const { jwt } = await login.json()
   await page.goto('/login')
-  await page.evaluate(token => localStorage.setItem('jwt', token), jwt)
+  await page.evaluate((token) => localStorage.setItem('jwt', token), jwt)
   await page.goto('/account')
   await expect(page.getByLabel('Email', { exact: true })).toHaveValue(email)
   await page.getByLabel('First name', { exact: true }).fill('Sam')
@@ -23,5 +32,9 @@ test('account changes persist and email changes require a password', async ({ pa
   await page.getByLabel('Current password', { exact: true }).fill('account test password')
   await page.getByRole('button', { name: 'Save changes' }).click()
   await expect(page.getByText('Account saved.')).toBeVisible()
-  await page.screenshot({ path: `test-results/${testInfo.project.name}-account.png`, fullPage: true, scale: 'css' })
+  await page.screenshot({
+    path: `test-results/${testInfo.project.name}-account.png`,
+    fullPage: true,
+    scale: 'css'
+  })
 })

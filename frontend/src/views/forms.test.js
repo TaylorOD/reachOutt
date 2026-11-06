@@ -5,10 +5,15 @@ import Contact from './Contact.vue'
 import Reachout from './Reachout.vue'
 import Signup from './Signup.vue'
 
-vi.mock('axios', () => ({ default: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), delete: vi.fn() } }))
+vi.mock('axios', () => ({
+  default: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), delete: vi.fn() }
+}))
 
 let app
-const flush = async () => { await new Promise(resolve => setTimeout(resolve, 0)); await nextTick() }
+const flush = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 0))
+  await nextTick()
+}
 function mount(component) {
   const node = document.createElement('div')
   document.body.append(node)
@@ -18,14 +23,25 @@ function mount(component) {
 
 beforeEach(() => {
   axios.get.mockResolvedValue({ data: [] })
-  HTMLDialogElement.prototype.showModal = function () { this.open = true }
-  HTMLDialogElement.prototype.close = function () { this.open = false }
+  HTMLDialogElement.prototype.showModal = function () {
+    this.open = true
+  }
+  HTMLDialogElement.prototype.close = function () {
+    this.open = false
+  }
 })
-afterEach(() => { app?.unmount(); document.body.innerHTML = ''; vi.resetAllMocks() })
+afterEach(() => {
+  app?.unmount()
+  document.body.innerHTML = ''
+  vi.resetAllMocks()
+})
 
 describe('contact edits', () => {
   it('keeps edits separate until the server accepts them and only renders one dialog', async () => {
-    const contacts = [{ id: 1, first_name: 'Sam' }, { id: 2, first_name: 'Alex' }]
+    const contacts = [
+      { id: 1, first_name: 'Sam' },
+      { id: 2, first_name: 'Alex' }
+    ]
     axios.get.mockResolvedValue({ data: contacts })
     const page = mount(Contact)
     await flush()
@@ -35,7 +51,7 @@ describe('contact edits', () => {
     expect(page.contacts[1].first_name).toBe('Alex')
     axios.patch.mockResolvedValue({ data: { id: 2, first_name: 'Changed' } })
     await page.updateContact(page.currentContact)
-    expect(page.contacts.map(item => item.first_name)).toEqual(['Sam', 'Changed'])
+    expect(page.contacts.map((item) => item.first_name)).toEqual(['Sam', 'Changed'])
     expect(document.querySelector('dialog').open).toBe(false)
   })
 
@@ -55,7 +71,10 @@ describe('reminder edits', () => {
   it('saves the edited topic and replaces the correct reminder', async () => {
     const page = mount(Reachout)
     await flush()
-    page.reachouts = [{ id: 1, topic: 'News', contact: { first_name: 'Sam' } }, { id: 2, topic: 'News', contact: { first_name: 'Alex' } }]
+    page.reachouts = [
+      { id: 1, topic: 'News', contact: { first_name: 'Sam' } },
+      { id: 2, topic: 'News', contact: { first_name: 'Alex' } }
+    ]
     await nextTick()
     expect(document.querySelectorAll('dialog')).toHaveLength(1)
     page.showReachout(page.reachouts[1])
@@ -63,14 +82,19 @@ describe('reminder edits', () => {
     axios.patch.mockResolvedValue({ data: { ...page.currentReachout } })
     page.updateReachout(page.currentReachout)
     await flush()
-    expect(axios.patch).toHaveBeenCalledWith('/api/reachouts/2', expect.objectContaining({ topic: 'Sports' }))
-    expect(page.reachouts.map(item => item.topic)).toEqual(['News', 'Sports'])
+    expect(axios.patch).toHaveBeenCalledWith(
+      '/api/reachouts/2',
+      expect.objectContaining({ topic: 'Sports' })
+    )
+    expect(page.reachouts.map((item) => item.topic)).toEqual(['News', 'Sports'])
   })
 
   it('shows API validation errors', async () => {
     const page = mount(Reachout)
     await flush()
-    axios.post.mockRejectedValue({ response: { data: { errors: ['Start date must be a valid date'] } } })
+    axios.post.mockRejectedValue({
+      response: { data: { errors: ['Start date must be a valid date'] } }
+    })
     page.createReachout()
     await flush()
     expect(page.errorMessage).toContain('Start date')

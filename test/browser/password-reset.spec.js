@@ -15,5 +15,9 @@ test('request and reset forms handle success and invalid links', async ({ page }
   await page.getByLabel('New password', { exact: true }).fill('')
   await page.getByLabel('Confirm password', { exact: true }).fill('')
   await page.evaluate(() => window.scrollTo(0, 0))
-  await page.screenshot({ path: `test-results/${testInfo.project.name}-password-reset.png`, fullPage: true, scale: 'css' })
+  await page.screenshot({
+    path: `test-results/${testInfo.project.name}-password-reset.png`,
+    fullPage: true,
+    scale: 'css'
+  })
 })

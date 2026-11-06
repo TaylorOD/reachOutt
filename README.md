@@ -1,31 +1,14 @@
-## ReachOutt README:
+# ReachOutt
 
-### ReachOutt:
+ReachOutt helps you stay in touch with friends and family. Add contacts, choose a reminder schedule, and get a text when it is time to reach out. Optional jokes, news, and sports suggestions help start a conversation.
 
-- ReachOutt was build out of my frustration with not keeping in touch with friends and family that I care about. I often found myself going weeks without speaking to them. I developed ReachOutt as an automated system to remind me to keep in tough.
-- After signing up users can create contacts, people they would like to keep in touch with, and set reachouts, reminders to reach out to them, on whatever schedule they would like.
-- It utilizes several API's to send automated reminder texts and ideas of what to reach out about.
-- ReachOutt uses Twilio for texting reminders to reachout
-- You can find it online at: Reachoutt.com
+The app uses Rails, Vue 3, and PostgreSQL. It is still a beta. Local use and PR previews keep message delivery off by default.
 
-### Technology stack:
+## Features
 
-| Tech | What it does |
-| --- | --- |
-| Ruby on Rails | The API |
-| Vue.js and Bootstrap | The front end |
-| PostgreSQL | The database |
-| Twilio | Sends the reminder texts |
-| PostgreSQL schedule | Keeps reminders across restarts |
-| News API and JokeAPI | Ideas for what to reach out about |
-| bcrypt and JWT | Passwords and logins |
-| Heroku | Hosting |
+Manage your account, contacts, and reminders. Email changes require your current password. Password reset links expire after 15 minutes and work once. You can pause a reminder without deleting it. A reminder keeps its original contact, with contact details edited on the Contacts page.
 
-### Status:
-
-- Beta.
-
-### Running this app:
+## Local setup
 
 Use Ruby 4.0.7, Node 24.15 or newer, and PostgreSQL 18. Copy `.env.example` to `.env` and set your local database connection.
 
@@ -45,7 +28,13 @@ The app does not need the original encrypted credentials for local login. Produc
 
 Optional demo data is fictional. Set `SEED_DEMO=true` and run `bundle exec rails db:seed` in development. The demo login is `alex@example.test` with password `local demo password`.
 
-### Sending reminders
+## Tests
+
+Run `npm test` for form tests. For browser tests, run `npm run build`, start Rails with SMS disabled, install Chromium with `npx playwright install chromium`, then run `npm run test:e2e`. Browser tests create fictional accounts in the database used by that server. Use a local or disposable database.
+
+Run `npm run format:check` to check JavaScript and Vue formatting. Run `npm run format` to apply it. Backend checks include `bundle exec rails test` and `bundle exec rails zeitwerk:check`.
+
+## Reminders
 
 Run `bundle exec rails reminders:work` as a separate worker process. It checks schedules every minute. You can also run `bundle exec rails reminders:send` from an external scheduler. It reads due reminders from PostgreSQL. Start dates use UTC. Edits replace the schedule, and deleting a contact removes its reminders.
 
@@ -55,39 +44,13 @@ The migration preserves existing records. Valid old schedules become due at thei
 
 Concurrent workers use row locks. Failed sends stay due for retry. A crash after Twilio accepts a message but before the database commits can still result in a duplicate on retry. Check Twilio delivery logs before manually retrying an uncertain send.
 
-### Frontend tests
+Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
 
-Run `npm test` for form tests. For browser tests, run `npm run build`, start Rails with SMS disabled, install Chromium with `npx playwright install chromium`, then run `npm run test:e2e`. Browser tests create fictional accounts in the database used by that server. Use a local or disposable database.
-
-## Screenshots:
-
-- ![Home Page](/frontend/public/assets/images/ReachOutt_Home_screenshot.png 'Home Page')
-- ![About Page](/frontend/public/assets/images/ReachOutt_About_screenshot.png 'About Page')
-- ![Reachouts Page](/frontend/public/assets/images/ReachOutt_Reachout_screenshot.png 'Reachouts Page')
-
-### Contributing
-
-- Contributor Guidelines: Feel free to contribute or fork this project.
-- Code Style/Requirements: If you are going to contribute please use rails, javascript, or vue.
-
-### Contact
-
-- dorsetttaylordev@gmail.com
-
----
-
-## Credits and references
-
-1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
-2. Reminders use a database schedule and a recurring task.
-
-### Password reset email
+## Password reset email
 
 Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.
 
-Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
-
-### Heroku setup
+## Heroku setup
 
 The Procfile runs database migrations during release and defines separate web and reminder processes. Configure the Node.js buildpack before Ruby so the Vue build is included. The app still uses Vue 3, Vue Router 5, and Vite 8.
 
@@ -95,10 +58,24 @@ Keep your existing PostgreSQL database and stable `SECRET_KEY_BASE`. Configure `
 
 Schedules and pause status live in PostgreSQL. A restarted worker resumes from those records instead of losing timers. The worker still needs to be running for messages to go out. Set the SMS and email settings above only when you are ready to enable delivery. This repository does not provision hosting or send a test text automatically.
 
-### Pull request previews
+## PR previews
 
 PR Preview Action v1.8.2 publishes frontend previews for branches in this repository and removes them when the PR closes. Fork and Dependabot PRs are skipped because they do not have the required write permissions.
 
 Previews use fictional records and replace HTTP requests with a local, read only adapter. They cannot access Rails, save changes, send email, or send texts. Hash routing keeps links working under each PR folder on GitHub Pages. Production builds still use the Rails API and normal routes.
 
 GitHub Pages must publish the root of the `gh-pages` branch. The preview workflow has permission to write that branch and leave a preview link on the PR. Full backend behavior is covered by the Rails and browser tests.
+
+## Code guide
+
+See [the code guide](docs/code-guide.md) for the folder layout, authentication flow, reminder lifecycle, and editing conventions. Keep unrelated work in separate PRs and include desktop and mobile screenshots for review.
+
+## Screenshots
+
+![Account](docs/screenshots/desktop-account.png)
+
+![Reminder editor](docs/screenshots/desktop-fixed-contact.png)
+
+## Contact
+
+dorsetttaylordev@gmail.com

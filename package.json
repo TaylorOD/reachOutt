@@ -13,7 +13,9 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "heroku-postbuild": "npm run build",
-    "test:preview": "playwright test --config playwright.preview.config.js"
+    "test:preview": "playwright test --config playwright.preview.config.js",
+    "format": "prettier --write \"frontend/src/**/*.{js,vue}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json",
+    "format:check": "prettier --check \"frontend/src/**/*.{js,vue}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json"
   },
   "dependencies": {
     "axios": "^1.21.0",
@@ -24,6 +26,7 @@
     "@playwright/test": "^1.65.0",
     "@vitejs/plugin-vue": "^6.0.10",
     "jsdom": "^31.0.0",
+    "prettier": "3.9.10",
     "vite": "^8.3.6",
     "vitest": "^5.1.0"
   }

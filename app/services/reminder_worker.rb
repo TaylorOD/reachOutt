@@ -1,5 +1,9 @@
 class ReminderWorker
-  def initialize(dispatcher: -> { ReminderDispatcher.call if ReminderDelivery.enabled? }, sleeper: ->(seconds) { sleep(seconds) }, interval: 60)
+  def initialize(
+    dispatcher: -> { ReminderDispatcher.call if ReminderDelivery.enabled? },
+    sleeper: ->(seconds) { sleep(seconds) },
+    interval: 60
+  )
     @dispatcher = dispatcher
     @sleeper = sleeper
     @interval = interval

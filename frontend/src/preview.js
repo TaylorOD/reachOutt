@@ -1,16 +1,24 @@
 import { AxiosError } from 'axios'
 
 const account = {
-  id: 1, first_name: 'Alex', last_name: 'Example',
-  email: 'alex@example.test', phone_number: '+12025550100'
+  id: 1,
+  first_name: 'Alex',
+  last_name: 'Example',
+  email: 'alex@example.test',
+  phone_number: '+12025550100'
 }
 const contacts = [
   { id: 1, first_name: 'Sam', last_name: 'Example', phone_number: '+12025550101' },
   { id: 2, first_name: 'Jordan', last_name: 'Example', phone_number: '+12025550102' }
 ]
 const reachouts = contacts.map((contact, index) => ({
-  id: contact.id, contact_id: contact.id, contact,
-  frequency: '7d', start_date: '2030-01-01', topic: index ? 'Jokes' : 'News', enabled: !index
+  id: contact.id,
+  contact_id: contact.id,
+  contact,
+  frequency: '7d',
+  start_date: '2030-01-01',
+  topic: index ? 'Jokes' : 'News',
+  enabled: !index
 }))
 const pages = { '/api/account': account, '/api/contacts': contacts, '/api/reachouts': reachouts }
 
