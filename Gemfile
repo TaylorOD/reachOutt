@@ -10,7 +10,6 @@ gem 'twilio-ruby', '~> 7.8'
 gem 'http', '~> 5.3'
 gem 'rack-cors', '~> 3.0'
 gem 'jb', '~> 0.8'
-gem 'rufus-scheduler', '~> 3.9'
 gem 'tzinfo-data', platforms: [:windows, :jruby]
 group :development, :test do
   gem 'minitest', '~> 5.25'

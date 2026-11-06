@@ -16,7 +16,7 @@
 | Vue.js and Bootstrap | The front end |
 | PostgreSQL | The database |
 | Twilio | Sends the reminder texts |
-| rufus-scheduler | Times the reminders |
+| PostgreSQL schedule | Keeps reminders across restarts |
 | News API and JokeAPI | Ideas for what to reach out about |
 | bcrypt and JWT | Passwords and logins |
 | Heroku | Hosting |
@@ -43,6 +43,16 @@ The app does not need the original encrypted credentials for local login. Produc
 
 Optional demo data is fictional. Set `SEED_DEMO=true` and run `bundle exec rails db:seed` in development. The demo login is `alex@example.test` with password `local demo password`.
 
+### Sending reminders
+
+Run `bundle exec rails reminders:send` every minute with your hosting scheduler or cron. It reads due reminders from PostgreSQL. Start dates use UTC. Edits replace the schedule, and deleting a contact removes its reminders.
+
+SMS is off by default. To enable it, set `SMS_ENABLED=true`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER`. News and sports suggestions also need `NEWS_API_KEY`. Failed suggestions do not block the reminder.
+
+The migration preserves existing records. Valid old schedules become due at their start date or the migration time, whichever is later. Invalid old schedules stay paused until edited. Review existing reminders before enabling SMS.
+
+Concurrent workers use row locks. Failed sends stay due for retry. A crash after Twilio accepts a message but before the database commits can still result in a duplicate on retry. Check Twilio delivery logs before manually retrying an uncertain send.
+
 ## Screenshots:
 
 - ![Home Page](/frontend/public/assets/images/ReachOutt_Home_screenshot.png 'Home Page')
@@ -56,7 +66,7 @@ Optional demo data is fictional. Set `SEED_DEMO=true` and run `bundle exec rails
 
 ### Known issues
 
-- reachouts don't persist after a certain period of time on heroku
+Reminder delivery requires a scheduled worker.
 
 ### TODO
 
@@ -92,4 +102,4 @@ Big:
 ## Credits and references
 
 1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
-2. I use Rufus-Scheduler for my reminders. It's a simple version of a cron job.
+2. Reminders use a database schedule and a recurring task.
