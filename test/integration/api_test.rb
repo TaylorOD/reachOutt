@@ -47,4 +47,23 @@ class ApiTest < ActionDispatch::IntegrationTest
     get '/up'
     assert_response :success
   end
+
+  test 'signed Twilio callbacks return XML' do
+    previous = ENV['TWILIO_AUTH_TOKEN']
+    ENV['TWILIO_AUTH_TOKEN'] = 'test callback token'
+    params = { 'MessageStatus' => 'delivered' }
+    signature = Twilio::Security::RequestValidator.new(ENV['TWILIO_AUTH_TOKEN']).build_signature_for('http://www.example.com/api/twilio/status', params)
+    post '/api/twilio/status', params: params, headers: { 'X-Twilio-Signature' => signature }
+    assert_response :success
+    assert_includes response.media_type, 'xml'
+    assert_includes response.body, '<Response'
+  ensure
+    previous.nil? ? ENV.delete('TWILIO_AUTH_TOKEN') : ENV['TWILIO_AUTH_TOKEN'] = previous
+  end
+
+  test 'missing API and asset routes never serve the frontend' do
+    ['/api/missing', '/app/assets/missing.js'].each do |path|
+      assert_raises(ActionController::RoutingError) { get path }
+    end
+  end
 end
