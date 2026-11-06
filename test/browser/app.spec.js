@@ -22,7 +22,7 @@ test('public pages load their assets and show login errors', async ({ page }, te
   expect(failures).toEqual([])
 })
 
-test('signup login contacts and reminders work together', async ({ page }, testInfo) => {
+test('signup login contacts and reminders work together', async ({ page, baseURL }, testInfo) => {
   const errors = []
   page.on('pageerror', (error) => errors.push(error.message))
   const email = `browser-${testInfo.project.name}-${Date.now()}@example.test`
@@ -46,7 +46,7 @@ test('signup login contacts and reminders work together', async ({ page }, testI
   await page.getByLabel('email', { exact: true }).fill(email)
   await page.getByLabel('password', { exact: true }).fill('browser test password')
   await page.getByRole('button', { name: 'Submit' }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:3000/')
+  await expect(page).toHaveURL(new URL('/', baseURL).href)
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Toggle navigation' }).click()
   await page.getByRole('link', { name: '03: Contacts' }).click()

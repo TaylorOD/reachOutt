@@ -20,5 +20,7 @@ services:
         generateValue: true
       - key: DATABASE_URL
         sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
       - key: SMS_ENABLED
         value: "false"

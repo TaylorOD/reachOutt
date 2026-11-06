@@ -60,3 +60,4 @@ pnpm-debug.log*
 /playwright-report/
 *.dump
 *.dump.gpg
+.neon
