@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class HealthControllerTest < ActionDispatch::IntegrationTest
   test "readiness checks the database without authentication" do
