@@ -21,9 +21,21 @@ Keep backend unit tests on a disposable local database. Rails does not load .env
 
 ## Email
 
-Email is a separate setup step. Configure MAIL_FROM, SMTP_ADDRESS, SMTP_PORT, SMTP_USERNAME, and SMTP_PASSWORD in Render. Verify the sender with the provider before testing password reset.
+The live app uses Brevo for password reset emails. Save these settings privately in Render:
 
-Render blocks outbound SMTP ports 25, 465, and 587 on free web services. A provider supporting STARTTLS on port 2525, such as SMTP2GO, can work with the existing mailer. Check its current free allowance and sender verification requirements. Do not enable password resets for real users until a reset email arrives and its link works once.
+| Setting | Value |
+| --- | --- |
+| SMTP_ADDRESS | smtp-relay.brevo.com |
+| SMTP_PORT | 2525 |
+| SMTP_USERNAME | The SMTP login shown in your Brevo account |
+| SMTP_PASSWORD | A dedicated SMTP key, not an API key |
+| MAIL_FROM | ReachOutt followed by your verified sender address in angle brackets |
+
+Rails requires STARTTLS and checks certificates. Port 2525 works with Render's free service, which blocks outbound SMTP ports 25, 465, and 587. Do not disable TLS to work around delivery errors.
+
+Complete Brevo account verification and verify your sender before sending. A Gmail sender can be rewritten to a brevosend.com address by Brevo. A verified domain is a future deliverability improvement, not a requirement for the tested beta setup.
+
+On November 6, 2026, a reset email from the live app arrived in Gmail. Its link reset a temporary account's password, the new password allowed login, and reusing the link returned HTTP 422. The temporary account was removed. Repeat this check after changing the sender, app origin, credentials, or email provider.
 
 ## Reminders
 
@@ -37,7 +49,9 @@ Use /health/ready for Render's health check and review failed deploys in its das
 
 Neon's free restore history is limited to six hours and up to 1 GB of changes. It is not a replacement for an independent backup. Follow the [encrypted backup and restore guide](backups.md) before enabling the optional backup schedule. Never upload a plain database dump to a public repository or Actions artifact.
 
-Before launch, confirm the app survives a service restart, email delivery works, an approved test text arrives, and a backup restores successfully. Until then, this setup is prepared but not verified live.
+See [operations alerts](monitoring.md) for failed and overdue workflow checks. GitHub issue assignment uses your account's notification preferences. It does not guarantee email delivery or detect an outage of GitHub itself.
+
+See [launch status](launch-status.md) for live checks and remaining setup. Keep SMS disabled until an approved test text arrives and the scheduled sender has been verified.
 
 ## Provider documentation
 
@@ -45,4 +59,4 @@ Before launch, confirm the app survives a service restart, email delivery works,
 
 [Neon free limits and restore history](https://neon.com/docs/introduction/plans)
 
-[SMTP2GO connection settings](https://www.smtp2go.com/setup/)
+[Brevo SMTP settings](https://developers.brevo.com/docs/smtp-integration)
