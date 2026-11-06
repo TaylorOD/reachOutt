@@ -17,32 +17,32 @@
 
           <div class="form-group">
             <label>First Name:</label> 
-            <input type="text" class="form-control" v-model="first_name">
+            <input type="text" class="form-control" v-model="first_name" aria-label="first name">
           </div>
 
           <div class="form-group">
             <label>Last Name:</label> 
-            <input type="text" class="form-control" v-model="last_name">
+            <input type="text" class="form-control" v-model="last_name" aria-label="last name">
           </div>
 
           <div class="form-group">
             <label>Phone Number:</label>
-            <input type="text" class="form-control" v-model="phone_number">
+            <input type="text" class="form-control" v-model="phone_number" aria-label="phone number">
           </div>          
 
           <div class="form-group">
             <label>Email:</label>
-            <input type="email" class="form-control" v-model="email">
+            <input type="email" class="form-control" v-model="email" aria-label="email">
           </div>
 
           <div class="form-group">
             <label>Password:</label>
-            <input type="password" class="form-control" v-model="password">
+            <input type="password" class="form-control" v-model="password" aria-label="password">
           </div>
 
           <div class="form-group">
             <label>Password confirmation:</label>
-            <input type="password" class="form-control" v-model="passwordConfirmation">
+            <input type="password" class="form-control" v-model="passwordConfirmation" aria-label="passwordConfirmation">
           </div>
 
           <input type="submit" class="btn btn-primary" value="Submit">
@@ -83,7 +83,7 @@
             this.$router.push("/login");
           })
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors || ["Could not sign up. Please try again."];
           });
       },
     },

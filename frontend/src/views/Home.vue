@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="hero-full-container background-image-container white-text-container" style="background-image: url('./assets/images/space.jpg')">
+    <div class="hero-full-container background-image-container white-text-container" style="background-image: url('/app/assets/images/space.jpg')">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -8,13 +8,7 @@
               <!-- Scrolling Text Div -->
               <div class="text-content">
                 <h1>Hello,<br>
-                  <span id="typed-strings">
-                    <span>I'm a family member</span>
-                    <span>Friend</span>
-                    <span>Someone who misses you</span>
-                    <span>ReachOutt</span>
-                  </span>
-                  <span id="typed"></span>
+                  <span>{{ greeting }}</span>
                 </h1>
               </div>
             </div>
@@ -29,10 +23,14 @@
 </style>
 
 <script>
-  export default{
-    mounted: function () {
-      type();
-      movingBackgroundImage();
-    }
-  }
+export default {
+  data() { return { greeting: "I'm a family member", timer: null } },
+  mounted() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const greetings = ["I'm a family member", 'Friend', 'Someone who misses you', 'ReachOutt']
+    let index = 0
+    this.timer = window.setInterval(() => { this.greeting = greetings[++index % greetings.length] }, 3000)
+  },
+  beforeUnmount() { window.clearInterval(this.timer) }
+}
 </script>
