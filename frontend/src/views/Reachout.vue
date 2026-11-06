@@ -71,7 +71,7 @@
 
                 <div v-for="(reachout, index) in reachouts.filter(item => item.contact)" :key="reachout.id" class="col-sm-4" style="height: 500px">
                   <!-- Image behind Reachouts -->
-                  <img :src="`/app/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
+                  <img :src="assetPath(`assets/images/work0${index % 7 + 1}-hover.jpg`)" alt="" class="img-responsive">
                   <!-- Reachout Cards -->
                   <div class="card-container card-container-lg">
                     <h4>Reachouts:</h4>
@@ -147,6 +147,7 @@
 </style>
 
 <script>
+import { assetPath } from "../config"
   import axios from "axios";
 
   export default {
@@ -182,6 +183,7 @@
 
     },
     methods: {
+      assetPath,
       async toggleReachout(reachout) {
         if (this.pendingIds.includes(reachout.id)) return
         this.pendingIds.push(reachout.id)

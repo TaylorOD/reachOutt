@@ -12,7 +12,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "test:preview": "playwright test --config playwright.preview.config.js"
   },
   "dependencies": {
     "axios": "^1.21.0",

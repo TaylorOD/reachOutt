@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { isPreview } from '../config'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Reachout from '../views/Reachout.vue'
@@ -39,12 +40,12 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.DEV ? "/app/" : "/"),
+  history: isPreview ? createWebHashHistory(import.meta.env.BASE_URL) : createWebHistory(import.meta.env.DEV ? "/app/" : "/"),
   routes
 })
 
 router.beforeEach(to => {
-  if (['/contact', '/reachout', '/account'].includes(to.path) && !localStorage.getItem('jwt')) return '/login'
+  if (!isPreview && ['/contact', '/reachout', '/account'].includes(to.path) && !localStorage.getItem('jwt')) return '/login'
 })
 
 export default router

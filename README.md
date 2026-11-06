@@ -94,3 +94,11 @@ The Procfile runs database migrations during release and defines separate web an
 Keep your existing PostgreSQL database and stable `SECRET_KEY_BASE`. Configure `DATABASE_URL` and `RAILS_SERVE_STATIC_FILES=true`. Enable one worker with `heroku ps:scale worker=1 --app YOUR_APP` after checking your plan and costs. Creating a Procfile alone does not enable a worker.
 
 Schedules and pause status live in PostgreSQL. A restarted worker resumes from those records instead of losing timers. The worker still needs to be running for messages to go out. Set the SMS and email settings above only when you are ready to enable delivery. This repository does not provision hosting or send a test text automatically.
+
+### Pull request previews
+
+PR Preview Action v1.8.2 publishes frontend previews for branches in this repository and removes them when the PR closes. Fork and Dependabot PRs are skipped because they do not have the required write permissions.
+
+Previews use fictional records and replace HTTP requests with a local, read only adapter. They cannot access Rails, save changes, send email, or send texts. Hash routing keeps links working under each PR folder on GitHub Pages. Production builds still use the Rails API and normal routes.
+
+GitHub Pages must publish the root of the `gh-pages` branch. The preview workflow has permission to write that branch and leave a preview link on the PR. Full backend behavior is covered by the Rails and browser tests.

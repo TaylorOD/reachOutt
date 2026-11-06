@@ -1,0 +1,42 @@
+name: PR previews
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: preview-${{ github.event.number }}
+  cancel-in-progress: false
+jobs:
+  preview:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    env:
+      VITE_PR_PREVIEW: 'true'
+      PREVIEW_BASE_PATH: /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        if: github.event.action != 'closed'
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Build isolated frontend preview
+        if: github.event.action != 'closed'
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Check preview routes and isolation
+        if: github.event.action != 'closed'
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:preview
+      - name: Deploy or remove preview
+        uses: rossjrw/pr-preview-action@v1.8.2
+        with:
+          source-dir: ./public/app
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          qr-code: false

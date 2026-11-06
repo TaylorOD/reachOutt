@@ -27,7 +27,7 @@
                   <!-- Image Div -->
                   <div class="container">
                     <div class="col-xs-12 col-md-6">
-                      <img src="/app/assets/images/reachout_about.jpg" class="img-responsive" alt="">
+                      <img :src="assetPath('assets/images/reachout_about.jpg')" class="img-responsive" alt="">
                     </div>
                   </div>
 
@@ -40,3 +40,8 @@
     </div>
   </div>
 </template>
+
+<script>
+import { assetPath } from "../config"
+export default { methods: { assetPath } }
+</script>
