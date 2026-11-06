@@ -5,7 +5,7 @@ The Database backup workflow makes a daily PostgreSQL export, encrypts it with G
 ## Setup
 
 1. Create a random passphrase with at least 32 characters. Save it in your password manager with the app name and date. Losing it means losing access to these backups.
-2. Add it as BACKUP_PASSPHRASE in the GitHub production environment. That environment must allow only main. DATABASE_URL should be the same direct Neon connection used by the app, with TLS.
+2. Add it as BACKUP_PASSPHRASE in the GitHub production environment. That environment must allow only main. Add Neon's direct connection as DATABASE_URL_UNPOOLED, with TLS. Existing setups may use a direct DATABASE_URL instead.
 3. Set the repository variable BACKUPS_ENABLED to true. Run Database backup manually and download its artifact.
 4. Perform the restore check below before relying on the schedule. Enable Actions failure notifications and check backup dates regularly.
 
@@ -15,7 +15,7 @@ GitHub schedules can be late or missed and stop after 60 days of repository inac
 
 ## Local export
 
-Install PostgreSQL 18 client tools and GnuPG. In a private terminal, set DATABASE_URL and BACKUP_PASSPHRASE without saving them in shell history. Then run:
+Install PostgreSQL 18 client tools and GnuPG. In a private terminal, set DATABASE_URL_UNPOOLED and BACKUP_PASSPHRASE without saving them in shell history. The script prefers DATABASE_URL_UNPOOLED and falls back to DATABASE_URL. Then run:
 
 ```sh
 bash bin/database-backup reachoutt.dump.gpg

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require_relative "../config/application"
+
+Dotenv::Rails.load
+# Migrations use session locks, which require a direct PostgreSQL connection.
+ENV["DATABASE_URL"] = ENV["DATABASE_URL_UNPOOLED"] if ENV["DATABASE_URL_UNPOOLED"].to_s != ""
+ARGV.unshift("db:migrate")
+load File.expand_path("rails", __dir__)

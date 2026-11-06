@@ -66,6 +66,8 @@ Production redirects user traffic to HTTPS and logs at info level. Use `/health/
 
 For a fresh free deployment, see [free hosting](docs/free-hosting.md). The Render Blueprint provisions only a free web service. It uses an external Neon database and keeps SMS disabled.
 
+For Neon, `neon deploy` pulls private database settings into .env.local. Run `bundle exec ruby bin/migrate` to use the direct connection for migrations. Rails uses the pooled DATABASE_URL for normal requests. Never add these connection strings to frontend variables or commit them.
+
 ### Heroku
 
 The Procfile runs database migrations during release and defines separate web and reminder processes. Configure the Node.js buildpack before Ruby so the Vue build is included. The app still uses Vue 3, Vue Router 5, and Vite 8.
