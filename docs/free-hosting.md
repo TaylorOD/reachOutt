@@ -7,13 +7,17 @@ This is suitable for a small beta with delays and usage limits. Render sleeps af
 ## Deploy
 
 1. Create a Neon project on the Free plan, near Render's Oregon region. Choose PostgreSQL 18 and keep autosuspend enabled. This is a fresh database.
-2. Copy the direct PostgreSQL connection string with TLS enabled. Keep it private. Do not use a pooled connection for migrations.
+2. Run `neon init` to link your existing project, then `neon deploy`. Neon writes DATABASE_URL and DATABASE_URL_UNPOOLED into the ignored .env.local file, or .env if it already exists. Keep both private.
 3. In Render, create a Blueprint from this repository and its main branch. Review that it contains only one web service with plan Free. There is no Render database or paid worker.
-4. Enter the connection string as DATABASE_URL. Render generates SECRET_KEY_BASE once. Keep this value stable across deploys.
+4. Enter both connection strings in Render. DATABASE_URL is pooled for app traffic. DATABASE_URL_UNPOOLED is direct for migrations. Render generates SECRET_KEY_BASE once. Keep this value stable across deploys.
 5. Deploy and check /health/ready. The start script runs migrations before starting the server. A failed migration prevents startup.
 6. Open the app and create a test account. Add a contact and a paused reminder. Restart the web service and confirm both records remain.
 
 Render supplies the default public address through RENDER_EXTERNAL_URL. Set APP_URL to your trusted HTTPS origin if you add a custom domain. Never use a PR preview address for password resets.
+
+Rails keeps its existing Active Record and pg driver. It loads the ignored local environment file automatically in development. Run `bundle exec ruby bin/migrate` to apply migrations through the direct connection, then `bundle exec rails server`. The same migration command runs during Render and Heroku releases. Neon provides the database here. The Rails web app still needs its separate host.
+
+Keep backend unit tests on a disposable local database. Rails does not load .env.local in the test environment. Do not export the production DATABASE_URL into a test terminal. Browser tests target the running app, so only point E2E_BASE_URL at an app where fictional test records are acceptable.
 
 ## Email
 

@@ -2,7 +2,7 @@
 set -euo pipefail
 umask 077
 
-: "${DATABASE_URL:?Set DATABASE_URL}"
+database_url="${DATABASE_URL_UNPOOLED:-${DATABASE_URL:?Set DATABASE_URL or DATABASE_URL_UNPOOLED}}"
 : "${BACKUP_PASSPHRASE:?Set BACKUP_PASSPHRASE}"
 if [ "${#BACKUP_PASSPHRASE}" -lt 32 ]; then
   echo "Use a randomly generated backup passphrase of at least 32 characters." >&2
@@ -16,7 +16,7 @@ fi
 
 temporary=$(mktemp -d)
 trap 'rm -f -- "$temporary/database.dump" "$temporary/database.dump.gpg"; rmdir -- "$temporary"' EXIT
-pg_dump --dbname="$DATABASE_URL" --format=custom --no-owner --no-acl --file="$temporary/database.dump"
+pg_dump --dbname="$database_url" --format=custom --no-owner --no-acl --file="$temporary/database.dump"
 gpg --batch --pinentry-mode loopback --passphrase-fd 3 --symmetric \
   --cipher-algo AES256 --output "$temporary/database.dump.gpg" \
   "$temporary/database.dump" 3<<<"$BACKUP_PASSPHRASE"
