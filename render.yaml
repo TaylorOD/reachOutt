@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: reachoutt
+    runtime: ruby
+    plan: free
+    region: oregon
+    branch: main
+    autoDeployTrigger: checksPass
+    buildCommand: bash bin/render-build
+    startCommand: bash bin/render-start
+    healthCheckPath: /health/ready
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "24.15.0"
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: SMS_ENABLED
+        value: "false"

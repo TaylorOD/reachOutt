@@ -51,6 +51,8 @@ pnpm-debug.log*
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 .env
+.env.*
+!.env.example
 
 /public/app/
 
