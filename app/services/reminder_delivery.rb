@@ -6,6 +6,11 @@ class ReminderDelivery
   def self.call(reachout)
     return false unless enabled?
 
+    allowed = ENV.fetch('SMS_ALLOWED_RECIPIENTS', '').split(',').map(&:strip)
+    unless allowed.include?(reachout.user.phone_number)
+      raise ArgumentError, 'SMS recipient has not been approved'
+    end
+
     client = Twilio::REST::Client.new(
       ENV.fetch('TWILIO_ACCOUNT_SID'), ENV.fetch('TWILIO_AUTH_TOKEN'),
       nil, nil, Twilio::HTTP::Client.new(timeout: 10)
