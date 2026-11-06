@@ -1,1 +1,0 @@
-function e(e){return`/reachOutt/pr-preview/pr-167/${e}`}export{e as t};
