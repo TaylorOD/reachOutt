@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
+    post "/password_resets" => "password_resets#create"
+    patch "/password_resets" => "password_resets#update"
     get "/account" => "account#show"
     patch "/account" => "account#update"
     get "/contacts" => "contacts#index"

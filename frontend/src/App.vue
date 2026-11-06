@@ -63,6 +63,7 @@ export default {
 </script>
 
 <style>
+.text-danger { color: #a61b1b; }
 .btn-primary:hover, .btn-primary:focus { color: #fff; background: #000; border-color: #000; }
 .navbar-inverse .navbar-nav > li > a { color: #fff; }
 dialog { max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); overflow: auto; }

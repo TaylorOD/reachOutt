@@ -83,7 +83,6 @@ Small:
 Medium:
 
 - Remove Ability to change contact name on reachout page
-- Create Password Reset Function
 - Add Ability to turn ReachOuts off
 
 Big:
@@ -100,3 +99,7 @@ The frontend uses Vue 3, Vue Router 5, and Vite 8.
 
 1. Projects that inspired me: A terrible google calendar system I built years ago that resulted in me constantly putting off calendar reminders.
 2. Reminders use a database schedule and a recurring task.
+
+### Password reset email
+
+Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.

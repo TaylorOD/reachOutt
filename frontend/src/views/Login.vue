@@ -25,6 +25,7 @@
           </div>
           <input type="submit" class="btn btn-primary" value="Submit">
         </form>
+        <router-link to="/forgot-password">Forgot your password?</router-link>
       </div>
     </div>
   </div>

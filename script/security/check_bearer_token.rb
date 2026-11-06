@@ -29,7 +29,8 @@ module Rails
   def self.secret_key_base; 'test-only-secret'; end
 end
 class User
-  def self.find_by(id:); raise 'wrong id' unless id == 7; :valid_user; end
+  VALID_USER = Struct.new(:session_version).new(0)
+  def self.find_by(id:); raise 'wrong id' unless id == 7; VALID_USER; end
 end
 load File.join(ARGV.fetch(0), 'app/controllers/application_controller.rb')
 class BearerTokenTest < Minitest::Test
@@ -45,7 +46,7 @@ class BearerTokenTest < Minitest::Test
       old = header && header[/(?<=\A(Bearer ))\S+\z/]
       result=controller(header).current_user
       if old && old != 'expired'
-        assert_equal :valid_user,result
+        assert_equal User::VALID_USER,result
         assert_equal old,$decoded_token
       else
         assert_nil result
