@@ -1,0 +1,35 @@
+name: Database backup
+on:
+  schedule:
+    - cron: '43 8 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: production-backup
+  cancel-in-progress: false
+jobs:
+  backup:
+    if: github.repository == 'TaylorOD/reachOutt' && github.ref == 'refs/heads/main' && vars.BACKUPS_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install PostgreSQL client and encryption tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-18 gnupg
+      - name: Export and encrypt
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: bash bin/database-backup database.dump.gpg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: database-backup-${{ github.run_id }}
+          path: database.dump.gpg
+          retention-days: 7
+          if-no-files-found: error
