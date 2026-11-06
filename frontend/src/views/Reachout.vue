@@ -75,6 +75,8 @@
                   <!-- Reachout Cards -->
                   <div class="card-container card-container-lg">
                     <h4>Reachouts:</h4>
+                    <p>Status: {{ reachout.enabled ? 'Active' : 'Paused' }}</p>
+                    <button class="btn btn-default" :disabled="pendingIds.includes(reachout.id)" @click="toggleReachout(reachout)">{{ reachout.enabled ? 'Pause reminder' : 'Resume reminder' }}</button>
 
                     <p>Contact Name: {{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</p>
                     
@@ -154,6 +156,7 @@
     data: function() {
       return {
         reachouts: [],
+        pendingIds: [],
         reachoutFrequencys: [
           { name: "Daily", id: 1, value: "1d" },
           { name: "Weekly", id: 2, value: "7d" },
@@ -182,6 +185,17 @@
 
     },
     methods: {
+      async toggleReachout(reachout) {
+        if (this.pendingIds.includes(reachout.id)) return
+        this.pendingIds.push(reachout.id)
+        this.errorMessage = ''
+        try {
+          const response = await axios.patch(`/api/reachouts/${reachout.id}`, { enabled: !reachout.enabled })
+          const index = this.reachouts.findIndex(item => item.id === reachout.id)
+          if (index !== -1) this.reachouts.splice(index, 1, response.data)
+        } catch (error) { this.errorMessage = 'Could not change reminder status. Please try again.' }
+        finally { this.pendingIds = this.pendingIds.filter(id => id !== reachout.id) }
+      },
       indexReachouts: function() {
         axios.get("/api/reachouts").then(response => {
           this.reachouts = response.data;
@@ -238,9 +252,8 @@
           .patch(`/api/reachouts/${reachout.id}`, params)
           .then(response => {
             var index = this.reachouts.findIndex(item => item.id === reachout.id);
-            this.reachouts.splice(index, 1);
-              document.querySelector("#reachout-details").close();
-            this.reachouts.push(response.data);
+            if (index !== -1) this.reachouts.splice(index, 1, response.data);
+            document.querySelector("#reachout-details").close();
           })
           .catch(error => { this.errorMessage = error.response?.data?.errors?.join(" ") || "Could not save reminder." })
       },
@@ -249,8 +262,9 @@
             .delete(`/api/reachouts/${reachout.id}`)
             .then(response => {
               // remove this reachout from this.reachouts / you don't have to reload page
-              var index = this.reachouts.indexOf(reachout);
-              this.reachouts.splice(index, 1);
+              var index = this.reachouts.findIndex(item => item.id === reachout.id);
+              if (index !== -1) this.reachouts.splice(index, 1);
+              document.querySelector("#reachout-details").close();
             })
             .catch(error => { this.errorMessage = error.response?.data?.errors?.join(" ") || "Could not save reminder." })
       },

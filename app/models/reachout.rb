@@ -5,13 +5,14 @@ class Reachout < ApplicationRecord
     '182.5d' => 'Semiannually', '365d' => 'Annually'
   }.freeze
 
+  validates :enabled, inclusion: { in: [true, false] }
   belongs_to :user
   belongs_to :contact
   validates :frequency, inclusion: { in: FREQUENCIES.keys }
   validates :topic, inclusion: { in: %w[Jokes News Sports] }, allow_blank: true
   validate :valid_start_date
   validate :contact_belongs_to_user
-  before_save :reset_schedule, if: -> { new_record? || will_save_change_to_start_date? || will_save_change_to_frequency? }
+  before_save :reset_schedule, if: -> { new_record? || will_save_change_to_start_date? || will_save_change_to_frequency? || (will_save_change_to_enabled? && enabled?) }
 
   def interval
     frequency.to_f.days
@@ -50,6 +51,8 @@ class Reachout < ApplicationRecord
   end
 
   def reset_schedule
-    self.next_send_at = [Date.iso8601(start_date).in_time_zone, Time.current].max
+    resumed = persisted? && will_save_change_to_enabled? && enabled?
+    next_time = resumed ? Time.current + interval : Time.current
+    self.next_send_at = [Date.iso8601(start_date).in_time_zone, next_time].max
   end
 end

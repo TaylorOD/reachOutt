@@ -1,8 +1,9 @@
 class ReminderDispatcher
   def self.call(now: Time.current, delivery: ReminderDelivery)
-    Reachout.where('next_send_at <= ?', now).find_each do |reachout|
+    Reachout.where(enabled: true).where('next_send_at <= ?', now).find_each do |reachout|
       # A second worker waits, reloads, and sees the updated schedule.
       reachout.with_lock do
+        next unless reachout.enabled?
         next if reachout.next_send_at.nil? || reachout.next_send_at > now
         next unless reachout.valid?
         next unless delivery.call(reachout)
