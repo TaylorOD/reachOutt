@@ -83,7 +83,6 @@ Small:
 Medium:
 
 - Remove Ability to change contact name on reachout page
-- Add Ability to turn ReachOuts off
 
 Big:
 
@@ -103,3 +102,5 @@ The frontend uses Vue 3, Vue Router 5, and Vite 8.
 ### Password reset email
 
 Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.
+
+Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
