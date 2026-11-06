@@ -46,6 +46,16 @@ Concurrent workers use row locks. Failed sends stay due for retry. A crash after
 
 Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
 
+## Free reminder scheduler
+
+The Scheduled reminders workflow checks due records about every 15 minutes, independently of the sleeping web service. GitHub can delay or drop scheduled runs and disables schedules after 60 days of repository inactivity. This is a beta option for reminders that tolerate delays.
+
+Create a GitHub environment named production and restrict it to the main branch. Add DATABASE_URL, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, and SMS_ALLOWED_RECIPIENTS as environment secrets. The recipient setting is a comma separated list of approved phone numbers in international format. Unapproved numbers cannot receive texts.
+
+After approving recipients and Twilio costs, set the repository variable REMINDERS_ENABLED to true and run the workflow manually once. Check Twilio for actual delivery, then watch the scheduled runs in Actions. Failed sends make the run fail while leaving their schedules due for retry. Enable GitHub Actions failure notifications in your account settings. Missing runs need separate monitoring, since a skipped schedule cannot report its own failure.
+
+Leave the variable unset to keep the scheduler off. Keep SMS_ENABLED false on the web service. Do not put production secrets in pull request workflows. The scheduler uses a temporary Rails signing key and does not need the web app's login signing key.
+
 ## Password reset email
 
 Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS `APP_URL`, a verified `MAIL_FROM`, and your provider settings in `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, and `SMTP_PASSWORD`. Reset links expire after 15 minutes. A completed reset signs out existing sessions. Email delivery must be configured and tested with your provider before offering resets to users.

@@ -32,7 +32,10 @@ class ReminderTest < ActiveSupport::TestCase
   test 'failed delivery retries later without preventing other reminders' do
     other = @user.reachouts.create!(contact: @contact, frequency: '1d', start_date: Date.current.iso8601)
     sender = ->(record) { raise IOError if record.id == @reachout.id; true }
-    ReminderDispatcher.call(now: 1.minute.from_now, delivery: sender)
+    error = assert_raises(ReminderDispatcher::DeliveryError) do
+      ReminderDispatcher.call(now: 1.minute.from_now, delivery: sender)
+    end
+    assert_equal "1 reminder deliveries failed", error.message
     assert_nil @reachout.reload.last_reachout_sent
     assert other.reload.last_reachout_sent
   end
