@@ -10,7 +10,6 @@ on:
 permissions:
   contents: read
   actions: read
-  security-events: write
 
 jobs:
   analyze:
@@ -30,6 +29,7 @@ jobs:
         with:
           category: /language:${{ matrix.language }}
           output: sarif-results
+          upload: false
       - name: Summarize CodeQL findings for review
         shell: bash
         run: |
