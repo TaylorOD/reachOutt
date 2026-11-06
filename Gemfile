@@ -7,7 +7,7 @@ gem 'bcrypt', '~> 3.1'
 gem 'jwt', '~> 3.1'
 gem 'dotenv-rails', '~> 3.1'
 gem 'twilio-ruby', '~> 7.8'
-gem 'http', '~> 5.3'
+gem 'http', '~> 6.0'
 gem 'rack-cors', '~> 3.0'
 gem 'jb', '~> 0.8'
 gem 'tzinfo-data', platforms: [:windows, :jruby]
