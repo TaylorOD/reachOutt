@@ -1,5 +1,6 @@
 {
   id: @reachout.id,
+  enabled: @reachout.enabled,
   start_date: @reachout.start_date,
   last_reachout_sent: @reachout.last_reachout_sent,
   frequency: @reachout.frequency,
