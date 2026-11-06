@@ -78,7 +78,6 @@ Reminder delivery requires a scheduled worker.
 
 Small:
 
-- Create User Account Page
 - Fix reachout not persisting bug
 
 Medium:

@@ -9,7 +9,7 @@ class Api::SessionsController < ApplicationController
   # - If the user is authenticated successfully, it returns a JSON object containing a JWT token, email, and user ID.
   # - If the user is not authenticated, it returns an empty JSON object with an unauthorized status.
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by("LOWER(email) = ?", params[:email].to_s.strip.downcase)
     if user && user.authenticate(params[:password])
       jwt = JWT.encode(
         {

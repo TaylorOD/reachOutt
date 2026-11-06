@@ -25,7 +25,8 @@
                 <li v-if="isLoggedIn()"><router-link to="/contact">03: Contacts</router-link></li>
                 <li v-if="isLoggedIn()"><router-link to="/reachout">04: Reachouts</router-link></li>
                 <li v-if="!isLoggedIn()"><router-link to="/login">03: Login</router-link></li>
-                <li v-if="isLoggedIn()"><router-link to="/logout">05: Logout</router-link></li>
+                <li v-if="isLoggedIn()"><router-link to="/account">05: Account</router-link></li>
+                <li v-if="isLoggedIn()"><router-link to="/logout">06: Logout</router-link></li>
                 <li v-if="!isLoggedIn()"><router-link to="/signup">04: Signup</router-link></li>
               </ul>
             </div> 
