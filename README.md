@@ -27,19 +27,21 @@
 
 ### Running this app:
 
-backend:
+Use Ruby 4.0.7, Node 24 or newer, and PostgreSQL 18. Copy `.env.example` to `.env` and set your local database connection.
 
-- Setup: `bundle install`
-- `bin/rails s`
+```sh
+bundle install
+bundle exec rails db:prepare
+bundle exec rails server
+```
 
-front end:
+In another terminal, run `npm ci` and `npm run serve`.
 
-- Setup: `npm install`
-- `npm run serve`
+Run backend tests with `RAILS_ENV=test bundle exec rails db:prepare` and `bundle exec rails test`. On PowerShell, set `$env:RAILS_ENV='test'` before preparing the test database.
 
-You can also build the front end pages and have the backend page serve them using: `npm run build`
-This allows you to work without having a front end server running but you will not get any
-front end hot reloads or updates.
+The app does not need the original encrypted credentials for local login. Production needs a PostgreSQL `DATABASE_URL` and a stable `SECRET_KEY_BASE`. Generate a secret with `bundle exec rails secret`. Keep an existing production secret when upgrading so current login tokens keep working.
+
+Optional demo data is fictional. Set `SEED_DEMO=true` and run `bundle exec rails db:seed` in development. The demo login is `alex@example.test` with password `local demo password`.
 
 ## Screenshots:
 
