@@ -57,7 +57,7 @@
                 <div v-for="(contact, index) in contacts" :key="contact.id" class="col-sm-4" style="height: 400px">
                   <!-- Image behind Contacts -->
                   <img :src="`/app/assets/images/work0${index % 7 + 1}-hover.jpg`" alt="" class="img-responsive">
-                  
+
                   <!-- Contact Cards -->
                   <div class="card-container card-container-lg">
                     <h4>Contact Name:</h4>
@@ -82,7 +82,7 @@
                   <dialog id="contact-details">
                     <form method="dialog">
                       <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
-                      <h1>Contact info</h1>                    
+                      <h1>Contact info</h1>
                       <p>First Name: <input v-model="currentContact.first_name" aria-label="Edit first name"></p>
                       <p>Last Name: <input v-model="currentContact.last_name" aria-label="Edit last name"></p>
                       <p>Phone Number: <input type="text" v-model="currentContact.phone_number" aria-label="Edit phone number"></p>
