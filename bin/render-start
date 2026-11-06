@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${DATABASE_URL:?Set DATABASE_URL to your Neon connection string}"
+: "${SECRET_KEY_BASE:?Set a stable SECRET_KEY_BASE}"
+export APP_URL="${APP_URL:-${RENDER_EXTERNAL_URL:?Set APP_URL to the public HTTPS address}}"
+
+# Free Render services do not have a separate release command.
+bundle exec rails db:migrate
+exec bundle exec puma -C config/puma.rb

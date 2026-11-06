@@ -63,6 +63,7 @@ Development writes reset emails to `tmp/mail`. Production needs a trusted HTTPS 
 ## Heroku setup
 
 Production redirects user traffic to HTTPS and logs at info level. Use `/health/ready` for hosting health checks. It checks PostgreSQL and returns 503 if the database is unavailable. `/up` only checks that Rails is running. Neither endpoint exposes connection details.
+For a fresh free deployment, see [free hosting](docs/free-hosting.md). The Render Blueprint provisions only a free web service. It uses an external Neon database and keeps SMS disabled.
 
 The Procfile runs database migrations during release and defines separate web and reminder processes. Configure the Node.js buildpack before Ruby so the Vue build is included. The app still uses Vue 3, Vue Router 5, and Vite 8.
 
