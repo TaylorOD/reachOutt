@@ -26,6 +26,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
+  { path: "/account", component: () => import("../views/Account.vue") },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: Login },
   { path: "/logout", name: "logout", component: Logout },
@@ -41,7 +42,7 @@ const router = createRouter({
 })
 
 router.beforeEach(to => {
-  if (['/contact', '/reachout'].includes(to.path) && !localStorage.getItem('jwt')) return '/login'
+  if (['/contact', '/reachout', '/account'].includes(to.path) && !localStorage.getItem('jwt')) return '/login'
 })
 
 export default router
