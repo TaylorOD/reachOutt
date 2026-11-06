@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'preview-mode': preview }">
+      <p v-if="preview" class="preview-banner" role="status">PR preview. Fictional data. Changes, emails and texts are disabled.</p>
       <!-- Website Padding -->
       <div id="site-border-left"></div>
       <div id="site-border-right"></div>
@@ -53,16 +54,25 @@
 
 
 <script>
+import { isPreview } from './config'
+
 export default {
-  data() { return { menuOpen: false } },
+  data() { return { menuOpen: false, preview: isPreview } },
   watch: { '$route'() { this.menuOpen = false } },
   methods: {
-    isLoggedIn() { return !!localStorage.getItem('jwt') }
+    isLoggedIn() { return isPreview || !!localStorage.getItem('jwt') }
   }
 }
 </script>
 
 <style>
+.preview-banner { position: fixed; top: 10px; left: 10px; right: 10px; z-index: 1100; margin: 0; padding: 12px; background: #fff3cd; color: #332600; text-align: center; }
+.preview-mode .navbar { top: 62px; }
+.preview-mode .section-container { padding-top: 165px; }
+@media (max-width: 600px) {
+  .preview-mode .navbar { top: 88px; }
+  .preview-mode .section-container { padding-top: 180px; }
+}
 .text-danger { color: #a61b1b; }
 .btn-primary:hover, .btn-primary:focus { color: #fff; background: #000; border-color: #000; }
 .navbar-inverse .navbar-nav > li > a { color: #fff; }
