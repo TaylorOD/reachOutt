@@ -2,6 +2,8 @@
 
 The Database backup workflow makes a daily PostgreSQL export, encrypts it with GnuPG AES256, and keeps the encrypted artifact for seven days. It starts disabled. A failed dump or encryption step prevents upload. No plain dump is uploaded.
 
+For the live ReachOutt deployment, the owner approved this storage location and enabled the schedule on November 6, 2026. The first manual workflow succeeded and its downloaded artifact passed a local restore comparison. The schedule is 08:43 UTC daily, or 1:43 AM in Denver during standard time and 2:43 AM during daylight saving time. See [launch status](launch-status.md) for the verification record.
+
 ## Setup
 
 1. Create a random passphrase with at least 32 characters. Save it in your password manager with the app name and date. Losing it means losing access to these backups.
