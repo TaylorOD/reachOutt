@@ -12,5 +12,5 @@ gem 'rack-cors', '~> 3.0'
 gem 'jb', '~> 0.8'
 gem 'tzinfo-data', platforms: [:windows, :jruby]
 group :development, :test do
-  gem 'minitest', '~> 5.25'
+  gem 'minitest', '~> 6.1'
 end
