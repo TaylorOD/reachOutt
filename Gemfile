@@ -13,4 +13,5 @@ gem 'jb', '~> 0.8'
 gem 'tzinfo-data', platforms: [:windows, :jruby]
 group :development, :test do
   gem 'minitest', '~> 6.1'
+  gem 'minitest-mock', '~> 5.27'
 end
