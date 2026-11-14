@@ -4,6 +4,8 @@ ReachOutt helps you stay in touch with friends and family. Add contacts, choose 
 
 The app uses Rails, Vue 3, and PostgreSQL. It is still a beta. Local use and PR previews keep message delivery off by default.
 
+![The ReachOutt home page](docs/screenshots/desktop-home.png)
+
 ## Features
 
 Manage your account, contacts, and reminders. Email changes require your current password. Password reset links expire after 15 minutes and work once. You can pause a reminder without deleting it. A reminder keeps its original contact, with contact details edited on the Contacts page.
@@ -101,3 +103,7 @@ See [the code guide](docs/code-guide.md) for the folder layout, authentication f
 ## Contact
 
 dorsetttaylordev@gmail.com
+
+## License
+
+MIT license.
