@@ -6,48 +6,23 @@
         <h1>Contacts</h1>
         <p>Keep the people you care about close.</p>
       </div>
-      <span class="count-label">{{ contacts.length }} contacts</span>
+      <button class="btn btn-primary" @click="openCreate">Add contact</button>
     </header>
     <p v-if="createdAlert" class="alert alert-success" role="status">
-      Contact added. You can now set a reminder for them.
+      Contact added.
+      <router-link
+        v-if="createdContactId"
+        :to="{ path: '/reachout', query: { contact: createdContactId } }"
+        >Add their first reminder</router-link
+      >
     </p>
     <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
-    <div class="workspace">
-      <section class="panel create-panel" aria-labelledby="new-contact-title">
-        <h2 id="new-contact-title">New contact</h2>
-        <p class="muted">A name is enough to get started.</p>
-        <form class="form-stack" @submit.prevent="createContact">
-          <label
-            >First name<input
-              v-model="newContactFirstName"
-              aria-label="New FirstName"
-              autocomplete="given-name"
-              required
-          /></label>
-          <label
-            >Last name <span class="optional">Optional</span
-            ><input
-              v-model="newContactLastName"
-              aria-label="New LastName"
-              autocomplete="family-name"
-          /></label>
-          <label
-            >Phone number <span class="optional">Optional</span
-            ><input
-              type="tel"
-              v-model="newContactPhoneNumber"
-              aria-label="New PhoneNumber"
-              autocomplete="tel"
-              placeholder="+1 202 555 0100"
-          /></label>
-          <button class="btn btn-primary" :disabled="saving">
-            {{ saving ? 'Adding...' : 'Create Contact' }}
-          </button>
-        </form>
-      </section>
+    <div class="list-workspace">
       <section class="collection" aria-labelledby="contact-list-title">
         <div class="collection-heading">
-          <h2 id="contact-list-title">Your contacts</h2>
+          <h2 id="contact-list-title">
+            Your contacts <span class="count-label">{{ contacts.length }}</span>
+          </h2>
           <label class="search-field"
             ><span class="sr-only">Search contacts</span
             ><input
@@ -73,7 +48,14 @@
                 <p class="muted">{{ contact.phone_number || 'No phone number' }}</p>
               </div>
             </div>
-            <button class="btn btn-default" @click="showContact(contact)">Edit Contact</button>
+            <p class="muted">{{ reminderSummary(contact.id) }}</p>
+            <div class="card-actions">
+              <router-link
+                class="btn btn-primary"
+                :to="{ path: '/reachout', query: { contact: contact.id } }"
+                >Add reminder</router-link
+              ><button class="btn btn-text" @click="showContact(contact)">Edit Contact</button>
+            </div>
           </article>
         </div>
         <div v-else class="empty-state">
@@ -89,6 +71,37 @@
       </section>
     </div>
   </main>
+  <dialog id="new-contact" aria-labelledby="new-contact-title">
+    <h2 id="new-contact-title">New contact</h2>
+    <p class="muted">A name is enough to get started.</p>
+    <form class="form-stack" @submit.prevent="createContact">
+      <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
+      <label
+        >First name<input
+          v-model="newContactFirstName"
+          aria-label="New FirstName"
+          autocomplete="given-name"
+          required
+      /></label>
+      <label
+        >Last name <span class="optional">Optional</span
+        ><input v-model="newContactLastName" aria-label="New LastName" autocomplete="family-name"
+      /></label>
+      <label
+        >Phone number <span class="optional">Optional</span
+        ><input
+          type="tel"
+          v-model="newContactPhoneNumber"
+          aria-label="New PhoneNumber"
+          autocomplete="tel"
+          placeholder="+1 202 555 0100"
+      /></label>
+      <button class="btn btn-primary" :disabled="saving">
+        {{ saving ? 'Adding...' : 'Create Contact' }}
+      </button>
+      <button type="button" class="btn btn-default" @click="closeCreate">Cancel</button>
+    </form>
+  </dialog>
   <dialog id="contact-details" aria-labelledby="contact-dialog-title">
     <form method="dialog" class="form-stack">
       <div>
@@ -129,6 +142,9 @@ export default {
   data() {
     return {
       contacts: [],
+      reachouts: [],
+      remindersLoaded: false,
+      createdContactId: null,
       search: '',
       loading: true,
       saving: false,
@@ -152,8 +168,31 @@ export default {
   },
   created() {
     this.indexContacts()
+    this.loadReminders()
   },
   methods: {
+    openCreate() {
+      this.errorMessage = ''
+      document.querySelector('#new-contact').showModal()
+    },
+    closeCreate() {
+      document.querySelector('#new-contact').close()
+    },
+    async loadReminders() {
+      try {
+        this.reachouts = (await axios.get('/api/reachouts')).data
+        this.remindersLoaded = true
+      } catch {
+        this.remindersLoaded = false
+      }
+    },
+    reminderSummary(id) {
+      if (!this.remindersLoaded) return 'Reminder status unavailable'
+      const reminders = this.reachouts.filter((item) => item.contact_id === id)
+      if (!reminders.length) return 'No reminders yet'
+      const active = reminders.filter((item) => item.enabled).length
+      return `${active} active / ${reminders.length - active} paused`
+    },
     async indexContacts() {
       try {
         const response = await axios.get('/api/contacts')
@@ -183,6 +222,8 @@ export default {
         this.newContactLastName = ''
         this.newContactPhoneNumber = ''
         this.createdAlert = true
+        this.createdContactId = response.data.id
+        this.closeCreate()
       } catch (error) {
         this.errorMessage = 'Failed to create contact.'
       } finally {

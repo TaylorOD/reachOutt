@@ -33,7 +33,7 @@ test('populated lists support search, filters and readable layouts', async ({ pa
   await page.getByLabel('email', { exact: true }).fill(email)
   await page.getByLabel('password', { exact: true }).fill('layout test password')
   await page.getByRole('button', { name: 'Submit' }).click()
-  await expect(page).toHaveURL(/\/$/)
+  await expect(page).toHaveURL(/\/reachout$/)
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Toggle navigation' }).click()
   await page.getByRole('link', { name: 'Contacts', exact: true }).click()

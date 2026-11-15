@@ -38,7 +38,7 @@ test('pause and resume persist and deleting one reminder leaves the other', asyn
   await expect(sam).toContainText('Status: Active')
   await sam.getByRole('button', { name: 'Edit Reachout' }).click()
   await page.getByRole('button', { name: 'Delete reminder', exact: true }).click()
-  await expect(page.locator('dialog')).not.toBeVisible()
+  await expect(page.getByRole('dialog')).not.toBeVisible()
   await expect(sam).toHaveCount(0)
   await expect(alex).toBeVisible()
   await page.reload()

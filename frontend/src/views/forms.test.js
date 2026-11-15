@@ -45,14 +45,14 @@ describe('contact edits', () => {
     axios.get.mockResolvedValue({ data: contacts })
     const page = mount(Contact)
     await flush()
-    expect(document.querySelectorAll('dialog')).toHaveLength(1)
+    expect(document.querySelectorAll('dialog')).toHaveLength(2)
     page.showContact(page.contacts[1])
     page.currentContact.first_name = 'Changed'
     expect(page.contacts[1].first_name).toBe('Alex')
     axios.patch.mockResolvedValue({ data: { id: 2, first_name: 'Changed' } })
     await page.updateContact(page.currentContact)
     expect(page.contacts.map((item) => item.first_name)).toEqual(['Sam', 'Changed'])
-    expect(document.querySelector('dialog').open).toBe(false)
+    expect(document.querySelector('#contact-details').open).toBe(false)
   })
 
   it('keeps the dialog and original contact when saving fails', async () => {
@@ -63,7 +63,7 @@ describe('contact edits', () => {
     axios.patch.mockRejectedValue(new Error('offline'))
     await page.updateContact(page.currentContact)
     expect(page.errorMessage).toBe('Failed to update contact.')
-    expect(document.querySelector('dialog').open).toBe(true)
+    expect(document.querySelector('#contact-details').open).toBe(true)
   })
 })
 
@@ -76,7 +76,7 @@ describe('reminder edits', () => {
       { id: 2, topic: 'News', contact: { first_name: 'Alex' } }
     ]
     await nextTick()
-    expect(document.querySelectorAll('dialog')).toHaveLength(1)
+    expect(document.querySelectorAll('dialog')).toHaveLength(2)
     page.showReachout(page.reachouts[1])
     page.currentReachout.topic = 'Sports'
     axios.patch.mockResolvedValue({ data: { ...page.currentReachout } })
