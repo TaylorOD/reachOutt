@@ -17,6 +17,7 @@ const reachouts = contacts.map((contact, index) => ({
   contact,
   frequency: '7d',
   start_date: '2030-01-01',
+  next_send_at: '2030-01-01T12:00:00Z',
   topic: index ? 'Jokes' : 'News',
   enabled: !index
 }))

@@ -21,6 +21,7 @@ class ReminderControlsTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert reminder.reload.enabled?
       assert_equal 7.days.from_now, reminder.next_send_at
+      assert_equal reminder.next_send_at.to_i, Time.iso8601(response.parsed_body['next_send_at']).to_i
       ReminderDispatcher.call(delivery: ->(_) { flunk 'resumed reminder sent too soon' })
     end
   end

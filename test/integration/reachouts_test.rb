@@ -15,6 +15,9 @@ class ReachoutsTest < ActionDispatch::IntegrationTest
     post '/api/reachouts', params: params, headers: headers, as: :json
     assert_response :success
     id = response.parsed_body['id']
+    assert_equal Reachout.find(id).next_send_at.to_i, Time.iso8601(response.parsed_body['next_send_at']).to_i
+    get '/api/reachouts', headers: headers
+    assert_equal Reachout.find(id).next_send_at.to_i, Time.iso8601(response.parsed_body.first['next_send_at']).to_i
     get '/api/reachouts', headers: auth_headers(other)
     assert_equal [], response.parsed_body
     get "/api/reachouts/#{id}", headers: auth_headers(other)
