@@ -1,10 +1,10 @@
 <template>
-  <div class="section-container">
-    <main class="container reset-form">
+  <div class="page auth-page container">
+    <main class="panel auth-panel reset-form">
       <h1 class="h2">{{ resetting ? 'Choose a new password' : 'Reset your password' }}</h1>
       <p v-if="message" role="status">{{ message }}</p>
       <p v-for="error in errors" :key="error" class="text-danger" role="alert">{{ error }}</p>
-      <form v-if="!done" @submit.prevent="submit">
+      <form class="form-stack" v-if="!done" @submit.prevent="submit">
         <template v-if="resetting">
           <p>Use at least 12 characters.</p>
           <div class="form-group">

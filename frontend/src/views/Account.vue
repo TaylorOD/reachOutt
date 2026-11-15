@@ -1,12 +1,18 @@
 <template>
-  <div class="section-container">
+  <main class="page account-page">
     <div class="container">
-      <div class="section-container-spacer text-center"><h1 class="h2">05: Account</h1></div>
-      <div class="account-form">
+      <header class="page-heading">
+        <div>
+          <p class="eyebrow">Your details</p>
+          <h1>Account</h1>
+          <p>Keep your contact details up to date.</p>
+        </div>
+      </header>
+      <div class="account-form panel">
         <p v-if="loading" role="status">Loading your account...</p>
         <p v-if="error" class="alert alert-danger" role="alert">{{ error }}</p>
         <p v-if="message" class="alert alert-success" role="status">{{ message }}</p>
-        <form v-if="loaded" @submit.prevent="save">
+        <form class="form-stack" v-if="loaded" @submit.prevent="save">
           <div class="form-group">
             <label for="account-first">First name</label
             ><input
@@ -64,7 +70,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -125,6 +131,6 @@ export default {
 <style scoped>
 .account-form {
   max-width: 620px;
-  margin: 0 auto;
+  margin: 0;
 }
 </style>

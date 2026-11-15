@@ -1,54 +1,41 @@
 <template>
-  <div class="about">
-    <div class="section-container">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-container-spacer text-center">
-              <h1 class="h2">02: ReachOutt</h1>
-            </div>
-            <div class="row">
-              <div class="col-md-10 col-md-offset-1">
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <h3>You want to stay in touch but you don't</h3>
-                    <p>
-                      ReachOutt is designed for people like you. The people you care about want to
-                      hear from you more. ReachOutt makes it easy by sending you a text reminding
-                      you to say hello.
-                    </p>
-                    <h3>You forget or can't find time</h3>
-                    <p>
-                      Most of us are busy. Keeping in touch with friends or family is hard. It's
-                      easy to forget or push it off. ReachOutt sends your quick reminders that make
-                      it easier for you to remember to talk with those you miss.
-                    </p>
-                    <h3>You don't know what to say</h3>
-                    <p>
-                      Sometimes we don't know what to say. ReachOutt helps you start the
-                      conversation by sending you jokes, sports info, or news that helps you get the
-                      converstaion started.
-                    </p>
-                  </div>
-                  <div class="container">
-                    <div class="col-xs-12 col-md-6">
-                      <img
-                        :src="assetPath('assets/images/reachout_about.jpg')"
-                        class="img-responsive"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <main class="page container about-page">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">The idea behind ReachOutt</p>
+        <h1>A little nudge to say hello.</h1>
+        <p>Life gets busy. Your connections still matter.</p>
       </div>
+    </header>
+    <div class="about-layout">
+      <div class="about-copy">
+        <section>
+          <h2>Your people, in one place</h2>
+          <p>
+            Add the friends and family you want to stay in touch with. Keep their details handy for
+            the next time you reach out.
+          </p>
+        </section>
+        <section>
+          <h2>A rhythm that works for you</h2>
+          <p>
+            Choose a reminder schedule and get an email when it is time to reconnect. Pause a
+            reminder whenever you need a break.
+          </p>
+        </section>
+        <section>
+          <h2>Something to start with</h2>
+          <p>
+            Add an optional joke, news story, or sports suggestion when you could use a little help
+            starting the conversation.
+          </p>
+        </section>
+        <router-link class="btn btn-primary" to="/contact">Start with your contacts</router-link>
+      </div>
+      <img :src="assetPath('assets/images/reachout_about.jpg')" alt="" class="about-photo" />
     </div>
-  </div>
+  </main>
 </template>
-
 <script>
 import { assetPath } from '../config'
 export default { methods: { assetPath } }
