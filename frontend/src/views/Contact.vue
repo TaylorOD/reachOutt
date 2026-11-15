@@ -15,7 +15,7 @@
     <div class="workspace">
       <section class="panel create-panel" aria-labelledby="new-contact-title">
         <h2 id="new-contact-title">New contact</h2>
-        <p class="muted">Start with a name and a number.</p>
+        <p class="muted">A name is enough to get started.</p>
         <form class="form-stack" @submit.prevent="createContact">
           <label
             >First name<input
@@ -25,20 +25,20 @@
               required
           /></label>
           <label
-            >Last name<input
+            >Last name <span class="optional">Optional</span
+            ><input
               v-model="newContactLastName"
               aria-label="New LastName"
               autocomplete="family-name"
-              required
           /></label>
           <label
-            >Phone number<input
+            >Phone number <span class="optional">Optional</span
+            ><input
               type="tel"
               v-model="newContactPhoneNumber"
               aria-label="New PhoneNumber"
               autocomplete="tel"
               placeholder="+1 202 555 0100"
-              required
           /></label>
           <button class="btn btn-primary" :disabled="saving">
             {{ saving ? 'Adding...' : 'Create Contact' }}
@@ -100,13 +100,12 @@
         >First name<input v-model="currentContact.first_name" aria-label="Edit first name"
       /></label>
       <label
-        >Last name<input v-model="currentContact.last_name" aria-label="Edit last name"
+        >Last name <span class="optional">Optional</span
+        ><input v-model="currentContact.last_name" aria-label="Edit last name"
       /></label>
       <label
-        >Phone number<input
-          type="tel"
-          v-model="currentContact.phone_number"
-          aria-label="Edit phone number"
+        >Phone number <span class="optional">Optional</span
+        ><input type="tel" v-model="currentContact.phone_number" aria-label="Edit phone number"
       /></label>
       <div class="dialog-actions">
         <button type="button" class="btn btn-primary" @click="updateContact(currentContact)">
@@ -167,25 +166,15 @@ export default {
     },
     async createContact() {
       if (this.saving) return
-      if (!this.newContactFirstName || this.newContactFirstName.length < 1) {
-        this.errorMessage = 'First name is required and must be at least 1 character long.'
+      if (!this.newContactFirstName.trim()) {
+        this.errorMessage = 'Enter a name for your contact.'
         return
       }
-      if (!this.newContactLastName || this.newContactLastName.length < 1) {
-        this.errorMessage = 'Last name is required and must be at least 1 character long.'
-        return
-      }
-      const phoneNumberPattern = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
-      if (!this.newContactPhoneNumber || !phoneNumberPattern.test(this.newContactPhoneNumber)) {
-        this.errorMessage = 'Phone number is required and must be a valid format.'
-        return
-      }
-
       this.errorMessage = ''
       this.saving = true
       try {
         const response = await axios.post('/api/contacts', {
-          first_name: this.newContactFirstName,
+          first_name: this.newContactFirstName.trim(),
           last_name: this.newContactLastName,
           phone_number: this.newContactPhoneNumber
         })

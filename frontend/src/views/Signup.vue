@@ -27,10 +27,6 @@
             required
         /></label>
         <label
-          >Phone number <span class="optional">Optional</span
-          ><input type="tel" v-model="phone_number" aria-label="phone number" autocomplete="tel"
-        /></label>
-        <label
           >Password<input
             type="password"
             v-model="password"
@@ -63,7 +59,6 @@ export default {
     return {
       first_name: '',
       last_name: '',
-      phone_number: '',
       email: '',
       password: '',
       passwordConfirmation: '',
@@ -75,7 +70,6 @@ export default {
       const params = {
         first_name: this.first_name,
         last_name: this.last_name,
-        phone_number: this.phone_number,
         email: this.email,
         password: this.password,
         password_confirmation: this.passwordConfirmation
