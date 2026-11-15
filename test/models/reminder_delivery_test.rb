@@ -2,6 +2,15 @@ require 'test_helper'
 require 'minitest/mock'
 
 class ReminderDeliveryTest < ActiveSupport::TestCase
+  setup do
+    @previous_channel = ENV['REMINDER_CHANNEL']
+    ENV['REMINDER_CHANNEL'] = 'sms'
+  end
+
+  teardown do
+    ENV['REMINDER_CHANNEL'] = @previous_channel
+  end
+
   test 'SMS is opt in and configured delivery sends one message' do
     keys = %w[SMS_ENABLED SMS_ALLOWED_RECIPIENTS TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN TWILIO_FROM_NUMBER]
     previous = keys.to_h { |key| [key, ENV[key]] }

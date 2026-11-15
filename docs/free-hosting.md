@@ -21,7 +21,7 @@ Keep backend unit tests on a disposable local database. Rails does not load .env
 
 ## Email
 
-The live app uses Brevo for password reset emails. Save these settings privately in Render:
+The app uses Brevo for password resets and email reminders. Save these settings privately in Render, and in GitHub's production environment for the scheduled reminder worker:
 
 | Setting | Value |
 | --- | --- |
@@ -39,9 +39,9 @@ On November 6, 2026, a reset email from the live app arrived in Gmail. Its link 
 
 ## Reminders
 
-SMS stays disabled on the web service. Follow the [free reminder scheduler setup](../README.md#free-reminder-scheduler) to configure GitHub Actions against the same database. The free web service cannot keep a worker running while asleep.
+Email is the default reminder channel and SMS stays disabled. Follow the [free reminder scheduler setup](../README.md#free-reminder-scheduler) to configure GitHub Actions against the same database. The free web service cannot keep a worker running while asleep.
 
-Twilio is separate from hosting and may charge for numbers and messages. Keep delivery disabled until credentials, recipient consent, and spending limits are configured. Never put credentials in this repository or a PR.
+Twilio is an optional alternative to email. It requires sender approval, credentials, recipient consent, and spending limits before enabling SMS. Never put credentials in this repository or a PR.
 
 ## Recovery and monitoring
 
@@ -51,7 +51,7 @@ Neon's free restore history is limited to six hours and up to 1 GB of changes. I
 
 See [operations alerts](monitoring.md) for failed and overdue workflow checks. GitHub issue assignment uses your account's notification preferences. It does not guarantee email delivery or detect an outage of GitHub itself.
 
-See [launch status](launch-status.md) for live checks and remaining setup. Keep SMS disabled until an approved test text arrives and the scheduled sender has been verified.
+See [launch status](launch-status.md) for live checks and remaining setup.
 
 ## Provider documentation
 
