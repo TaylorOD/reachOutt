@@ -41,6 +41,8 @@ On November 6, 2026, a reset email from the live app arrived in Gmail. Its link 
 
 Email is the default reminder channel and SMS stays disabled. Follow the [free reminder scheduler setup](../README.md#free-reminder-scheduler) to configure GitHub Actions against the same database. The free web service cannot keep a worker running while asleep.
 
+On November 14, 2026, the production workflow sent a fictional reminder through Brevo and it arrived in Gmail. The persisted schedule advanced, the test records were removed, and automatic email reminders were enabled. The worker uses private production secrets and does not need Twilio credentials.
+
 Twilio is an optional alternative to email. It requires sender approval, credentials, recipient consent, and spending limits before enabling SMS. Never put credentials in this repository or a PR.
 
 ## Recovery and monitoring
