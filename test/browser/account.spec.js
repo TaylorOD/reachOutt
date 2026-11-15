@@ -18,6 +18,11 @@ test('account changes persist and email changes require a password', async ({ pa
   await page.evaluate((token) => localStorage.setItem('jwt', token), jwt)
   await page.goto('/account')
   await expect(page.getByLabel('Email', { exact: true })).toHaveValue(email)
+  await expect(page.getByRole('complementary')).toContainText(email)
+  await expect(page.getByRole('link', { name: 'Reset your password' })).toHaveAttribute(
+    'href',
+    '/forgot-password'
+  )
   await page.getByLabel('First name', { exact: true }).fill('Sam')
   await page.getByLabel('Phone number', { exact: true }).fill('+15005550007')
   await page.getByRole('button', { name: 'Save changes' }).click()
@@ -32,6 +37,7 @@ test('account changes persist and email changes require a password', async ({ pa
   await page.getByLabel('Current password', { exact: true }).fill('account test password')
   await page.getByRole('button', { name: 'Save changes' }).click()
   await expect(page.getByText('Account saved.')).toBeVisible()
+  await expect(page.getByRole('complementary')).toContainText(`changed-${email}`)
   await page.screenshot({
     path: `test-results/${testInfo.project.name}-account.png`,
     fullPage: true,
