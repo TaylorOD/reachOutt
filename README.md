@@ -1,6 +1,6 @@
 # ReachOutt
 
-ReachOutt helps you stay in touch with friends and family. Add contacts, choose a reminder schedule, and get a text when it is time to reach out. Optional jokes, news, and sports suggestions help start a conversation.
+ReachOutt helps you stay in touch with friends and family. Add contacts, choose a reminder schedule, and get an email when it is time to reach out. Optional jokes, news, and sports suggestions help start a conversation.
 
 The app uses Rails, Vue 3, and PostgreSQL. It is still a beta. Local use and PR previews keep message delivery off by default.
 
@@ -40,11 +40,13 @@ Run `npm run format:check` to check JavaScript and Vue formatting. Run `npm run 
 
 Run `bundle exec rails reminders:work` as a separate worker process. It checks schedules every minute. You can also run `bundle exec rails reminders:send` from an external scheduler. It reads due reminders from PostgreSQL. Start dates use UTC. Edits replace the schedule, and deleting a contact removes its reminders.
 
-SMS is off by default. To enable it, set `SMS_ENABLED=true`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_FROM_NUMBER`. News and sports suggestions also need `NEWS_API_KEY`. Failed suggestions do not block the reminder.
+Email is the default reminder channel. Configure the SMTP settings below before starting a production worker. Reminders go to the account owner's current email, not the contact. In development, emails are written to `tmp/mail`.
+
+SMS is optional and off by default. To use it instead of email, set `REMINDER_CHANNEL=sms`, `SMS_ENABLED=true`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER`, and `SMS_ALLOWED_RECIPIENTS`. The recipient setting is a comma separated list of approved phone numbers in international format. SMS requires an approved sender and an agreed budget. Disabled SMS never falls back to another channel or marks a reminder sent. News and sports suggestions also need `NEWS_API_KEY`. Failed suggestions do not block the reminder.
 
 The migration preserves existing records. Valid old schedules become due at their start date or the migration time, whichever is later. Invalid old schedules stay paused until edited. Review existing reminders before enabling SMS.
 
-Concurrent workers use row locks. Failed sends stay due for retry. A crash after Twilio accepts a message but before the database commits can still result in a duplicate on retry. Check Twilio delivery logs before manually retrying an uncertain send.
+Concurrent workers use row locks. Failed sends stay due for retry. A crash after the provider accepts a message but before the database commits can still result in a duplicate on retry. Check provider delivery logs before manually retrying an uncertain send. Provider acceptance does not guarantee inbox delivery.
 
 Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
 
@@ -52,11 +54,11 @@ Reminders can be paused without deleting them. Resuming waits one full reminder 
 
 The Scheduled reminders workflow checks due records about every 15 minutes, independently of the sleeping web service. GitHub can delay or drop scheduled runs and disables schedules after 60 days of repository inactivity. This is a beta option for reminders that tolerate delays.
 
-Create a GitHub environment named production and restrict it to the main branch. Add DATABASE_URL, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, and SMS_ALLOWED_RECIPIENTS as environment secrets. The recipient setting is a comma separated list of approved phone numbers in international format. Unapproved numbers cannot receive texts.
+Create a GitHub environment named production and restrict it to the main branch. Add DATABASE_URL_UNPOOLED, SMTP_ADDRESS, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, and MAIL_FROM as environment secrets. The direct database URL can be shared with the backup workflow. Email is the default and does not need any Twilio credentials.
 
-After approving recipients and Twilio costs, set the repository variable REMINDERS_ENABLED to true and run the workflow manually once. Check Twilio for actual delivery, then watch the scheduled runs in Actions. Failed sends make the run fail while leaving their schedules due for retry. Enable GitHub Actions failure notifications in your account settings. Missing runs need separate monitoring, since a skipped schedule cannot report its own failure.
+Review existing due reminders before setting the repository variable REMINDERS_ENABLED to true. Run the workflow manually once and confirm a test email arrives, then watch scheduled runs in Actions. Failed sends make the run fail while leaving their schedules due for retry. Enable GitHub Actions failure notifications in your account settings. Missing runs need separate monitoring, since a skipped schedule cannot report its own failure.
 
-Leave the variable unset to keep the scheduler off. Keep SMS_ENABLED false on the web service. Do not put production secrets in pull request workflows. The scheduler uses a temporary Rails signing key and does not need the web app's login signing key.
+Leave REMINDERS_ENABLED unset to keep the scheduler off. Keep SMS_ENABLED false on the web service. To switch the scheduled worker to SMS later, set repository variables REMINDER_CHANNEL to sms and SMS_ENABLED to true, and add the Twilio and approved recipient secrets described above. Do not put production secrets in pull request workflows. The scheduler uses a temporary Rails signing key and does not need the web app's login signing key.
 
 ## Password reset email
 

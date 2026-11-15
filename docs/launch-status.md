@@ -14,9 +14,9 @@ Checked November 6, 2026. ReachOutt is a small beta on free Render hosting with 
 
 ## Come back to
 
-1. Twilio has no active sending number. Choose the appropriate number and registration path, approve a budget and recipient, then connect the credentials to the protected GitHub production environment. Confirm delivery to the approved recipient before enabling the reminder schedule.
-2. Check that the first scheduled backup runs after 08:43 UTC. The manual workflow and artifact restore are verified, but scheduled execution still depends on GitHub.
+1. Email is now the default reminder channel. Copy the existing Brevo settings to the protected GitHub production environment, review due reminders, and verify a real email from the scheduled worker before enabling its schedule. SMS is optional and remains disabled.
+2. Daily scheduled backups were checked on November 14. All eight scheduled runs since November 7 succeeded, including [the latest run](https://github.com/TaylorOD/reachOutt/actions/runs/43609670135).
 3. Confirm GitHub alert delivery to the owner's preferred inbox. An independent monitor would be needed to detect an outage of GitHub itself.
 4. Save the backup recovery passphrase in the owner's password manager. It must remain available independently of the repository and hosting account.
 
-Free hosting can sleep and scheduled reminders can be delayed. Twilio messaging and sender registration may cost money even when hosting is free. No sending number was purchased and no SMS was sent during these checks.
+Free hosting can sleep and scheduled reminders can be delayed. Email uses the existing Brevo setup and its sending allowance. No SMS is needed for email reminders.

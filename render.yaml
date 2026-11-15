@@ -24,3 +24,5 @@ services:
         sync: false
       - key: SMS_ENABLED
         value: "false"
+      - key: REMINDER_CHANNEL
+        value: "email"

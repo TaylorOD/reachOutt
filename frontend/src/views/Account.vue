@@ -44,7 +44,7 @@
               type="tel"
               v-model="profile.phone_number"
               autocomplete="tel"
-            /><small>Use your country code, like +1. Reminders go to this number.</small>
+            /><small>Use your country code, like +1.</small>
           </div>
           <div v-if="profile.email.trim().toLowerCase() !== savedEmail" class="form-group">
             <label for="account-password">Current password</label

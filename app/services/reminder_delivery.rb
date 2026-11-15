@@ -1,10 +1,19 @@
 class ReminderDelivery
   def self.enabled?
-    ENV['SMS_ENABLED'] == 'true'
+    case ENV.fetch('REMINDER_CHANNEL', 'email')
+    when 'email' then true
+    when 'sms' then ENV['SMS_ENABLED'] == 'true'
+    else raise ArgumentError, 'REMINDER_CHANNEL must be email or sms'
+    end
   end
 
   def self.call(reachout)
     return false unless enabled?
+
+    if ENV.fetch('REMINDER_CHANNEL', 'email') == 'email'
+      ReminderMailer.reminder(reachout).deliver_now
+      return true
+    end
 
     allowed = ENV.fetch('SMS_ALLOWED_RECIPIENTS', '').split(',').map(&:strip)
     unless allowed.include?(reachout.user.phone_number)

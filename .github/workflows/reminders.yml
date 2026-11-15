@@ -25,14 +25,29 @@ jobs:
         env:
           RAILS_ENV: production
           SECRET_KEY_BASE_DUMMY: '1'
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SMS_ENABLED: 'true'
+          DATABASE_URL: ${{ secrets.DATABASE_URL_UNPOOLED }}
+          REMINDER_CHANNEL: ${{ vars.REMINDER_CHANNEL || 'email' }}
+          SMS_ENABLED: ${{ vars.SMS_ENABLED || 'false' }}
+          SMTP_ADDRESS: ${{ secrets.SMTP_ADDRESS }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
           SMS_ALLOWED_RECIPIENTS: ${{ secrets.SMS_ALLOWED_RECIPIENTS }}
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
         run: |
-          for key in DATABASE_URL SMS_ALLOWED_RECIPIENTS TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN TWILIO_FROM_NUMBER; do
+          required="DATABASE_URL"
+          if [ "$REMINDER_CHANNEL" = "email" ]; then
+            required="$required SMTP_ADDRESS SMTP_PORT SMTP_USERNAME SMTP_PASSWORD MAIL_FROM"
+          elif [ "$REMINDER_CHANNEL" = "sms" ] && [ "$SMS_ENABLED" = "true" ]; then
+            required="$required SMS_ALLOWED_RECIPIENTS TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN TWILIO_FROM_NUMBER"
+          else
+            echo "::error::Choose email, or explicitly enable SMS before scheduling it"
+            exit 1
+          fi
+          for key in $required; do
             if [ -z "${!key}" ]; then
               echo "::error::Missing required setting: $key"
               exit 1
