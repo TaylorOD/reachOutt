@@ -14,8 +14,8 @@
     "test:e2e": "playwright test",
     "heroku-postbuild": "npm run build",
     "test:preview": "playwright test --config playwright.preview.config.js",
-    "format": "prettier --write \"frontend/src/**/*.{js,vue}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json",
-    "format:check": "prettier --check \"frontend/src/**/*.{js,vue}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json"
+    "format": "prettier --write \"frontend/src/**/*.{js,vue,css}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json",
+    "format:check": "prettier --check \"frontend/src/**/*.{js,vue,css}\" \"test/{browser,preview}/**/*.js\" \"*.config.js\" package.json"
   },
   "dependencies": {
     "axios": "^1.21.0",

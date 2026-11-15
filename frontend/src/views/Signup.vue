@@ -1,63 +1,58 @@
 <template>
-  <div class="signup">
-    <div class="section-container">
-      <div class="container">
-        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
-          <div class="text-center">
-            <h1 class="h2">04 : Signup</h1>
-          </div>
+  <main class="page auth-page container">
+    <section class="panel auth-panel">
+      <p class="eyebrow">Stay a little closer</p>
+      <h1>Make time for your people.</h1>
+      <p class="muted">Create your account to start keeping in touch.</p>
+      <form class="form-stack" @submit.prevent="submit">
+        <p v-for="error in errors" :key="error" class="alert alert-danger" role="alert">
+          {{ error }}
+        </p>
+        <div class="form-row">
+          <label
+            >First name<input
+              v-model="first_name"
+              aria-label="first name"
+              autocomplete="given-name" /></label
+          ><label
+            >Last name<input v-model="last_name" aria-label="last name" autocomplete="family-name"
+          /></label>
         </div>
-        <form @submit.prevent="submit()">
-          <h1>Signup</h1>
-          <ul>
-            <li class="text-danger" v-for="error in errors">{{ error }}</li>
-          </ul>
-
-          <div class="form-group">
-            <label>First Name:</label>
-            <input type="text" class="form-control" v-model="first_name" aria-label="first name" />
-          </div>
-
-          <div class="form-group">
-            <label>Last Name:</label>
-            <input type="text" class="form-control" v-model="last_name" aria-label="last name" />
-          </div>
-
-          <div class="form-group">
-            <label>Phone Number:</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="phone_number"
-              aria-label="phone number"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Email:</label>
-            <input type="email" class="form-control" v-model="email" aria-label="email" />
-          </div>
-
-          <div class="form-group">
-            <label>Password:</label>
-            <input type="password" class="form-control" v-model="password" aria-label="password" />
-          </div>
-
-          <div class="form-group">
-            <label>Password confirmation:</label>
-            <input
-              type="password"
-              class="form-control"
-              v-model="passwordConfirmation"
-              aria-label="passwordConfirmation"
-            />
-          </div>
-
-          <input type="submit" class="btn btn-primary" value="Submit" />
-        </form>
-      </div>
-    </div>
-  </div>
+        <label
+          >Email<input
+            type="email"
+            v-model="email"
+            aria-label="email"
+            autocomplete="email"
+            required
+        /></label>
+        <label
+          >Phone number <span class="optional">Optional</span
+          ><input type="tel" v-model="phone_number" aria-label="phone number" autocomplete="tel"
+        /></label>
+        <label
+          >Password<input
+            type="password"
+            v-model="password"
+            aria-label="password"
+            autocomplete="new-password"
+            required
+        /></label>
+        <label
+          >Confirm password<input
+            type="password"
+            v-model="passwordConfirmation"
+            aria-label="passwordConfirmation"
+            autocomplete="new-password"
+            required
+        /></label>
+        <button class="btn btn-primary" aria-label="Submit">Create account</button>
+      </form>
+      <p class="auth-links">
+        Already have an account? <router-link to="/login">Log in</router-link>
+      </p>
+    </section>
+  </main>
 </template>
 
 <script>

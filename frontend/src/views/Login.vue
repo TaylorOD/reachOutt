@@ -1,31 +1,37 @@
 <template>
-  <div class="login">
-    <div class="section-container">
-      <div class="container">
-        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
-          <div class="text-center">
-            <h1 class="h2">03 : Login</h1>
-          </div>
-        </div>
-        <form @submit.prevent="submit()">
-          <h1>Login</h1>
-          <ul>
-            <li class="text-danger" v-for="error in errors">{{ error }}</li>
-          </ul>
-          <div class="form-group">
-            <label>Email:</label>
-            <input type="email" class="form-control" v-model="email" aria-label="email" />
-          </div>
-          <div class="form-group">
-            <label>Password:</label>
-            <input type="password" class="form-control" v-model="password" aria-label="password" />
-          </div>
-          <input type="submit" class="btn btn-primary" value="Submit" />
-        </form>
+  <main class="page auth-page container">
+    <section class="panel auth-panel">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Good to see you.</h1>
+      <p class="muted">Log in and pick up where you left off.</p>
+      <form class="form-stack" @submit.prevent="submit">
+        <p v-for="error in errors" :key="error" class="alert alert-danger" role="alert">
+          {{ error }}
+        </p>
+        <label
+          >Email<input
+            type="email"
+            v-model="email"
+            aria-label="email"
+            autocomplete="email"
+            required
+        /></label>
+        <label
+          >Password<input
+            type="password"
+            v-model="password"
+            aria-label="password"
+            autocomplete="current-password"
+            required
+        /></label>
+        <button class="btn btn-primary" aria-label="Submit">Log in</button>
+      </form>
+      <div class="auth-links">
         <router-link to="/forgot-password">Forgot your password?</router-link>
+        <p>New here? <router-link to="/signup">Create an account</router-link></p>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script>

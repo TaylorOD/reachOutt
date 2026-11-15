@@ -1,137 +1,138 @@
 <template>
-  <div class="contacts">
-    <div class="section-container">
-      <div class="container">
-        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
-          <div class="text-center">
-            <h1 class="h2">02 : Contacts</h1>
-            <h3>View, update, or create a new contact here</h3>
-          </div>
-        </div>
-        <div class="text-center section-container-spacer">
-          <h2>New Contact</h2>
-        </div>
-
-        <form @submit.prevent="createContact">
-          <div
-            v-if="createdAlert"
-            class="alert alert-success alert-dismissible text-center"
-            role="alert"
-          >
-            <strong>New Contact Successfully Created!</strong>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-              @click="dismissAlert()"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div
-            v-if="errorMessage"
-            class="alert alert-danger alert-dismissible text-center"
-            role="alert"
-          >
-            <strong>Error: {{ errorMessage }}</strong>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-              @click="dismissAlert()"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="text-center">
-            First Name:
-            <input type="text" v-model="newContactFirstName" aria-label="New FirstName" /> Last
-            Name: <input type="text" v-model="newContactLastName" aria-label="New LastName" /> Phone
-            Number:
-            <input type="text" v-model="newContactPhoneNumber" aria-label="New PhoneNumber" />
-          </div>
-
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-sm">Create Contact</button>
-          </div>
-        </form>
+  <main class="page container contacts">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">Your people</p>
+        <h1>Contacts</h1>
+        <p>Keep the people you care about close.</p>
       </div>
-      <div class="col-md-12">
-        <div id="myCarousel" class="carousel slide projects-carousel">
-          <div class="carousel-inner">
-            <div class="item active">
-              <div class="row">
-                <div class="text-center section-container-spacer">
-                  <h2>Existing Contacts</h2>
-                </div>
-
-                <div
-                  v-for="(contact, index) in contacts"
-                  :key="contact.id"
-                  class="col-sm-4"
-                  style="height: 400px"
-                >
-                  <img
-                    :src="assetPath(`assets/images/work0${(index % 7) + 1}-hover.jpg`)"
-                    alt=""
-                    class="img-responsive"
-                  />
-                  <div class="card-container card-container-lg">
-                    <h4>Contact Name:</h4>
-                    <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                    <p>Phone Number: {{ contact.phone_number }}</p>
-
-                    <a
-                      class="btn btn-default"
-                      role="button"
-                      tabindex="0"
-                      @keydown.enter="showContact(contact)"
-                      @click="showContact(contact)"
-                    >
-                      <p>Edit Contact</p>
-                    </a>
-                  </div>
-                </div>
+      <span class="count-label">{{ contacts.length }} contacts</span>
+    </header>
+    <p v-if="createdAlert" class="alert alert-success" role="status">
+      Contact added. You can now set a reminder for them.
+    </p>
+    <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
+    <div class="workspace">
+      <section class="panel create-panel" aria-labelledby="new-contact-title">
+        <h2 id="new-contact-title">New contact</h2>
+        <p class="muted">Start with a name and a number.</p>
+        <form class="form-stack" @submit.prevent="createContact">
+          <label
+            >First name<input
+              v-model="newContactFirstName"
+              aria-label="New FirstName"
+              autocomplete="given-name"
+              required
+          /></label>
+          <label
+            >Last name<input
+              v-model="newContactLastName"
+              aria-label="New LastName"
+              autocomplete="family-name"
+              required
+          /></label>
+          <label
+            >Phone number<input
+              type="tel"
+              v-model="newContactPhoneNumber"
+              aria-label="New PhoneNumber"
+              autocomplete="tel"
+              placeholder="+1 202 555 0100"
+              required
+          /></label>
+          <button class="btn btn-primary" :disabled="saving">
+            {{ saving ? 'Adding...' : 'Create Contact' }}
+          </button>
+        </form>
+      </section>
+      <section class="collection" aria-labelledby="contact-list-title">
+        <div class="collection-heading">
+          <h2 id="contact-list-title">Your contacts</h2>
+          <label class="search-field"
+            ><span class="sr-only">Search contacts</span
+            ><input
+              type="search"
+              v-model="search"
+              placeholder="Find someone..."
+              aria-label="Search contacts"
+          /></label>
+        </div>
+        <p v-if="loading" class="empty-state" role="status">Loading your contacts...</p>
+        <div v-else-if="filteredContacts.length" class="record-grid">
+          <article
+            v-for="contact in filteredContacts"
+            :key="contact.id"
+            class="record-card contact-card"
+          >
+            <div class="person-heading">
+              <span class="avatar" aria-hidden="true"
+                >{{ contact.first_name?.slice(0, 1) }}{{ contact.last_name?.slice(0, 1) }}</span
+              >
+              <div>
+                <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                <p class="muted">{{ contact.phone_number || 'No phone number' }}</p>
               </div>
             </div>
-          </div>
+            <button class="btn btn-default" @click="showContact(contact)">Edit Contact</button>
+          </article>
         </div>
-      </div>
+        <div v-else class="empty-state">
+          <h3>{{ search ? 'No matching contacts' : 'Make room for your people' }}</h3>
+          <p>
+            {{
+              search
+                ? 'Try another name or phone number.'
+                : 'Add your first contact to get started.'
+            }}
+          </p>
+        </div>
+      </section>
     </div>
-  </div>
-
-  <dialog id="contact-details">
-    <form method="dialog">
-      <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
-      <h1>Contact info</h1>
-      <p>First Name: <input v-model="currentContact.first_name" aria-label="Edit first name" /></p>
-      <p>Last Name: <input v-model="currentContact.last_name" aria-label="Edit last name" /></p>
-      <p>
-        Phone Number:
-        <input type="text" v-model="currentContact.phone_number" aria-label="Edit phone number" />
-      </p>
-      <button type="button" class="btn btn-default btn-sm" @click="updateContact(currentContact)">
-        Update
-      </button>
-      <button type="button" class="btn btn-default btn-sm" @click="destroyContact(currentContact)">
-        Destroy
-      </button>
-      <button class="btn btn-default btn-sm">Close</button>
+  </main>
+  <dialog id="contact-details" aria-labelledby="contact-dialog-title">
+    <form method="dialog" class="form-stack">
+      <div>
+        <p class="eyebrow">Your people</p>
+        <h2 id="contact-dialog-title">Edit contact</h2>
+      </div>
+      <p v-if="errorMessage" role="alert" class="alert alert-danger">{{ errorMessage }}</p>
+      <label
+        >First name<input v-model="currentContact.first_name" aria-label="Edit first name"
+      /></label>
+      <label
+        >Last name<input v-model="currentContact.last_name" aria-label="Edit last name"
+      /></label>
+      <label
+        >Phone number<input
+          type="tel"
+          v-model="currentContact.phone_number"
+          aria-label="Edit phone number"
+      /></label>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-primary" @click="updateContact(currentContact)">
+          Update</button
+        ><button class="btn btn-default">Close</button>
+      </div>
+      <div class="danger-zone">
+        <p>Deleting this contact also removes their reminders.</p>
+        <button type="button" class="btn btn-danger" @click="destroyContact(currentContact)">
+          Delete contact
+        </button>
+      </div>
     </form>
   </dialog>
 </template>
 
 <script>
-import { assetPath } from '../config'
 import axios from 'axios'
 
 export default {
   data() {
     return {
       contacts: [],
+      search: '',
+      loading: true,
+      saving: false,
       newContactFirstName: '',
       newContactLastName: '',
       newContactPhoneNumber: '',
@@ -140,20 +141,32 @@ export default {
       errorMessage: ''
     }
   },
+  computed: {
+    filteredContacts() {
+      const query = this.search.trim().toLowerCase()
+      return this.contacts.filter((contact) =>
+        `${contact.first_name} ${contact.last_name || ''} ${contact.phone_number || ''}`
+          .toLowerCase()
+          .includes(query)
+      )
+    }
+  },
   created() {
     this.indexContacts()
   },
   methods: {
-    assetPath,
     async indexContacts() {
       try {
         const response = await axios.get('/api/contacts')
         this.contacts = response.data
       } catch (error) {
         this.errorMessage = 'Failed to load contacts.'
+      } finally {
+        this.loading = false
       }
     },
     async createContact() {
+      if (this.saving) return
       if (!this.newContactFirstName || this.newContactFirstName.length < 1) {
         this.errorMessage = 'First name is required and must be at least 1 character long.'
         return
@@ -169,6 +182,7 @@ export default {
       }
 
       this.errorMessage = ''
+      this.saving = true
       try {
         const response = await axios.post('/api/contacts', {
           first_name: this.newContactFirstName,
@@ -182,6 +196,8 @@ export default {
         this.createdAlert = true
       } catch (error) {
         this.errorMessage = 'Failed to create contact.'
+      } finally {
+        this.saving = false
       }
     },
     showContact(contact) {

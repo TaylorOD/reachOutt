@@ -1,200 +1,184 @@
 <template>
-  <div class="reachout">
-    <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
-    <div class="section-container">
-      <div class="container">
-        <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
-          <div class="text-center">
-            <h1 class="h2">03 : Reachouts</h1>
-            <h3>View, update, or create a new reachout here</h3>
-          </div>
-        </div>
-        <div class="text-center section-container-spacer">
-          <h2>New Reachout</h2>
-        </div>
-        <div
-          v-if="createdAlert === true"
-          class="alert alert-warning alert-dismissible text-center"
-          role="alert"
-        >
-          <strong>New Reachout Successfully Created!</strong>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            @click="dismissAlert()"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="text-center">
-          Frequency:
-          <select class="text-center" v-model="newReachoutFrequency" aria-label="New Frequency">
-            <option value="" selected disabled>Select Frequency</option>
-            <option
-              v-for="reachoutFrequency in frequencies"
-              :value="reachoutFrequency.value"
-              :key="reachoutFrequency.id"
-            >
-              {{ reachoutFrequency.name }}
-            </option>
-          </select>
-          Contact Name:
-          <select class="text-center" v-model="newReachoutContactID" aria-label="New ContactID">
-            <option value="" selected disabled>Select Contact</option>
-            <option v-for="contact in contacts" :value="contact.id" :key="contact.id">
-              {{ contact.first_name }} {{ contact.last_name }}
-            </option>
-          </select>
-
-          Topic:
-          <select class="text-center" v-model="newReachoutTopic" aria-label="New Topic">
-            <option value="" selected disabled>Select Topic</option>
-            <option value="Jokes">Jokes</option>
-            <option value="News">News</option>
-            <option value="Sports">Sports</option>
-          </select>
-
-          Start Date:
-          <input type="date" id="start" v-model="newReachoutStartDate" aria-label="New StartDate" />
-        </div>
-
-        <div class="text-center">
-          <button class="btn btn-primary btn-sm" @click="createReachout()">Create Reachout</button>
-        </div>
+  <main class="page container reachout">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">A little nudge</p>
+        <h1>Reachouts</h1>
+        <p>Make time for the people who matter.</p>
       </div>
-      <div class="col-md-12">
-        <div id="myCarousel" class="carousel slide projects-carousel">
-          <div class="carousel-inner">
-            <div class="item active">
-              <div class="row">
-                <div class="text-center section-container-spacer">
-                  <h2>Existing Reachouts</h2>
-                </div>
-
-                <div
-                  v-for="(reachout, index) in reachouts.filter((item) => item.contact)"
-                  :key="reachout.id"
-                  class="col-sm-4"
-                  style="height: 500px"
-                >
-                  <img
-                    :src="assetPath(`assets/images/work0${(index % 7) + 1}-hover.jpg`)"
-                    alt=""
-                    class="img-responsive"
-                  />
-                  <div class="card-container card-container-lg">
-                    <h4>Reachouts:</h4>
-                    <p>Status: {{ reachout.enabled ? 'Active' : 'Paused' }}</p>
-                    <button
-                      class="btn btn-default"
-                      :disabled="pendingIds.includes(reachout.id)"
-                      @click="toggleReachout(reachout)"
-                    >
-                      {{ reachout.enabled ? 'Pause reminder' : 'Resume reminder' }}
-                    </button>
-
-                    <p>
-                      Contact Name: {{ reachout.contact.first_name }}
-                      {{ reachout.contact.last_name }}
-                    </p>
-
-                    <p>Frequency: {{ frequencyToName(reachout.frequency) }}</p>
-
-                    <p v-if="reachout.topic">Topic: {{ reachout.topic }}</p>
-
-                    <p>Start Date: {{ reachout.start_date }}</p>
-
-                    <a
-                      class="btn btn-default"
-                      role="button"
-                      tabindex="0"
-                      @keydown.enter="showReachout(reachout)"
-                      @click="showReachout(reachout)"
-                    >
-                      <p>Edit Reachout</p>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <dialog id="reachout-details">
-    <form method="dialog">
-      <p v-if="errorMessage" role="alert" class="text-danger">{{ errorMessage }}</p>
-      <h1>Reachout info</h1>
-      <p>
-        Contact Name: {{ currentReachout.contact?.first_name }}
-        {{ currentReachout.contact?.last_name }}
-      </p>
-      <p>Edit contact details on the Contacts page.</p>
-      <br />
-      <br />
-
-      Frequency:
-      <select class="text-center" v-model="currentReachout.frequency" aria-label="Edit frequency">
-        <option value="" selected disabled>Select Frequency</option>
-        <option
-          v-for="reachoutFrequency in frequencies"
-          :value="reachoutFrequency.value"
-          :key="reachoutFrequency.id"
-        >
-          {{ reachoutFrequency.name }}
-        </option>
-      </select>
-      <br />
-      <br />
-
-      Topic:
-      <select class="text-center" v-model="currentReachout.topic" aria-label="Edit topic">
-        <option value="" selected disabled>Select Topic</option>
-        <option value="Jokes">Jokes</option>
-        <option value="News">News</option>
-        <option value="Sports">Sports</option>
-      </select>
-      <br />
-      <br />
-
-      <p>Start Date: {{ currentReachout.start_date }}</p>
-      <button type="button" class="btn btn-default btn-sm" @click="updateReachout(currentReachout)">
-        Update
-      </button>
-      <button
-        type="button"
-        class="btn btn-default btn-sm"
-        @click="destroyReachout(currentReachout)"
+      <span class="count-label"
+        >{{ reachouts.filter((item) => item.enabled).length }} active /
+        {{ reachouts.filter((item) => !item.enabled).length }} paused</span
       >
-        Destroy
-      </button>
-      <button class="btn btn-default btn-sm">Close</button>
+    </header>
+    <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
+    <p v-if="createdAlert" class="alert alert-success" role="status">New reachout created.</p>
+    <div class="workspace">
+      <section class="panel create-panel" aria-labelledby="new-reachout-title">
+        <h2 id="new-reachout-title">New reachout</h2>
+        <p class="muted">Choose who, then pick your rhythm.</p>
+        <form class="form-stack" @submit.prevent="createReachout">
+          <label
+            >Contact<select v-model="newReachoutContactID" aria-label="New ContactID" required>
+              <option value="" disabled>Select a contact</option>
+              <option v-for="contact in contacts" :value="contact.id" :key="contact.id">
+                {{ contact.first_name }} {{ contact.last_name }}
+              </option>
+            </select></label
+          >
+          <p v-if="!loading && !contacts.length" class="muted">
+            Add someone on the <router-link to="/contact">Contacts page</router-link> first.
+          </p>
+          <label
+            >How often<select v-model="newReachoutFrequency" aria-label="New Frequency" required>
+              <option value="" disabled>Select frequency</option>
+              <option v-for="option in frequencies" :value="option.value" :key="option.id">
+                {{ option.name }}
+              </option>
+            </select></label
+          >
+          <label
+            >Conversation starter <span class="optional">Optional</span
+            ><select v-model="newReachoutTopic" aria-label="New Topic">
+              <option value="">No suggestion</option>
+              <option>Jokes</option>
+              <option>News</option>
+              <option>Sports</option>
+            </select></label
+          >
+          <label
+            >Start date<input
+              type="date"
+              v-model="newReachoutStartDate"
+              aria-label="New StartDate"
+              required
+          /></label>
+          <button class="btn btn-primary" :disabled="saving || !contacts.length">
+            {{ saving ? 'Creating...' : 'Create Reachout' }}
+          </button>
+          <p class="form-note">Reminders arrive by email. You can pause them anytime.</p>
+        </form>
+      </section>
+      <section class="collection" aria-labelledby="reachout-list-title">
+        <div class="collection-heading">
+          <h2 id="reachout-list-title">Your reachouts</h2>
+          <label class="filter-field"
+            ><span class="sr-only">Filter reminders</span
+            ><select v-model="statusFilter" aria-label="Filter reminders">
+              <option value="all">All reminders</option>
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+            </select></label
+          >
+        </div>
+        <p v-if="loading" class="empty-state" role="status">Loading your reachouts...</p>
+        <div v-else-if="filteredReachouts.length" class="record-grid">
+          <article
+            v-for="reachout in filteredReachouts"
+            :key="reachout.id"
+            class="record-card reminder-card"
+          >
+            <div class="record-top">
+              <span class="status-badge" :class="{ active: reachout.enabled }"
+                >Status: {{ reachout.enabled ? 'Active' : 'Paused' }}</span
+              ><span class="frequency-label">{{ frequencyToName(reachout.frequency) }}</span>
+            </div>
+            <h3>{{ reachout.contact.first_name }} {{ reachout.contact.last_name }}</h3>
+            <p class="record-detail">
+              {{ reachout.topic ? `Topic: ${reachout.topic}` : 'A simple reminder to say hello' }}
+            </p>
+            <p class="record-detail">Start date: {{ reachout.start_date }}</p>
+            <div class="card-actions">
+              <button
+                class="btn btn-default"
+                :disabled="pendingIds.includes(reachout.id)"
+                @click="toggleReachout(reachout)"
+              >
+                {{ reachout.enabled ? 'Pause reminder' : 'Resume reminder' }}</button
+              ><button class="btn btn-text" @click="showReachout(reachout)">Edit Reachout</button>
+            </div>
+          </article>
+        </div>
+        <div v-else class="empty-state">
+          <h3>
+            {{
+              reachouts.length ? 'No reminders in this view' : 'A small reminder goes a long way'
+            }}
+          </h3>
+          <p>
+            {{
+              reachouts.length
+                ? 'Choose another filter to see your reachouts.'
+                : 'Choose a contact and create your first reachout.'
+            }}
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <dialog id="reachout-details" aria-labelledby="reachout-dialog-title">
+    <form method="dialog" class="form-stack">
+      <div>
+        <p class="eyebrow">Keep in touch</p>
+        <h2 id="reachout-dialog-title">Edit reachout</h2>
+      </div>
+      <p v-if="errorMessage" role="alert" class="alert alert-danger">{{ errorMessage }}</p>
+      <div class="dialog-summary">
+        <p>
+          Contact Name: {{ currentReachout.contact?.first_name }}
+          {{ currentReachout.contact?.last_name }}
+        </p>
+        <small>Edit contact details on the Contacts page.</small>
+      </div>
+      <label
+        >How often<select v-model="currentReachout.frequency" aria-label="Edit frequency">
+          <option v-for="option in frequencies" :value="option.value" :key="option.id">
+            {{ option.name }}
+          </option>
+        </select></label
+      >
+      <label
+        >Conversation starter<select v-model="currentReachout.topic" aria-label="Edit topic">
+          <option value="">No suggestion</option>
+          <option>Jokes</option>
+          <option>News</option>
+          <option>Sports</option>
+        </select></label
+      >
+      <p class="muted">Start date: {{ currentReachout.start_date }}</p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-primary" @click="updateReachout(currentReachout)">
+          Update</button
+        ><button class="btn btn-default">Close</button>
+      </div>
+      <div class="danger-zone">
+        <button type="button" class="btn btn-danger" @click="destroyReachout(currentReachout)">
+          Delete reminder
+        </button>
+      </div>
     </form>
   </dialog>
 </template>
 
 <script>
-import { assetPath } from '../config'
 import axios from 'axios'
 
 export default {
   data() {
     return {
       reachouts: [],
+      loading: true,
+      saving: false,
+      statusFilter: 'all',
       pendingIds: [],
       frequencies: [
         { name: 'Daily', id: 1, value: '1d' },
         { name: 'Weekly', id: 2, value: '7d' },
-        { name: 'Bi-Weekly', id: 3, value: '14d' },
+        { name: 'Every two weeks', id: 3, value: '14d' },
         { name: 'Monthly', id: 4, value: '30d' },
-        { name: 'Bi-Monthly', id: 5, value: '60d' },
+        { name: 'Every two months', id: 5, value: '60d' },
         { name: 'Quarterly', id: 6, value: '90d' },
-        { name: 'Semi-Annually', id: 7, value: '182.5d' },
+        { name: 'Every six months', id: 7, value: '182.5d' },
         { name: 'Annually', id: 8, value: '365d' }
       ],
       contacts: [],
@@ -207,11 +191,20 @@ export default {
       errorMessage: ''
     }
   },
+  computed: {
+    filteredReachouts() {
+      return this.reachouts.filter(
+        (item) =>
+          item.contact &&
+          (this.statusFilter === 'all' ||
+            (this.statusFilter === 'active' ? item.enabled : !item.enabled))
+      )
+    }
+  },
   created() {
     this.indexContacts()
   },
   methods: {
-    assetPath,
     async toggleReachout(reachout) {
       if (this.pendingIds.includes(reachout.id)) return
       this.pendingIds.push(reachout.id)
@@ -228,18 +221,24 @@ export default {
         this.pendingIds = this.pendingIds.filter((id) => id !== reachout.id)
       }
     },
-    indexReachouts() {
-      axios.get('/api/reachouts').then((response) => {
-        this.reachouts = response.data
-      })
-    },
-    indexContacts() {
-      axios.get('/api/contacts').then((response) => {
-        this.contacts = response.data
-        this.indexReachouts()
-      })
+    async indexContacts() {
+      try {
+        const [contacts, reachouts] = await Promise.all([
+          axios.get('/api/contacts'),
+          axios.get('/api/reachouts')
+        ])
+        this.contacts = contacts.data
+        this.reachouts = reachouts.data
+      } catch {
+        this.errorMessage = 'Could not load your reachouts. Please refresh and try again.'
+      } finally {
+        this.loading = false
+      }
     },
     createReachout() {
+      if (this.saving) return
+      this.saving = true
+      this.errorMessage = ''
       const params = {
         start_date: this.newReachoutStartDate,
         frequency: this.newReachoutFrequency,
@@ -260,6 +259,9 @@ export default {
         .catch((error) => {
           this.errorMessage =
             error.response?.data?.errors?.join(' ') || 'Could not create reminder.'
+        })
+        .finally(() => {
+          this.saving = false
         })
     },
     showReachout(reachout) {

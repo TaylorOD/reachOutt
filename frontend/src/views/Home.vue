@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <main class="home">
     <div
       class="hero-full-container background-image-container white-text-container"
       :style="{ backgroundImage: `url('${assetPath('assets/images/space.jpg')}')` }"
@@ -9,6 +9,7 @@
           <div class="col-xs-12">
             <div class="hero-full-wrapper">
               <div class="text-content">
+                <p class="eyebrow">Keep your people close</p>
                 <h1>
                   Hello,<br />
                   <span class="sr-only"
@@ -17,13 +18,20 @@
                   >
                   <span class="greeting" aria-hidden="true">{{ greeting }}</span>
                 </h1>
+                <p class="hero-description">
+                  Life gets busy. A little reminder can bring you back to the people who matter.
+                </p>
+                <div class="hero-actions">
+                  <router-link class="btn btn-primary" to="/reachout">Your reachouts</router-link
+                  ><router-link class="btn hero-secondary" to="/about">How it works</router-link>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
