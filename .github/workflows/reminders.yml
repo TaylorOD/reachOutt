@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   send:
-    if: github.repository == 'TaylorOD/reachOutt' && github.ref == 'refs/heads/main' && vars.REMINDERS_ENABLED == 'true'
+    if: github.repository == 'TaylorOD/reachOutt' && github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || vars.REMINDERS_ENABLED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: production
