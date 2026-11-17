@@ -1,7 +1,7 @@
 name: Operations monitor
 on:
   workflow_run:
-    workflows: [Database backup, Scheduled reminders]
+    workflows: [Database backup]
     types: [completed]
     branches: [main]
   schedule:
@@ -33,10 +33,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test script/operations/status.test.mjs
+      - run: node --test script/operations/*.test.mjs
       - run: node script/operations/monitor.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BACKUPS_ENABLED: ${{ vars.BACKUPS_ENABLED }}
-          REMINDERS_ENABLED: ${{ vars.REMINDERS_ENABLED }}
           TEST_ALERT: ${{ inputs.test_alert }}

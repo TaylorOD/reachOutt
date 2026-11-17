@@ -21,7 +21,7 @@ Keep backend unit tests on a disposable local database. Rails does not load .env
 
 ## Email
 
-The app uses Brevo for password resets and email reminders. Save these settings privately in Render, and in GitHub's production environment for the scheduled reminder worker:
+The app uses Brevo for password resets and email reminders. Save these settings privately in Render for password resets (automatic reminders are paused):
 
 | Setting | Value |
 | --- | --- |
@@ -39,9 +39,9 @@ On November 6, 2026, a reset email from the live app arrived in Gmail. Its link 
 
 ## Reminders
 
-Email is the default reminder channel and SMS stays disabled. Follow the [free reminder scheduler setup](../README.md#free-reminder-scheduler) to configure GitHub Actions against the same database. The free web service cannot keep a worker running while asleep.
+Automatic reminders are now paused; see [automatic reminders paused](../README.md#automatic-reminders-paused). The free web service cannot keep a worker running while asleep. Password reset emails remain available.
 
-On November 14, 2026, the production workflow sent a fictional reminder through Brevo and it arrived in Gmail. The persisted schedule advanced, the test records were removed, and automatic email reminders were enabled. The worker uses private production secrets and does not need Twilio credentials.
+On November 14, 2026, the production workflow sent a fictional reminder through Brevo and it arrived in Gmail. The persisted schedule advanced, the test records were removed, and automatic email reminders were enabled at that time. The GitHub scheduler has since been removed to stop automatic delivery and recurring freshness alerts. The worker uses private production secrets and does not need Twilio credentials.
 
 Twilio is an optional alternative to email. It requires sender approval, credentials, recipient consent, and spending limits before enabling SMS. Never put credentials in this repository or a PR.
 

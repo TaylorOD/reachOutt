@@ -1,8 +1,8 @@
 # Operations alerts
 
-Operations monitor checks backup and reminder runs when they finish and once an hour. It opens one issue assigned to TaylorOD when a run fails, is cancelled, times out, or becomes overdue. The issue closes after a healthy check. Disabled schedules are ignored.
+Operations monitor checks backup runs when they finish and once an hour. It opens one issue assigned to TaylorOD when a run fails, is cancelled, times out, or becomes overdue. The issue closes after a healthy check. Disabled backup schedules are ignored. Automatic reminders have been retired: the monitor does not check them, and closes its existing reminder-alert issues as no longer planned on its next run.
 
-Backups are overdue after 28 hours without a successful run. Reminders are overdue after one hour. These allowances tolerate ordinary GitHub scheduling delays. Alerts link to Actions logs without copying customer data or secrets.
+Backups are overdue after 28 hours without a successful run. This allowance tolerates ordinary GitHub scheduling delays. Alerts link to Actions logs without copying customer data or secrets.
 
 Run Operations monitor manually with test_alert enabled to check issue creation. Close the Monitoring test issue afterward. GitHub delivers assignment notifications according to your notification settings. Confirm the test notification in your GitHub inbox and enable email notifications if you want email delivery.
 
