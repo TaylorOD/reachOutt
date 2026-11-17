@@ -13,4 +13,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test script/operations/status.test.mjs
+      - run: node --test script/operations/*.test.mjs

@@ -42,9 +42,13 @@ async function alert(name, problem, runUrl) {
   }
   console.log(name + ': attention needed')
 }
+// Automatic reminders are retired. Close only our own reminder alerts, including
+// any recurrence opened before this change reached main. Keep backup alerts intact.
+for (const issue of issues.filter(issue => issue.title === 'Scheduled reminders needs attention')) {
+  await api('/issues/' + issue.number, 'PATCH', { state: 'closed', state_reason: 'not_planned' })
+}
 for (const job of [
-  { name: 'Database backup', file: 'database-backup.yml', enabled: process.env.BACKUPS_ENABLED, hours: 28 },
-  { name: 'Scheduled reminders', file: 'reminders.yml', enabled: process.env.REMINDERS_ENABLED, hours: 1 }
+  { name: 'Database backup', file: 'database-backup.yml', enabled: process.env.BACKUPS_ENABLED, hours: 28 }
 ]) {
   if (job.enabled !== 'true') {
     console.log(job.name + ': intentionally disabled')

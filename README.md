@@ -52,15 +52,13 @@ Concurrent workers use row locks. Failed sends stay due for retry. A crash after
 
 Reminders can be paused without deleting them. Resuming waits one full reminder interval, or until a future start date. Missed reminders are not sent in a burst. A message already being sent cannot be recalled.
 
-## Free reminder scheduler
+## Automatic reminders paused
 
-The Scheduled reminders workflow checks due records about every 15 minutes, independently of the sleeping web service. GitHub can delay or drop scheduled runs and disables schedules after 60 days of repository inactivity. This is a beta option for reminders that tolerate delays.
+Automatic reminder delivery is disabled: the GitHub Actions reminder workflow has been removed, and the operations monitor no longer checks reminder freshness or creates reminder alerts. An existing `REMINDERS_ENABLED` repository variable cannot re-enable it. The next operations monitor run closes its old reminder-alert issues as no longer planned; backup monitoring remains active.
 
-Create a GitHub environment named production and restrict it to the main branch. Add DATABASE_URL_UNPOOLED, SMTP_ADDRESS, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, and MAIL_FROM as environment secrets. The direct database URL can be shared with the backup workflow. Email is the default and does not need any Twilio credentials.
+Contacts and saved schedules are preserved, but they will not send automatically on the current Render deployment. Password reset emails are unaffected. The free Render service can sleep and does not provision a background worker. The former GitHub workflow ran Rails directly against Neon, independently of the web service, so web-service sleep was not what prevented those runs. Observed multi-hour gaps between GitHub workflow starts made this setup unsuitable for timely reminders; the cause of those gaps has not been established.
 
-Review existing due reminders, run the workflow manually once, and confirm a test email arrives before setting the repository variable REMINDERS_ENABLED to true. Manual runs can send while the automatic schedule is off. Then watch scheduled runs in Actions. Failed sends make the run fail while leaving their schedules due for retry. Enable GitHub Actions failure notifications in your account settings. Missing runs need separate monitoring, since a skipped schedule cannot report its own failure.
-
-Leave REMINDERS_ENABLED unset to keep the scheduler off. Keep SMS_ENABLED false on the web service. To switch the scheduled worker to SMS later, set repository variables REMINDER_CHANNEL to sms and SMS_ENABLED to true, and add the Twilio and approved recipient secrets described above. Do not put production secrets in pull request workflows. The scheduler uses a temporary Rails signing key and does not need the web app's login signing key.
+The explicit `reminders:send` and `reminders:work` Rails tasks remain available for future development or an intentionally provisioned worker. Do not run them against production unless delivery is intended: existing overdue schedules could send. Review saved schedules before restoring any scheduler. Removing this workflow does not stop a separately configured external scheduler or an already-running send.
 
 ## Password reset email
 
