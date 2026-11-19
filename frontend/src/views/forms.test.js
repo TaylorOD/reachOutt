@@ -18,6 +18,7 @@ function mount(component) {
   const node = document.createElement('div')
   document.body.append(node)
   app = createApp(component)
+  app.config.globalProperties.$route = { query: {} }
   return app.mount(node)
 }
 

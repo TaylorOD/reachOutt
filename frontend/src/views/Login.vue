@@ -28,7 +28,12 @@
       </form>
       <div class="auth-links">
         <router-link to="/forgot-password">Forgot your password?</router-link>
-        <p>New here? <router-link to="/signup">Create an account</router-link></p>
+        <p>
+          New here?
+          <router-link :to="authRoute('/signup', $route.query.returnTo)"
+            >Create an account</router-link
+          >
+        </p>
       </div>
     </section>
   </main>
@@ -36,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import { authRoute, loginDestination } from '../auth-navigation'
 
 export default {
   data() {
@@ -46,6 +52,7 @@ export default {
     }
   },
   methods: {
+    authRoute,
     submit() {
       const params = {
         email: this.email,
@@ -56,8 +63,7 @@ export default {
         .then((response) => {
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.jwt
           localStorage.setItem('jwt', response.data.jwt)
-          this.$parent.flashMessage = 'Login successful!'
-          this.$router.push('/reachout')
+          this.$router.replace(loginDestination(this.$route.query.returnTo))
         })
         .catch((error) => {
           this.errors = ['Invalid email or password.']

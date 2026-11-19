@@ -45,7 +45,8 @@
         <button class="btn btn-primary" aria-label="Submit">Create account</button>
       </form>
       <p class="auth-links">
-        Already have an account? <router-link to="/login">Log in</router-link>
+        Already have an account?
+        <router-link :to="authRoute('/login', $route.query.returnTo)">Log in</router-link>
       </p>
     </section>
   </main>
@@ -53,6 +54,7 @@
 
 <script>
 import axios from 'axios'
+import { authRoute } from '../auth-navigation'
 
 export default {
   data() {
@@ -66,6 +68,7 @@ export default {
     }
   },
   methods: {
+    authRoute,
     submit() {
       const params = {
         first_name: this.first_name,
@@ -77,7 +80,7 @@ export default {
       axios
         .post('/api/users', params)
         .then((response) => {
-          this.$router.push('/login')
+          this.$router.push(authRoute('/login', this.$route.query.returnTo))
         })
         .catch((error) => {
           this.errors = error.response?.data?.errors || ['Could not sign up. Please try again.']

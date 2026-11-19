@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import { isPreview } from '../config'
+import { authRoute } from '../auth-navigation'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Reachout from '../views/Reachout.vue'
@@ -45,7 +46,7 @@ router.beforeEach((to) => {
     ['/contact', '/reachout', '/account'].includes(to.path) &&
     !localStorage.getItem('jwt')
   )
-    return '/login'
+    return authRoute('/login', to.fullPath)
 })
 
 export default router

@@ -98,6 +98,6 @@ test('signup login contacts and reminders work together', async ({ page, baseURL
   await expect(page.getByRole('heading', { name: 'Sam' })).toHaveCount(0)
   await page.goto('/logout')
   await page.goto('/contact')
-  await expect(page).toHaveURL(/\/login$/)
+  await expect(page).toHaveURL(/\/login\?returnTo=(?:%2F|\/)contact$/)
   expect(errors).toEqual([])
 })
