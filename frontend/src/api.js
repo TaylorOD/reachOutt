@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { expiredSessionUrl } from './auth-navigation'
 
 axios.defaults.baseURL = '/'
 axios.defaults.timeout = 15000
@@ -13,7 +14,7 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401 && error.config?.url !== '/api/sessions') {
       localStorage.removeItem('jwt')
-      window.location.assign(import.meta.env.DEV ? '/app/login' : '/login')
+      window.location.assign(expiredSessionUrl(window.location, import.meta.env.DEV))
     }
     return Promise.reject(error)
   }
