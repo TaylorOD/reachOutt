@@ -6,7 +6,9 @@
         <h1>Contacts</h1>
         <p>Keep the people you care about close.</p>
       </div>
-      <button class="btn btn-primary" @click="openCreate">Add contact</button>
+      <button v-if="contacts.length" class="btn btn-primary" @click="openCreate">
+        Add contact
+      </button>
     </header>
     <p v-if="createdAlert" class="alert alert-success" role="status">
       Contact added.
@@ -23,7 +25,7 @@
           <h2 id="contact-list-title">
             Your contacts <span class="count-label">{{ contacts.length }}</span>
           </h2>
-          <label class="search-field"
+          <label v-if="contacts.length" class="search-field"
             ><span class="sr-only">Search contacts</span
             ><input
               type="search"
@@ -33,6 +35,11 @@
           /></label>
         </div>
         <p v-if="loading" class="empty-state" role="status">Loading your contacts...</p>
+        <div v-else-if="loadFailed" class="empty-state">
+          <h3>Your contacts could not load</h3>
+          <p>Try again to bring your people back into view.</p>
+          <button class="btn btn-primary" @click="indexContacts">Try again</button>
+        </div>
         <div v-else-if="filteredContacts.length" class="record-grid">
           <article
             v-for="contact in filteredContacts"
@@ -45,16 +52,16 @@
               >
               <div>
                 <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                <p class="muted">{{ contact.phone_number || 'No phone number' }}</p>
+                <p v-if="contact.phone_number" class="muted">{{ contact.phone_number }}</p>
               </div>
             </div>
-            <p class="muted">{{ reminderSummary(contact.id) }}</p>
+            <p class="contact-reminders">{{ reminderSummary(contact.id) }}</p>
             <div class="card-actions">
               <router-link
                 class="btn btn-primary"
                 :to="{ path: '/reachout', query: { contact: contact.id } }"
                 >Add reminder</router-link
-              ><button class="btn btn-text" @click="showContact(contact)">Edit Contact</button>
+              ><button class="btn btn-text" @click="showContact(contact)">Edit contact</button>
             </div>
           </article>
         </div>
@@ -67,6 +74,8 @@
                 : 'Add your first contact to get started.'
             }}
           </p>
+          <button v-if="search" class="btn btn-default" @click="search = ''">Clear search</button>
+          <button v-else class="btn btn-primary" @click="openCreate">Add your first contact</button>
         </div>
       </section>
     </div>
@@ -147,6 +156,7 @@ export default {
       createdContactId: null,
       search: '',
       loading: true,
+      loadFailed: false,
       saving: false,
       newContactFirstName: '',
       newContactLastName: '',
@@ -191,14 +201,20 @@ export default {
       const reminders = this.reachouts.filter((item) => item.contact_id === id)
       if (!reminders.length) return 'No reminders yet'
       const active = reminders.filter((item) => item.enabled).length
-      return `${active} active / ${reminders.length - active} paused`
+      const paused = reminders.length - active
+      return [active && `${active} active`, paused && `${paused} paused`]
+        .filter(Boolean)
+        .join(' � ')
     },
     async indexContacts() {
+      this.loading = true
+      this.loadFailed = false
+      this.errorMessage = ''
       try {
         const response = await axios.get('/api/contacts')
         this.contacts = response.data
       } catch (error) {
-        this.errorMessage = 'Failed to load contacts.'
+        this.loadFailed = true
       } finally {
         this.loading = false
       }
@@ -267,3 +283,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.contact-card h3 {
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+.contact-reminders {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.empty-state .btn {
+  margin-top: 20px;
+}
+</style>
