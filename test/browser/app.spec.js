@@ -50,7 +50,7 @@ test('signup login contacts and reminders work together', async ({ page, baseURL
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Toggle navigation' }).click()
   await page.getByRole('link', { name: 'Contacts' }).click()
-  await page.getByRole('button', { name: 'Add contact', exact: true }).click()
+  await page.getByRole('button', { name: 'Add your first contact', exact: true }).click()
   await page.getByLabel('New FirstName', { exact: true }).fill('Sam')
 
   await page.getByRole('button', { name: 'Create Contact' }).click()
