@@ -21,7 +21,7 @@
               ref="accountToggle"
               type="button"
               class="account-toggle"
-              :class="{ active: $route.path === '/account' }"
+              :class="{ active: $route.path.startsWith('/account') }"
               :aria-expanded="accountOpen"
               aria-controls="account-links"
               @click="accountOpen = !accountOpen"
@@ -30,7 +30,7 @@
             </button>
             <div v-if="accountOpen" id="account-links" class="account-links">
               <router-link to="/account">Profile</router-link>
-              <router-link to="/account#account-password-title">Password</router-link>
+              <router-link to="/account/password">Password</router-link>
               <router-link to="/about">About ReachOutt</router-link>
               <router-link v-if="!preview" to="/logout">Log out</router-link>
             </div>
@@ -82,7 +82,10 @@ export default {
   methods: {
     syncSession() {
       this.loggedIn = isPreview || !!localStorage.getItem('jwt')
-      if (!this.loggedIn && ['/contact', '/reachout', '/account'].includes(this.$route.path)) {
+      if (
+        !this.loggedIn &&
+        ['/contact', '/reachout', '/account', '/account/password'].includes(this.$route.path)
+      ) {
         this.$router.replace(authRoute('/login', this.$route.fullPath))
       }
     },
@@ -133,11 +136,22 @@ export default {
   z-index: 10;
   width: 210px;
   display: grid;
+  gap: 6px;
   padding: 8px;
   background: white;
   border: 1px solid var(--line);
   border-radius: 10px;
   box-shadow: 0 12px 30px #20392d18;
+}
+.account-links a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 14px;
+  line-height: 1.4;
+}
+.account-links a:focus-visible {
+  outline-offset: -3px;
 }
 @media (max-width: 700px) {
   .account-toggle {

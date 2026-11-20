@@ -25,6 +25,7 @@ const routes = [
 
     component: () => import('../views/About.vue')
   },
+  { path: '/account/password', component: () => import('../views/AccountPassword.vue') },
   { path: '/account', component: () => import('../views/Account.vue') },
   { path: '/signup', name: 'signup', component: Signup },
   { path: '/login', name: 'login', component: Login },
@@ -45,9 +46,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  if (to.path === '/account' && to.hash === '#account-password-title') return '/account/password'
   if (
     !isPreview &&
-    ['/contact', '/reachout', '/account'].includes(to.path) &&
+    ['/contact', '/reachout', '/account', '/account/password'].includes(to.path) &&
     !localStorage.getItem('jwt')
   )
     return authRoute('/login', to.fullPath)
