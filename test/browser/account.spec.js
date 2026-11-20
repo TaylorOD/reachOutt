@@ -19,10 +19,6 @@ test('account changes persist and email changes require a password', async ({ pa
   await page.goto('/account')
   await expect(page.getByLabel('Email', { exact: true })).toHaveValue(email)
   await expect(page.getByRole('complementary')).toContainText(email)
-  await expect(page.getByRole('link', { name: 'Reset your password' })).toHaveAttribute(
-    'href',
-    '/forgot-password'
-  )
   await page.getByLabel('First name', { exact: true }).fill('Sam')
   await page.getByLabel('Phone number', { exact: true }).fill('+15005550007')
   await page.getByRole('button', { name: 'Save changes' }).click()

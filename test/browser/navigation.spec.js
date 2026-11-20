@@ -34,10 +34,17 @@ test('navigation follows login state and the account disclosure works by keyboar
     fullPage: false
   })
   await nav.getByRole('link', { name: 'Password', exact: true }).click()
-  await expect(page).toHaveURL(/\/account#account-password-title$/)
-  await expect(page.getByRole('heading', { name: 'Password', exact: true })).toBeInViewport()
+  await expect(page).toHaveURL(/\/account\/password$/)
+  await expect(
+    page.getByRole('heading', { name: 'Password', exact: true, level: 1 })
+  ).toBeInViewport()
   await openNavigation(page, mobile)
   await toggle.click()
+  await expect(nav.locator('[aria-current="page"]')).toHaveCount(1)
+  await expect(nav.getByRole('link', { name: 'Password', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page'
+  )
   await nav.getByRole('link', { name: 'Log out', exact: true }).click()
   await expect(page).toHaveURL((url) => url.pathname === '/')
   await openNavigation(page, mobile)

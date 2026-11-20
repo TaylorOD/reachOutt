@@ -3,11 +3,12 @@
     <div class="container">
       <header class="page-heading">
         <div>
-          <p class="eyebrow">Your details</p>
-          <h1>Account</h1>
-          <p>Manage your profile, reminder email and password.</p>
+          <p class="eyebrow">Account</p>
+          <h1>Profile</h1>
+          <p>Your name, contact details and reminder email.</p>
         </div>
       </header>
+      <AccountTabs />
       <div class="settings-layout">
         <section class="account-form panel" aria-labelledby="profile-title">
           <h2 id="profile-title">Your profile</h2>
@@ -88,14 +89,6 @@
             <p v-else>Your account email is where your reminders arrive.</p>
             <router-link to="/reachout">Manage your reminders</router-link>
           </section>
-          <section
-            ref="passwordSection"
-            class="panel password-section"
-            aria-labelledby="account-password-title"
-          >
-            <h2 id="account-password-title">Password</h2>
-            <ChangePassword v-if="loaded" :email="savedEmail" />
-          </section>
         </aside>
       </div>
     </div>
@@ -104,10 +97,10 @@
 
 <script>
 import axios from 'axios'
-import ChangePassword from '../components/ChangePassword.vue'
+import AccountTabs from '../components/AccountTabs.vue'
 
 export default {
-  components: { ChangePassword },
+  components: { AccountTabs },
   data() {
     return {
       profile: {},
@@ -126,10 +119,6 @@ export default {
       this.profile = data
       this.savedEmail = data.email.toLowerCase()
       this.loaded = true
-      await this.$nextTick()
-      if (this.$route.hash === '#account-password-title') {
-        this.$refs.passwordSection.scrollIntoView({ block: 'start' })
-      }
     } catch {
       this.error = 'Could not load your account. Please refresh and try again.'
     } finally {
@@ -164,9 +153,6 @@ export default {
 </script>
 
 <style scoped>
-.password-section {
-  scroll-margin-top: 24px;
-}
 .account-form {
   min-width: 0;
   margin: 0;

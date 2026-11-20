@@ -10,7 +10,7 @@ test('nested previews load fictional screens without API requests', async ({ pag
     if (request.url().includes('/api/')) apiRequests.push(request.url())
   })
   page.on('pageerror', (error) => failures.push(error.message))
-  for (const route of ['/', '/about', '/contact', '/reachout', '/account']) {
+  for (const route of ['/', '/about', '/contact', '/reachout', '/account/password', '/account']) {
     await page.goto(`./#${route}`)
     await expect(
       page.getByText('PR preview. Fictional data. Changes, emails and texts are disabled.')

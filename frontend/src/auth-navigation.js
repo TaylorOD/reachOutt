@@ -1,4 +1,4 @@
-const destinations = new Set(['/contact', '/reachout', '/account'])
+const destinations = new Set(['/contact', '/reachout', '/account', '/account/password'])
 
 // Only application pages can be used as a destination after authentication.
 export function loginDestination(value) {
