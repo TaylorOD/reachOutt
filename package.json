@@ -26,7 +26,7 @@
     "@neon/config": "^1.13.0",
     "@playwright/test": "^1.65.0",
     "@vitejs/plugin-vue": "^6.0.10",
-    "jsdom": "^31.0.0",
+    "jsdom": "^31.0.1",
     "prettier": "3.9.10",
     "vite": "^8.3.6",
     "vitest": "^5.1.0"
