@@ -10,7 +10,7 @@ The app uses Rails, Vue 3, and PostgreSQL. It is still a beta. Local use and PR 
 
 ## Features
 
-Manage your account, contacts, and reminders. Email changes require your current password. Password reset links expire after 15 minutes and work once. You can pause a reminder without deleting it. A reminder keeps its original contact, with contact details edited on the Contacts page.
+Manage your account, contacts, and reminders. Open Account in the navigation for your profile and password settings. Email and password changes require your current password. New passwords need at least 12 characters. Changing a password signs out every session and invalidates existing reset links. Password reset links expire after 15 minutes and work once. You can pause a reminder without deleting it. A reminder keeps its original contact, with contact details edited on the Contacts page.
 
 ## Local setup
 

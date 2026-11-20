@@ -4,6 +4,9 @@
       <p class="eyebrow">Welcome back</p>
       <h1>Good to see you.</h1>
       <p class="muted">Log in and pick up where you left off.</p>
+      <p v-if="$route.query.passwordChanged === '1'" class="alert alert-success" role="status">
+        Password changed. Log in with your new password.
+      </p>
       <form class="form-stack" @submit.prevent="submit">
         <p v-for="error in errors" :key="error" class="alert alert-danger" role="alert">
           {{ error }}

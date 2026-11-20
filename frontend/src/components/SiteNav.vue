@@ -69,11 +69,13 @@ export default {
   },
   mounted() {
     window.addEventListener('storage', this.syncSession)
+    window.addEventListener('session-changed', this.syncSession)
     document.addEventListener('pointerdown', this.closeOutside)
     document.addEventListener('focusin', this.closeOutside)
   },
   beforeUnmount() {
     window.removeEventListener('storage', this.syncSession)
+    window.removeEventListener('session-changed', this.syncSession)
     document.removeEventListener('pointerdown', this.closeOutside)
     document.removeEventListener('focusin', this.closeOutside)
   },

@@ -94,10 +94,7 @@
             aria-labelledby="account-password-title"
           >
             <h2 id="account-password-title">Password</h2>
-            <p>Need a new password? Request a reset link using your account email.</p>
-            <router-link class="btn btn-default" to="/forgot-password"
-              >Reset your password</router-link
-            >
+            <ChangePassword v-if="loaded" :email="savedEmail" />
           </section>
         </aside>
       </div>
@@ -107,8 +104,10 @@
 
 <script>
 import axios from 'axios'
+import ChangePassword from '../components/ChangePassword.vue'
 
 export default {
+  components: { ChangePassword },
   data() {
     return {
       profile: {},
