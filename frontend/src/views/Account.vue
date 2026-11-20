@@ -88,7 +88,11 @@
             <p v-else>Your account email is where your reminders arrive.</p>
             <router-link to="/reachout">Manage your reminders</router-link>
           </section>
-          <section class="panel" aria-labelledby="account-password-title">
+          <section
+            ref="passwordSection"
+            class="panel password-section"
+            aria-labelledby="account-password-title"
+          >
             <h2 id="account-password-title">Password</h2>
             <p>Need a new password? Request a reset link using your account email.</p>
             <router-link class="btn btn-default" to="/forgot-password"
@@ -123,6 +127,10 @@ export default {
       this.profile = data
       this.savedEmail = data.email.toLowerCase()
       this.loaded = true
+      await this.$nextTick()
+      if (this.$route.hash === '#account-password-title') {
+        this.$refs.passwordSection.scrollIntoView({ block: 'start' })
+      }
     } catch {
       this.error = 'Could not load your account. Please refresh and try again.'
     } finally {
@@ -157,6 +165,9 @@ export default {
 </script>
 
 <style scoped>
+.password-section {
+  scroll-margin-top: 24px;
+}
 .account-form {
   min-width: 0;
   margin: 0;

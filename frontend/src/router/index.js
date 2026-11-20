@@ -34,6 +34,10 @@ const routes = [
 ]
 
 const router = createRouter({
+  scrollBehavior(to) {
+    if (to.hash) return { el: to.hash, top: 24 }
+    return { top: 0 }
+  },
   history: isPreview
     ? createWebHashHistory(import.meta.env.BASE_URL)
     : createWebHistory(import.meta.env.DEV ? '/app/' : '/'),
