@@ -31,10 +31,16 @@ test('account changes persist and email changes require a password', async ({ pa
   await expect(page.getByLabel('First name', { exact: true })).toHaveValue('Sam')
   await expect(page.getByLabel('Phone number', { exact: true })).toHaveValue('+15005550007')
   await page.getByLabel('Email', { exact: true }).fill(`changed-${email}`)
-  await page.getByLabel('Current password', { exact: true }).fill('wrong password')
+  await page
+    .getByRole('region', { name: 'Your profile' })
+    .getByLabel('Current password', { exact: true })
+    .fill('wrong password')
   await page.getByRole('button', { name: 'Save changes' }).click()
   await expect(page.getByRole('alert')).toContainText('current password')
-  await page.getByLabel('Current password', { exact: true }).fill('account test password')
+  await page
+    .getByRole('region', { name: 'Your profile' })
+    .getByLabel('Current password', { exact: true })
+    .fill('account test password')
   await page.getByRole('button', { name: 'Save changes' }).click()
   await expect(page.getByText('Account saved.')).toBeVisible()
   await expect(page.getByRole('complementary')).toContainText(`changed-${email}`)

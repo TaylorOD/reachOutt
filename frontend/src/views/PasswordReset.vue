@@ -106,6 +106,7 @@ export default {
         if (this.resetting) {
           localStorage.removeItem('jwt')
           delete axios.defaults.headers.common.Authorization
+          window.dispatchEvent(new Event('session-changed'))
         }
         this.password = ''
         this.confirmation = ''
