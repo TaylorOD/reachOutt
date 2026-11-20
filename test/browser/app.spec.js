@@ -65,15 +65,15 @@ test('signup login contacts and reminders work together', async ({ page, baseURL
   await page.getByRole('dialog').getByRole('button', { name: 'Close', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Sam' })).toBeVisible()
   await page.goto('/reachout')
-  await page.getByRole('button', { name: 'Add reminder', exact: true }).click()
+  await page.getByRole('button', { name: 'Add your first reminder', exact: true }).click()
   await page.getByLabel('New Frequency', { exact: true }).selectOption('7d')
   await page.getByLabel('New ContactID', { exact: true }).selectOption({ label: 'Sam' })
   await page.getByLabel('New Topic', { exact: true }).selectOption('News')
   await page.getByLabel('New StartDate', { exact: true }).fill('2027-01-01')
-  await page.getByRole('button', { name: 'Create Reachout' }).click()
+  await page.getByRole('button', { name: 'Save reminder' }).click()
   await expect(page.getByText('Topic: News', { exact: true })).toBeVisible()
-  await page.getByRole('button', { name: 'Edit Reachout' }).click()
-  await expect(page.getByRole('dialog')).toContainText('Contact Name: Sam')
+  await page.getByRole('button', { name: 'Edit reminder' }).click()
+  await expect(page.getByRole('dialog')).toContainText('Contact: Sam')
   await expect(page.getByLabel('Edit contact id', { exact: true })).toHaveCount(0)
   await page.getByLabel('Edit topic', { exact: true }).selectOption('Sports')
   await page.screenshot({
@@ -81,7 +81,7 @@ test('signup login contacts and reminders work together', async ({ page, baseURL
     fullPage: false,
     scale: 'css'
   })
-  await page.getByRole('button', { name: 'Update', exact: true }).click()
+  await page.getByRole('button', { name: 'Save reminder', exact: true }).click()
   await expect(page.getByText('Topic: Sports', { exact: true })).toBeVisible()
   await page.reload()
   await expect(page.getByText('Topic: Sports', { exact: true })).toBeVisible()
@@ -89,7 +89,7 @@ test('signup login contacts and reminders work together', async ({ page, baseURL
     path: `test-results/${testInfo.project.name}-reachouts.png`,
     fullPage: true
   })
-  await page.getByRole('button', { name: 'Edit Reachout' }).click()
+  await page.getByRole('button', { name: 'Edit reminder' }).click()
   await page.getByRole('button', { name: 'Delete reminder', exact: true }).click()
   await expect(page.getByText('Topic: Sports', { exact: true })).toHaveCount(0)
   await page.goto('/contact')

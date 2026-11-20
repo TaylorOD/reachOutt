@@ -15,7 +15,7 @@
       <div id="site-menu" class="nav-links" :class="{ open: menuOpen }">
         <template v-if="loggedIn">
           <router-link to="/contact">Contacts</router-link>
-          <router-link to="/reachout">Reachouts</router-link>
+          <router-link to="/reachout">Reminders</router-link>
           <div class="account-menu" ref="accountMenu">
             <button
               ref="accountToggle"
