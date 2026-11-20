@@ -3,18 +3,20 @@
     <header class="page-heading">
       <div>
         <p class="eyebrow">A little nudge</p>
-        <h1>Reachouts</h1>
+        <h1>Reminders</h1>
         <p>We email you a reminder. You reach out to your people.</p>
       </div>
-      <button class="btn btn-primary" @click="openCreate">Add reminder</button>
+      <button v-if="reachouts.length" class="btn btn-primary" @click="openCreate">
+        Add reminder
+      </button>
     </header>
     <p v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</p>
-    <p v-if="createdAlert" class="alert alert-success" role="status">New reachout created.</p>
+    <p v-if="createdAlert" class="alert alert-success" role="status">Reminder saved.</p>
     <div class="list-workspace">
       <section class="collection" aria-labelledby="reachout-list-title">
         <div class="collection-heading">
-          <h2 id="reachout-list-title">Upcoming reminders</h2>
-          <label class="filter-field"
+          <h2 id="reachout-list-title">Your reminders</h2>
+          <label v-if="reachouts.length" class="filter-field"
             ><span class="sr-only">Filter reminders</span
             ><select v-model="statusFilter" aria-label="Filter reminders">
               <option value="all">All reminders</option>
@@ -23,12 +25,17 @@
             </select></label
           >
         </div>
-        <p class="schedule-note">
+        <p v-if="reachouts.length" class="schedule-note">
           {{ reachouts.filter((item) => item.enabled).length }} active /
           {{ reachouts.filter((item) => !item.enabled).length }} paused. Times use your local
           timezone. Emails are checked about every 15 minutes.
         </p>
-        <p v-if="loading" class="empty-state" role="status">Loading your reachouts...</p>
+        <p v-if="loading" class="empty-state" role="status">Loading your reminders...</p>
+        <div v-else-if="loadFailed" class="empty-state">
+          <h3>Your reminders could not load</h3>
+          <p>Try again to see your saved schedules.</p>
+          <button class="btn btn-primary" @click="indexContacts">Try again</button>
+        </div>
         <div v-else-if="filteredReachouts.length" class="record-grid">
           <article
             v-for="reachout in filteredReachouts"
@@ -53,23 +60,28 @@
                 @click="toggleReachout(reachout)"
               >
                 {{ reachout.enabled ? 'Pause reminder' : 'Resume reminder' }}</button
-              ><button class="btn btn-text" @click="showReachout(reachout)">Edit Reachout</button>
+              ><button class="btn btn-text" @click="showReachout(reachout)">Edit reminder</button>
             </div>
           </article>
         </div>
         <div v-else class="empty-state">
-          <h3>
-            {{
-              reachouts.length ? 'No reminders in this view' : 'A small reminder goes a long way'
-            }}
-          </h3>
-          <p>
-            {{
-              reachouts.length
-                ? 'Choose another filter to see your reachouts.'
-                : 'Add a reminder to choose who you want to keep in touch with.'
-            }}
-          </p>
+          <template v-if="reachouts.length">
+            <h3>No reminders in this view</h3>
+            <p>Your other reminders are still here.</p>
+            <button class="btn btn-default" @click="statusFilter = 'all'">
+              Show all reminders
+            </button>
+          </template>
+          <template v-else-if="contacts.length">
+            <h3>A small reminder goes a long way</h3>
+            <p>Pick someone you want to keep in touch with, then choose how often.</p>
+            <button class="btn btn-primary" @click="openCreate">Add your first reminder</button>
+          </template>
+          <template v-else>
+            <h3>Start with someone you care about</h3>
+            <p>Add a contact first. Then choose a reminder that fits your rhythm.</p>
+            <router-link class="btn btn-primary" to="/contact">Add a contact</router-link>
+          </template>
         </div>
       </section>
     </div>
@@ -115,7 +127,7 @@
           required
       /></label>
       <button class="btn btn-primary" :disabled="saving || !contacts.length">
-        {{ saving ? 'Creating...' : 'Create Reachout' }}
+        {{ saving ? 'Saving...' : 'Save reminder' }}
       </button>
       <p class="form-note">
         We email you a reminder to contact {{ selectedContactName }}. ReachOutt never messages your
@@ -128,12 +140,12 @@
     <form method="dialog" class="form-stack">
       <div>
         <p class="eyebrow">Keep in touch</p>
-        <h2 id="reachout-dialog-title">Edit reachout</h2>
+        <h2 id="reachout-dialog-title">Edit reminder</h2>
       </div>
       <p v-if="errorMessage" role="alert" class="alert alert-danger">{{ errorMessage }}</p>
       <div class="dialog-summary">
         <p>
-          Contact Name: {{ currentReachout.contact?.first_name }}
+          Contact: {{ currentReachout.contact?.first_name }}
           {{ currentReachout.contact?.last_name }}
         </p>
         <small>Edit contact details on the Contacts page.</small>
@@ -156,7 +168,7 @@
       <p class="muted">Start date: {{ currentReachout.start_date }}</p>
       <div class="dialog-actions">
         <button type="button" class="btn btn-primary" @click="updateReachout(currentReachout)">
-          Update</button
+          Save reminder</button
         ><button class="btn btn-default">Close</button>
       </div>
       <div class="danger-zone">
@@ -177,6 +189,7 @@ export default {
     return {
       reachouts: [],
       loading: true,
+      loadFailed: false,
       saving: false,
       statusFilter: 'all',
       pendingIds: [],
@@ -252,6 +265,9 @@ export default {
       }
     },
     async indexContacts() {
+      this.loading = true
+      this.loadFailed = false
+      this.errorMessage = ''
       try {
         const [contacts, reachouts] = await Promise.all([
           axios.get('/api/contacts'),
@@ -265,7 +281,7 @@ export default {
           this.openCreate()
         }
       } catch {
-        this.errorMessage = 'Could not load your reachouts. Please refresh and try again.'
+        this.loadFailed = true
       } finally {
         this.loading = false
       }
@@ -343,3 +359,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.empty-state .btn {
+  margin-top: 20px;
+}
+</style>

@@ -56,7 +56,7 @@ test('populated lists support search, filters and readable layouts', async ({ pa
   await expect(page.getByRole('button', { name: 'Resume reminder' })).toHaveCount(2)
   await page.getByLabel('Filter reminders').selectOption('active')
   await expect(page.getByRole('article')).toHaveCount(2)
-  await page.getByRole('button', { name: 'Edit Reachout' }).first().click()
+  await page.getByRole('button', { name: 'Edit reminder' }).first().click()
   const dialog = page.getByRole('dialog')
   await expect(dialog).toBeVisible()
   const bounds = await dialog.boundingBox()
